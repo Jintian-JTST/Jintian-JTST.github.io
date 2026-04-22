@@ -15,24 +15,17 @@
   const isHomePage = document.body.classList.contains('home-page');
   if (!isHomePage) return;
 
-  const revealOnScrollY = 48;
-  const hideOnScrollY = 18;
+  const maxRevealDistance = () => Math.max(window.innerHeight * 0.9, 520);
   let revealed = false;
   let rafId = 0;
 
   const updateHomeReveal = () => {
     rafId = 0;
     const y = window.scrollY || window.pageYOffset || 0;
+    const reveal = Math.min(Math.max(y / maxRevealDistance(), 0), 1);
+    revealed = reveal > 0.03;
 
-    if (!revealed && y > revealOnScrollY) {
-      revealed = true;
-    }
-
-    if (revealed && y <= hideOnScrollY) {
-      revealed = false;
-    }
-
-    document.body.style.setProperty('--home-reveal', revealed ? '1' : '0');
+    document.body.style.setProperty('--home-reveal', reveal.toFixed(4));
     document.body.classList.toggle('home-revealed', revealed);
   };
 
