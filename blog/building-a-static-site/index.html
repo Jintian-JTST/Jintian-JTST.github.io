@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building a static site without Jekyll · Jintian Wang</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="logo"></span>
+        <span>Jintian Wang</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/projects/">Projects</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <article class="card">
+        <div class="kicker">Blog post</div>
+        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Building a static site without Jekyll</h1>
+        <p class="meta">Posted as a simple HTML page</p>
+        <p>
+          This site is intentionally plain: one stylesheet, one script file, and a handful of pages. That keeps updates cheap.
+          The main goal is to show clear information quickly: who I am, what I build, what I read, and how to contact me.
+        </p>
+        <p>
+          For a personal site, the highest-value content is usually not the design itself. It is the structure: a homepage with a clear summary,
+          a projects page with evidence of work, and a blog or notes section for ongoing thinking.
+        </p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><a class="small-link" href="/blog/">Back to blog</a></div>
+      <div>© <span data-year></span> Jintian Wang</div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>
