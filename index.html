@@ -7,7 +7,7 @@
   <meta name="description" content="Personal website of Jintian Wang: physics, projects, writing, and notes.">
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
-<body>
+<body class="home-page">
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="/">
@@ -24,111 +24,125 @@
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="panel hero-main">
-          <div class="kicker">Physics student · Builder · Writer</div>
-          <h1>Ideas, experiments, and code.</h1>
-          <p class="lead">
-            I am building a small personal site to collect projects, technical notes, and writing.
-            The focus is physics, computation, and interfaces that make abstract ideas easier to test, see, and use.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="/projects/">View projects</a>
-            <a class="button" href="/blog/">Read the blog</a>
-            <a class="button" href="/contact/">Contact</a>
-          </div>
-        </div>
-
-        <aside class="panel hero-side">
-          <div class="stat">
-            <strong>Current focus</strong>
-            <span class="meta">Physics, simulation, interactive systems, and practical coding.</span>
-          </div>
-          <div class="stat">
-            <strong>What goes here</strong>
-            <span class="meta">Projects, blog posts, notes, CV, talks, links, and contact info.</span>
-          </div>
-          <div class="stat">
-            <strong>Best use</strong>
-            <span class="meta">A simple public home base you can update without any build tools.</span>
-          </div>
-        </aside>
+  <main class="home-main">
+    <section class="home-intro" aria-label="Opening animation">
+      <div class="intro-ring" aria-hidden="true">
+        <svg class="intro-ring-svg" viewBox="0 0 100 100" role="presentation" focusable="false">
+          <circle class="intro-ring-track" cx="50" cy="50" r="48"></circle>
+          <circle class="intro-ring-stroke" cx="50" cy="50" r="48" pathLength="100"></circle>
+        </svg>
+      </div>
+      <div class="intro-logo-wrap">
+        <img class="intro-logo" src="/assets/images/none.png" alt="Jintian Wang logo" >
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Featured areas</h2>
-            <p>These are the most useful blocks for a personal academic or technical website.</p>
+    <div class="home-content">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="panel hero-main">
+            <div class="kicker">Physics student · Builder · Writer</div>
+            <h1>Ideas, experiments, and code.</h1>
+            <p class="lead">
+              I am building a small personal site to collect projects, technical notes, and writing.
+              The focus is physics, computation, and interfaces that make abstract ideas easier to test, see, and use.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="/projects/">View projects</a>
+              <a class="button" href="/blog/">Read the blog</a>
+              <a class="button" href="/contact/">Contact</a>
+            </div>
           </div>
-        </div>
-        <div class="grid-3">
-          <article class="card">
-            <h3>Projects</h3>
-            <p>Show the work you actually made: simulations, prototypes, analysis scripts, tools, hardware, or demos.</p>
-            <div class="badges">
-              <span class="badge">GitHub links</span>
-              <span class="badge">Results</span>
-              <span class="badge">Screenshots</span>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Blog / Notes</h3>
-            <p>Use this for short posts, technical notes, experiment logs, reading summaries, or opinions you want to keep public.</p>
-            <div class="badges">
-              <span class="badge">Short posts</span>
-              <span class="badge">Technical notes</span>
-              <span class="badge">Updates</span>
-            </div>
-          </article>
-          <article class="card">
-            <h3>About / CV</h3>
-            <p>Put your one-paragraph bio, current role, interests, skills, and a downloadable CV or contact links.</p>
-            <div class="badges">
-              <span class="badge">Bio</span>
-              <span class="badge">Skills</span>
-              <span class="badge">PDF CV</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Selected projects</h2>
-            <p>A personal site works best when the homepage points to a few concrete things, not just a generic introduction.</p>
+          <aside class="panel hero-side">
+            <div class="stat">
+              <strong>Current focus</strong>
+              <span class="meta">Physics, simulation, interactive systems, and practical coding.</span>
+            </div>
+            <div class="stat">
+              <strong>What goes here</strong>
+              <span class="meta">Projects, blog posts, notes, CV, talks, links, and contact info.</span>
+            </div>
+            <div class="stat">
+              <strong>Best use</strong>
+              <span class="meta">A simple public home base you can update without any build tools.</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>Featured areas</h2>
+              <p>These are the most useful blocks for a personal academic or technical website.</p>
+            </div>
           </div>
-          <a class="small-link" href="/projects/">See all projects</a>
+          <div class="grid-3">
+            <a class="card card-link" href="/projects/">
+              <h3>Projects</h3>
+              <p>Show the work you actually made: simulations, prototypes, analysis scripts, tools, hardware, or demos.</p>
+              <div class="badges">
+                <span class="badge">GitHub links</span>
+                <span class="badge">Results</span>
+                <span class="badge">Screenshots</span>
+              </div>
+            </a>
+            <a class="card card-link" href="/blog/">
+              <h3>Blog / Notes</h3>
+              <p>Use this for short posts, technical notes, experiment logs, reading summaries, or opinions you want to keep public.</p>
+              <div class="badges">
+                <span class="badge">Short posts</span>
+                <span class="badge">Technical notes</span>
+                <span class="badge">Updates</span>
+              </div>
+            </a>
+            <a class="card card-link" href="/about/">
+              <h3>About / CV</h3>
+              <p>Put your one-paragraph bio, current role, interests, skills, and a downloadable CV or contact links.</p>
+              <div class="badges">
+                <span class="badge">Bio</span>
+                <span class="badge">Skills</span>
+                <span class="badge">PDF CV</span>
+              </div>
+            </a>
+          </div>
         </div>
-        <div class="grid-2">
-          <article class="card">
-            <h3>Muon g-2 toy Monte Carlo</h3>
-            <p>Simulation and fitting pipeline for a physics toy model. Good for showing numerics, data handling, and scientific thinking.</p>
-            <div class="badges">
-              <span class="badge">Python</span>
-              <span class="badge">Simulation</span>
-              <span class="badge">Analysis</span>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>Selected projects</h2>
+              <p>A personal site works best when the homepage points to a few concrete things, not just a generic introduction.</p>
             </div>
-          </article>
-          <article class="card">
-            <h3>VR gesture prototype</h3>
-            <p>Interactive system work: input design, real-time interaction, and a demo that is easy to understand at a glance.</p>
-            <div class="badges">
-              <span class="badge">XR</span>
-              <span class="badge">Interaction</span>
-              <span class="badge">Prototype</span>
-            </div>
-          </article>
+            <a class="small-link" href="/projects/">See all projects</a>
+          </div>
+          <div class="grid-2">
+            <article class="card">
+              <h3>Muon g-2 toy Monte Carlo</h3>
+              <p>Simulation and fitting pipeline for a physics toy model. Good for showing numerics, data handling, and scientific thinking.</p>
+              <div class="badges">
+                <span class="badge">Python</span>
+                <span class="badge">Simulation</span>
+                <span class="badge">Analysis</span>
+              </div>
+            </article>
+            <article class="card">
+              <h3>VR gesture prototype</h3>
+              <p>Interactive system work: input design, real-time interaction, and a demo that is easy to understand at a glance.</p>
+              <div class="badges">
+                <span class="badge">XR</span>
+                <span class="badge">Interaction</span>
+                <span class="badge">Prototype</span>
+              </div>
+            </article>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <footer class="footer">
