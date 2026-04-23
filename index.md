@@ -1,4 +1,4 @@
-# Jintian Wang
+# Jintian JTST
 
 Physics @ Oxford
 

@@ -1,4 +1,4 @@
-# Jintian Wang personal site template
+# Jintian JTST personal site template
 
 A simple static website for GitHub Pages. No Jekyll, Ruby, or build tools required.
 
