@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jintian JTST</title>
   <meta name="description" content="Personal website of Jintian JTST: physics, projects, writing, and notes.">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="apple-touch-icon" href="/assets/images/square.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
-<body class="home-page">
+<body class="home-page font-display-default">
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="/">
@@ -39,19 +44,18 @@
 
     <div class="home-content">
       <section class="hero">
-        <div class="container hero-grid">
-          <div class="panel hero-main">
-            <div class="kicker">Physics student · Builder · Writer</div>
-            <h1>JTST</h1>
-            <p class="lead">
-              I am building a small personal site to collect projects, technical notes, and writing.
-              The focus is physics, computation, and interfaces that make abstract ideas easier to test, see, and use.
-            </p>
-            <div class="hero-actions">
-              <a class="button primary" href="/projects/">View projects</a>
-              <a class="button" href="/blog/">Read the blog</a>
-              <a class="button" href="/contact/">Contact</a>
-            </div>
+        <div class="container home-title-wrap">
+          <div class="kicker">Physics student · Builder · Writer</div>
+          <h1 class="home-title">JTST</h1>
+          <p class="home-intro-text">
+            Building elegant systems across physics, computation, and interface design.
+            I focus on clarity, precision, and ideas that become real.
+          </p>
+          <p class="home-font-note">Font switch: add one class on body — <strong>font-display-default</strong>, <strong>font-display-serif</strong>, or <strong>font-display-mono</strong>.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="/projects/">View projects</a>
+            <a class="button" href="/blog/">Read the blog</a>
+            <a class="button" href="/contact/">Contact</a>
           </div>
         </div>
       </section>
