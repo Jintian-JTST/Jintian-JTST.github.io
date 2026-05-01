@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "NasalizationLocal";
+  src:
+    local("Nasalization"),
+    url("/assets/fonts/nasalization.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #000000;
   --panel: #111822;
@@ -30,10 +40,12 @@
   --home-reveal: 0;
 
   --intro-logo-size: 320px;
-  --intro-ring-size: 410px;
+  --intro-ring-size: 350px;
 
   --logo-drift-x: 0px;
   --logo-drift-y: 0px;
+
+  --brand-font: "NasalizationLocal", "Orbitron", "Space Grotesk", system-ui, sans-serif;
 }
 
 /* Base */
@@ -57,6 +69,28 @@ body {
 
 body.home-page {
   --home-reveal: 0;
+}
+
+.site-starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  animation: starsFadeIn 1.1s ease-out forwards;
+}
+
+@keyframes starsFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.78;
+  }
 }
 
 a {
@@ -170,11 +204,12 @@ img {
 /* Main */
 .home-main {
   position: relative;
+  z-index: 1;
   min-height: 100vh;
 }
 
 /* =========================================
-   Home Intro: Starfield + Centered Logo
+   Home Intro: Fast Ring + Logo Materialize
    ========================================= */
 
 .home-intro {
@@ -183,81 +218,66 @@ img {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  background: #000;
+  background: transparent;
   z-index: 5;
   pointer-events: none;
   opacity: clamp(0, 1 - var(--home-reveal) * 5, 1);
-  transition: opacity 120ms linear;
-}
-
-.intro-stars {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  display: block;
-  opacity: 0;
-  animation: starsFadeIn 1.15s ease-out forwards;
-}
-
-@keyframes starsFadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 0.88;
-  }
+  transition: opacity 90ms linear;
 }
 
 .intro-nebula {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 680px;
-  height: 680px;
+  width: 640px;
+  height: 640px;
   z-index: 2;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0.84);
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 50%, rgba(92,219,213,0.01), rgba(92,219,213,0.01) 28%, transparent 70%),
-    radial-gradient(circle at 44% 46%, rgba(139,241,238,0.01), transparent 55%);
-  filter: blur(9px);
+    radial-gradient(circle at 50% 50%, rgba(92,219,213,0.075), rgba(92,219,213,0.022) 30%, transparent 70%),
+    radial-gradient(circle at 44% 46%, rgba(139,241,238,0.035), transparent 56%);
+  filter: blur(10px);
   opacity: 0;
-  animation:
-    nebulaIntro 1.8s 0.2s ease-out forwards,
-    nebulaBreathe 7s 2s ease-in-out infinite alternate;}
+  animation: nebulaAppear 0.78s 0.72s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
 
-@keyframes nebulaIntro {
+.intro-nebula::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(139,241,238,0.06), transparent 60%);
+  opacity: 0;
+  filter: blur(16px);
+  animation: nebulaBreathe 6.5s 1.55s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaAppear {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.76);
-  }
-
-  48% {
-    opacity: 0.72;
+    transform: translate(-50%, -50%) scale(0.78);
   }
 
   100% {
-    opacity: 0.52;
+    opacity: 0.46;
     transform: translate(-50%, -50%) scale(1);
   }
 }
 
 @keyframes nebulaBreathe {
   from {
-    opacity: 0.42;
-    filter: blur(9px);
+    opacity: 0.18;
+    transform: scale(0.98);
   }
 
   to {
-    opacity: 0.62;
-    filter: blur(13px);
+    opacity: 0.34;
+    transform: scale(1.04);
   }
 }
 
-/* Opening energy ring, independent from logo positioning */
+/* Ring appears, sweeps once, then hands off to logo */
 .intro-energy-ring {
   position: absolute;
   left: 50%;
@@ -265,9 +285,9 @@ img {
   width: var(--intro-ring-size);
   height: var(--intro-ring-size);
   z-index: 3;
-  transform: translate(-50%, -50%) scale(1.18);
+  transform: translate(-50%, -50%);
   opacity: 0;
-  animation: ringConverge 1.2s ease-out forwards;
+  animation: ringStage 0.92s 0.08s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
   will-change: transform, opacity, filter;
 }
 
@@ -275,71 +295,70 @@ img {
   width: 100%;
   height: 100%;
   overflow: visible;
-  animation: ringRotate 9s linear infinite;
+  transform: rotate(-90deg);
   filter:
-    drop-shadow(0 0 8px rgba(92, 219, 213, 0.22))
-    drop-shadow(0 0 18px rgba(233, 239, 239, 0.02));
+    drop-shadow(0 0 7px rgba(92, 219, 213, 0.24))
+    drop-shadow(0 0 18px rgba(92, 219, 213, 0.07));
 }
 
-.intro-ring-primary,
-.intro-ring-secondary {
+.intro-ring-track,
+.intro-ring-primary {
   fill: none;
   stroke-linecap: round;
 }
 
-.intro-ring-primary {
-  stroke: rgba(92, 219, 213, 0.92);
-  stroke-width: 1.35;
-  stroke-dasharray: 76 24;
-}
-
-.intro-ring-secondary {
-  stroke: rgba(139, 241, 238, 0.28);
+.intro-ring-track {
+  stroke: rgba(92, 219, 213, 0.12);
   stroke-width: 0.75;
-  stroke-dasharray: 38 62;
 }
 
-@keyframes ringConverge {
-  0%,
-  12% {
+.intro-ring-primary {
+  stroke: rgba(139, 241, 238, 0.92);
+  stroke-width: 1.45;
+  stroke-dasharray: 22 78;
+  stroke-dashoffset: 0;
+  animation: ringSweepOnce 0.72s 0.12s cubic-bezier(0.25, 0.65, 0.25, 1) forwards;
+}
+
+@keyframes ringStage {
+  0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(0.98);
     filter: blur(0) brightness(1);
   }
 
-  38% {
-    opacity: 0.66;
+  18% {
+    opacity: 1;
     transform: translate(-50%, -50%) scale(1);
-    filter: blur(0) brightness(1.08);
+    filter: blur(0) brightness(1.04);
   }
 
-  78% {
+  76% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(0.72);
-    filter: blur(1px) brightness(1.35);
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0) brightness(1.1);
   }
 
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.24);
-    filter: blur(4px) brightness(3.2);
+    transform: translate(-50%, -50%) scale(0.96);
+    filter: blur(2px) brightness(1.45);
   }
 }
 
-@keyframes ringRotate {
+@keyframes ringSweepOnce {
   from {
-    transform: rotate(-90deg);
+    stroke-dashoffset: 0;
   }
 
   to {
-    transform: rotate(270deg);
+    stroke-dashoffset: -100;
   }
 }
 
 /*
-  Important:
-  This anchor is the permanent center layer.
-  It must never receive animation transform.
+  Permanent center anchor.
+  Do not animate this element.
 */
 .intro-logo-anchor {
   position: absolute;
@@ -352,7 +371,6 @@ img {
 
 /*
   Only this layer receives the mouse drift.
-  Its parent stays perfectly centered.
 */
 .intro-logo-drift {
   width: var(--intro-logo-size);
@@ -367,11 +385,9 @@ img {
   border-radius: 50%;
   overflow: hidden;
   opacity: 0;
-  transform: scale(0.92);
-  filter: blur(16px);
-  animation:
-    logoMaterialize 1.4s 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards,
-    logoPulse 4.5s 2s ease-in-out infinite alternate;
+  transform: scale(1.16);
+  filter: blur(18px) brightness(1.12);
+  animation: logoMaterialize 0.82s 0.78s cubic-bezier(0.16, 0.84, 0.22, 1) forwards;
   will-change: transform, opacity, filter;
 }
 
@@ -382,44 +398,45 @@ img {
   object-position: center center;
   border-radius: 50%;
   filter:
-    drop-shadow(0 0 16px rgba(92, 219, 213, 0.25))
-    drop-shadow(0 0 42px rgba(92, 219, 213, 0.08));
+    brightness(0.92)
+    drop-shadow(0 0 10px rgba(92, 219, 213, 0.24))
+    drop-shadow(0 0 24px rgba(92, 219, 213, 0.08));
+  animation: logoGlowPulse 4.8s 1.65s ease-in-out infinite alternate;
 }
 
 @keyframes logoMaterialize {
-  0%,
-  66% {
+  0% {
     opacity: 0;
-    transform: scale(0.92);
-    filter: blur(16px) brightness(0.86);
+    transform: scale(1.16);
+    filter: blur(18px) brightness(1.18);
   }
 
-  74% {
-    opacity: 0.45;
-    transform: scale(0.96);
-    filter: blur(8px) brightness(1.1);
+  10% {
+    opacity: 0.88;
+    transform: scale(1.025);
+    filter: blur(4px) brightness(1.02);
   }
 
   100% {
     opacity: 1;
     transform: scale(1);
-    filter: blur(0) brightness(1);
+    filter: blur(0) brightness(0.98);
   }
 }
 
-@keyframes logoPulse {
+@keyframes logoGlowPulse {
   from {
     filter:
-      drop-shadow(0 0 16px rgba(92, 219, 213, 0.34))
-      drop-shadow(0 0 42px rgba(92, 219, 213, 0.12))
-      brightness(1);
+      brightness(0.91)
+      drop-shadow(0 0 9px rgba(92, 219, 213, 0.22))
+      drop-shadow(0 0 22px rgba(92, 219, 213, 0.075));
   }
 
   to {
     filter:
-      drop-shadow(0 0 22px rgba(92, 219, 213, 0.46))
-      drop-shadow(0 0 56px rgba(92, 219, 213, 0.18))
-      brightness(1.01);
+      brightness(0.96)
+      drop-shadow(0 0 13px rgba(92, 219, 213, 0.29))
+      drop-shadow(0 0 30px rgba(92, 219, 213, 0.11));
   }
 }
 
@@ -447,10 +464,6 @@ img {
   transform: translateX(-50%) translateY(0);
 }
 
-.scroll-cue-text {
-  line-height: 1;
-}
-
 .scroll-cue-arrow {
   width: 16px;
   height: 16px;
@@ -473,21 +486,24 @@ img {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .intro-stars,
+  .site-starfield,
   .intro-nebula,
+  .intro-nebula::after,
   .intro-energy-ring,
-  .intro-ring-svg,
+  .intro-ring-primary,
   .intro-logo-core,
+  .intro-logo,
   .scroll-cue-arrow {
     animation: none !important;
   }
 
-  .intro-stars {
+  .site-starfield {
     opacity: 0.55;
   }
 
   .intro-nebula {
-    opacity: 0.2;
+    opacity: 0.24;
+    transform: translate(-50%, -50%) scale(1);
   }
 
   .intro-energy-ring {
@@ -541,7 +557,7 @@ img {
 }
 
 .home-page .hero {
-  padding-top: 168px;
+  padding-top: 600px;
   display: grid;
   align-items: center;
 }
@@ -579,10 +595,11 @@ img {
   align-self: center;
   margin: 8px 0 4px;
   font-size: clamp(5rem, 18vw, 12rem);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-weight: 700;
+  line-height: 1.22;
+  font-family: var(--brand-font);
+  letter-spacing: 0.14em;
+  margin-right: -0.14em;
+  font-weight: 600;
   background: linear-gradient(180deg, #ffffff 40%, #8ae0dc 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -795,7 +812,7 @@ h1 {
 @media (max-width: 900px) {
   :root {
     --intro-logo-size: min(64vw, 285px);
-    --intro-ring-size: min(80vw, 360px);
+    --intro-ring-size: min(80vw, 350px);
   }
 
   .intro-nebula {
@@ -828,6 +845,8 @@ h1 {
 
   .home-title {
     font-size: clamp(4rem, 24vw, 7rem);
+    letter-spacing: 0.1em;
+    margin-right: -0.1em;
   }
 
   .home-page .hero + .section {

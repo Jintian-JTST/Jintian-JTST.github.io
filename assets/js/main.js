@@ -169,7 +169,7 @@
   }
 
   function initStarfield() {
-    const canvas = document.getElementById('introStars');
+    const canvas = document.getElementById('siteStarfield');
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d', { alpha: true });
@@ -182,12 +182,6 @@
     let dpr = 1;
     let particles = [];
     let rafId = 0;
-
-    const pointer = {
-      x: -9999,
-      y: -9999,
-      active: false
-    };
 
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -215,7 +209,7 @@
       particles = Array.from({ length: count }, () => {
         const x = Math.random() * width;
         const y = Math.random() * height;
-        const radius = Math.random() * 1.35 + 0.35;
+        const radius = Math.random() * 1.25 + 0.35;
 
         return {
           x,
@@ -225,43 +219,36 @@
           vx: 0,
           vy: 0,
           radius,
-          alpha: Math.random() * 0.5 + 0.2,
-          twinkle: Math.random() * Math.PI * 2,
-          drift: Math.random() * 0.22 + 0.05
+          alpha: Math.random() * 0.42 + 0.16,
+          phaseA: Math.random() * Math.PI * 2,
+          phaseB: Math.random() * Math.PI * 2,
+          speedA: Math.random() * 0.006 + 0.002,
+          speedB: Math.random() * 0.005 + 0.0015,
+          wanderX: Math.random() * 34 + 10,
+          wanderY: Math.random() * 30 + 8
         };
       });
     }
 
     function drawParticle(p, centerX, centerY) {
-      p.twinkle += 0.012 + p.drift * 0.015;
+      p.phaseA += p.speedA;
+      p.phaseB += p.speedB;
 
-      let forceX = 0;
-      let forceY = 0;
+      const targetX =
+        p.baseX +
+        Math.cos(p.phaseA) * p.wanderX +
+        Math.sin(p.phaseB * 0.7) * p.wanderX * 0.35;
 
-      if (pointer.active && !prefersReducedMotion) {
-        const dx = p.x - pointer.x;
-        const dy = p.y - pointer.y;
-        const distSq = dx * dx + dy * dy;
-        const repelRadius = 145;
-        const repelRadiusSq = repelRadius * repelRadius;
+      const targetY =
+        p.baseY +
+        Math.sin(p.phaseB) * p.wanderY +
+        Math.cos(p.phaseA * 0.8) * p.wanderY * 0.35;
 
-        if (distSq < repelRadiusSq && distSq > 0.001) {
-          const dist = Math.sqrt(distSq);
-          const strength = (1 - dist / repelRadius) * 1.65;
+      const pullX = (targetX - p.x) * 0.006;
+      const pullY = (targetY - p.y) * 0.006;
 
-          forceX += (dx / dist) * strength;
-          forceY += (dy / dist) * strength;
-        }
-      }
-
-      const slowOrbitX = Math.cos(p.twinkle * 0.34) * p.drift;
-      const slowOrbitY = Math.sin(p.twinkle * 0.31) * p.drift;
-
-      const pullX = (p.baseX - p.x) * 0.006;
-      const pullY = (p.baseY - p.y) * 0.006;
-
-      p.vx = (p.vx + pullX + forceX + slowOrbitX * 0.015) * 0.91;
-      p.vy = (p.vy + pullY + forceY + slowOrbitY * 0.015) * 0.91;
+      p.vx = (p.vx + pullX) * 0.965;
+      p.vy = (p.vy + pullY) * 0.965;
 
       p.x += p.vx;
       p.y += p.vy;
@@ -269,10 +256,10 @@
       const dxCenter = p.x - centerX;
       const dyCenter = p.y - centerY;
       const centerDist = Math.sqrt(dxCenter * dxCenter + dyCenter * dyCenter);
-      const centerGlow = Math.max(0, 1 - centerDist / Math.min(width, height) * 1.15);
+      const centerGlow = Math.max(0, 1 - centerDist / Math.min(width, height) * 1.18);
 
-      const twinkleAlpha = p.alpha * (0.74 + Math.sin(p.twinkle) * 0.26);
-      const finalAlpha = Math.min(1, twinkleAlpha + centerGlow * 0.18);
+      const twinkle = 0.74 + Math.sin(p.phaseA * 2.4 + p.phaseB) * 0.26;
+      const finalAlpha = Math.min(0.85, p.alpha * twinkle + centerGlow * 0.12);
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -301,26 +288,6 @@
       if (rafId) return;
       rafId = window.requestAnimationFrame(draw);
     }
-
-    window.addEventListener(
-      'mousemove',
-      (event) => {
-        pointer.x = event.clientX;
-        pointer.y = event.clientY;
-        pointer.active = true;
-      },
-      { passive: true }
-    );
-
-    window.addEventListener(
-      'mouseleave',
-      () => {
-        pointer.active = false;
-        pointer.x = -9999;
-        pointer.y = -9999;
-      },
-      { passive: true }
-    );
 
     window.addEventListener('resize', resize);
 
