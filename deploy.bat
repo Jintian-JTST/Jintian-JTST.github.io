@@ -15,6 +15,15 @@ if errorlevel 1 (
     exit /b 1
 )
 
+echo [0/4] Copying CV into site assets...
+if not exist "assets\cv" mkdir "assets\cv"
+copy /y "D:\Users\JTST\Desktop\Desktop\JTST\*26*.pdf" "assets\cv\Jintian-Wang-CV.pdf" >nul
+if errorlevel 1 (
+    echo [WARN] CV PDF not found, skipping copy. Expected a *26*.pdf in D:\Users\JTST\Desktop\Desktop\JTST\
+) else (
+    echo        CV copied as assets\cv\Jintian-Wang-CV.pdf
+)
+
 if not exist ".git" (
     echo [1/4] Initializing git repository...
     git init
@@ -30,7 +39,7 @@ echo [2/4] Staging all files...
 git add -A
 
 echo [3/4] Committing...
-git commit -m "Update site: fill in project pages, add new projects"
+git commit -m "Update site: project pages, about page with CV"
 if errorlevel 1 echo (Nothing new to commit, continuing...)
 
 echo [4/4] Pushing to GitHub...
