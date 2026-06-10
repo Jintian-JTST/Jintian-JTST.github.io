@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generative Transformer from scratch · Jintian JTST</title>
+  <meta name="description" content="A character-level GPT built from scratch in PyTorch and trained on the Harry Potter novels.">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="apple-touch-icon" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="logo"></span>
+        <span>Jintian JTST</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/projects/">Projects</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container article-list">
+      <article class="card">
+        <div class="kicker">Project</div>
+        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Generative Transformer from scratch</h1>
+        <p class="meta">Deep learning · PyTorch · Language modeling</p>
+        <p>
+          A decoder-only transformer (GPT-style) implemented from scratch in PyTorch — no Hugging Face, no pre-built
+          attention layers — and trained as a character-level language model on the Harry Potter novels until it
+          generates passable wizard-flavored prose.
+        </p>
+        <div class="badges">
+          <span class="badge">PyTorch</span>
+          <span class="badge">Transformer</span>
+          <span class="badge">From scratch</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Overview</h2>
+        <p>
+          The goal was to understand the transformer architecture by building every piece myself: token and positional
+          embeddings, scaled dot-product self-attention, multi-head attention, feed-forward blocks, residual
+          connections, and layer normalization, assembled into a stack of decoder blocks with a language-model head.
+        </p>
+        <h3>What I built</h3>
+        <p>
+          A character-level tokenizer over the book corpus, a batched data pipeline with train/validation split, the
+          full model (~6 layers, 6 heads, 384-dim embeddings, dropout regularization), a training loop with periodic
+          loss estimation and checkpointing, and a sampling script for open-ended text generation. Training ran on an
+          Intel GPU via the PyTorch XPU backend.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Tech stack</h2>
+        <p>Python · PyTorch (built directly on <code>nn.Module</code> primitives) · Jupyter notebooks for experiments · Intel XPU acceleration.</p>
+        <h3>Links</h3>
+        <p>【待填写】GitHub repo link and sample generated text.</p>
+      </article>
+
+      <article class="card">
+        <h2>Notes / Next steps</h2>
+        <p>
+          Planned: switch from character-level to a BPE tokenizer, scale up the context window, and compare training
+          dynamics against my MiniMind experiment runs to see how data quality and tokenization change the results.
+        </p>
+      </article>
+
+      <div>
+        <a class="small-link" href="/projects/">← Back to projects</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© <span data-year></span> Jintian JTST</div>
+      <div>Built as a static site for GitHub Pages.</div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

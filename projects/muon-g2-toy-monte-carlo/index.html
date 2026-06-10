@@ -33,7 +33,9 @@
         <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Muon g-2 toy Monte Carlo</h1>
         <p class="meta">Physics simulation · Python · Statistical fitting</p>
         <p>
-          在这里写项目的简介：这个项目解决什么问题、用了什么方法、结果是什么。
+          A toy Monte Carlo study of the muon g-2 measurement: generating synthetic decay-positron time spectra with
+          the characteristic exponential decay modulated by the anomalous precession ("wiggle plot"), then fitting the
+          precession frequency back out and studying how statistics and systematic effects move the result.
         </p>
         <div class="badges">
           <span class="badge">Python</span>
@@ -44,14 +46,24 @@
 
       <article class="card">
         <h2>Overview</h2>
-        <p>【待填写】项目背景、目标、应用场景。</p>
+        <p>
+          The muon's anomalous magnetic moment is one of the most precisely measured quantities in physics, and the
+          experimental method — extracting the anomalous precession frequency ω<sub>a</sub> from the time distribution
+          of decay positrons — is a beautiful exercise in statistics. This project rebuilds that pipeline at toy scale:
+          generate pseudo-data, check the distributions behave as expected, and verify that the fit recovers the input
+          parameters without bias.
+        </p>
         <h3>What I built</h3>
-        <p>【待填写】你具体实现了哪些模块，例如数据生成、拟合、可视化等。</p>
+        <p>
+          A toy event generator for the five-parameter wiggle function N(t) = N₀ e<sup>−t/τ</sup>[1 + A cos(ω<sub>a</sub>t + φ)],
+          histogramming and visualization of the generated spectra, and a fitting stage that recovers the parameters
+          and examines pulls and uncertainties as a function of sample size.
+        </p>
       </article>
 
       <article class="card">
         <h2>Tech stack</h2>
-        <p>【待填写】语言、库、工具链。</p>
+        <p>Python · NumPy for event generation · SciPy / least-squares fitting · Matplotlib for the wiggle plots and residuals.</p>
         <h3>Links</h3>
         <p>【待填写】GitHub、Demo、报告或论文链接。</p>
       </article>
@@ -74,7 +86,10 @@
 
       <article class="card">
         <h2>Notes / Next steps</h2>
-        <p>【待填写】已知问题、后续计划、改进方向。</p>
+        <p>
+          Planned extensions: add systematic-effect studies (gain shifts, pileup, lost muons) on top of the statistical
+          toy, and compare fitting strategies (binned χ² vs. unbinned likelihood). Code and plots to be linked here.
+        </p>
       </article>
 
       <div>

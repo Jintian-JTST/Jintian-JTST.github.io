@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WeChat AI clone — LoRA fine-tuning · Jintian JTST</title>
+  <meta name="description" content="Fine-tuning Qwen2-0.5B with LoRA on my own WeChat chat history to build a personal chatbot.">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="apple-touch-icon" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="logo"></span>
+        <span>Jintian JTST</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/projects/">Projects</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container article-list">
+      <article class="card">
+        <div class="kicker">Project</div>
+        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">WeChat AI clone — LoRA fine-tuning</h1>
+        <p class="meta">LLM fine-tuning · LoRA · Personal data pipeline</p>
+        <p>
+          A chatbot that talks like me: I exported and cleaned my own WeChat chat history, converted it into
+          instruction-tuning data, and LoRA-fine-tuned Qwen2-0.5B-Instruct so the model picks up my real texting style
+          — phrasing, length, and habits included.
+        </p>
+        <div class="badges">
+          <span class="badge">Qwen2-0.5B</span>
+          <span class="badge">LoRA / PEFT</span>
+          <span class="badge">Transformers</span>
+          <span class="badge">Data engineering</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Overview</h2>
+        <p>
+          Chat logs are messy: stickers, images, fragmented multi-message replies, and mixed contexts. The interesting
+          part of this project is the data pipeline — decrypting and exporting the local WeChat database, filtering
+          message types, merging consecutive messages into coherent question/answer turns, and formatting them as
+          instruction–input–output JSON for supervised fine-tuning.
+        </p>
+        <h3>What I built</h3>
+        <p>
+          An end-to-end pipeline: chat-history extraction and cleaning, dataset construction and merging scripts,
+          a LoRA fine-tuning run of Qwen2-0.5B-Instruct (tokenization, prompt templating with chat markup, masked
+          labels), and a small inference app for chatting with the result.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Tech stack</h2>
+        <p>
+          Python · Hugging Face Transformers + PEFT (LoRA) · ModelScope for model download · pandas-style cleaning
+          scripts · the open-source WeChatMsg toolkit for chat export.
+        </p>
+        <h3>Links</h3>
+        <p>【待填写】Repo / demo screenshots.</p>
+      </article>
+
+      <article class="card">
+        <h2>Notes / Next steps</h2>
+        <p>
+          The 0.5B base keeps training cheap but limits coherence over long conversations; next steps are trying a
+          larger base model, better turn segmentation for group chats, and quantified evaluation of "how much it
+          sounds like me" beyond eyeballing the outputs.
+        </p>
+      </article>
+
+      <div>
+        <a class="small-link" href="/projects/">← Back to projects</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© <span data-year></span> Jintian JTST</div>
+      <div>Built as a static site for GitHub Pages.</div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

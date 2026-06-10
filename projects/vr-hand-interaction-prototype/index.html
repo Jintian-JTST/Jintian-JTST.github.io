@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VR hand interaction prototype · Jintian JTST</title>
-  <meta name="description" content="Project detail page for VR hand interaction prototype.">
+  <title>SecondTouchReality — VR hand interaction system · Jintian JTST</title>
+  <meta name="description" content="Camera-based VR hand interaction: MediaPipe hand tracking, Unity pinch-grab interaction, natural-language object generation, and Arduino haptic feedback.">
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -30,19 +30,64 @@
     <div class="container article-list">
       <article class="card">
         <div class="kicker">Project</div>
-        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">VR hand interaction prototype</h1>
-        <p class="meta">XR · Real-time interaction · Interface design</p>
-        <p>在这里填写项目简介：交互目标、设备环境、核心价值。</p>
+        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">SecondTouchReality — VR hand interaction system</h1>
+        <p class="meta">XR · Computer vision · Natural language · Hardware feedback</p>
+        <p>
+          An end-to-end prototype that turns a plain webcam into a VR input device: Python tracks your hand in 3D,
+          Unity reconstructs a virtual hand you can pinch and grab with, a lightweight text model spawns 3D objects
+          from English descriptions ("a small red apple"), and an Arduino servo closes the loop with physical feedback
+          when you pinch. The full chain is <strong>Perception → Semantics → Interaction → Hardware</strong>, evolved
+          from my earlier OneTouchReality gesture-controlled robotic arm project.
+        </p>
+        <div class="badges">
+          <span class="badge">Python</span>
+          <span class="badge">Unity / C#</span>
+          <span class="badge">MediaPipe</span>
+          <span class="badge">Arduino</span>
+          <span class="badge">scikit-learn</span>
+        </div>
       </article>
 
       <article class="card">
         <h2>Problem and design</h2>
-        <p>【待填写】你解决了什么交互问题？为什么这样设计？</p>
+        <p>
+          Most hand-tracking demos stop at drawing landmarks on a screen. I wanted a complete, hackable loop where a
+          single camera is enough to manipulate virtual objects naturally — no headset, no glove, no depth sensor.
+          The key design problems were: estimating real-world hand depth from a monocular camera, making grabbing
+          feel stable despite noisy tracking, and letting users create scene content by simply describing it in words.
+        </p>
+        <p>
+          The architecture is deliberately modular: Python handles perception (hand keypoints, depth, pinch state) and
+          semantics (text → object label), Unity handles reconstruction and interaction, and an Arduino bridge handles
+          physical feedback. Each module talks over simple protocols (UDP JSON, line-based TCP, single-byte serial), so
+          any part can be swapped or tested in isolation.
+        </p>
       </article>
 
       <article class="card">
         <h2>Implementation details</h2>
-        <p>【待填写】输入处理、手势识别、反馈机制、性能优化等。</p>
+        <p>
+          <strong>Hand tracking & depth:</strong> MediaPipe Hands detects 21 keypoints per hand. Wrist-to-camera
+          distance in meters is estimated from palm width and palm length through a one-time calibration, with the two
+          channels fused by weights based on finger curl and hand side-pose, plus median/EMA filtering. Each frame,
+          the wrist 3D position, 20 bone direction vectors, and the pinch state are streamed to Unity as UDP JSON.
+        </p>
+        <p>
+          <strong>Interaction in Unity:</strong> <code>HandFromVectors</code> rebuilds the 3D skeleton from bone
+          directions and lengths; <code>PinchGrabBall</code> makes any object pinch-grabbable with a release grace
+          period to survive tracking dropouts; <code>HandOrbitCamera</code> turns pinch-and-move into orbit/zoom camera
+          control when nothing is held.
+        </p>
+        <p>
+          <strong>Language → objects:</strong> a HashingVectorizer + SGDClassifier model (trained on my own collected
+          dataset of description/label pairs) runs behind a TCP server. Typing "a green apple" in the Unity dialog
+          returns a label that <code>ModelLibrary</code> / <code>RuntimeModelLoader</code> map to a prefab or a GLB
+          model loaded at runtime via GLTFast.
+        </p>
+        <p>
+          <strong>Hardware:</strong> pinch-state transitions are forwarded over serial to an Arduino driving a servo —
+          a minimal but complete haptic channel, designed to scale toward a multi-servo force-feedback glove.
+        </p>
       </article>
 
       <article class="card">
@@ -57,7 +102,16 @@
 
       <article class="card">
         <h2>Results and future work</h2>
-        <p>【待填写】结果总结、下一步计划。</p>
+        <p>
+          The prototype runs as a single <code>python main.py</code> plus one Unity scene: the virtual hand follows in
+          real time, objects can be pinched, moved and released reliably, text queries spawn the right model with
+          confidence scores around 0.9 on the trained categories, and the servo responds to pinch with low latency.
+        </p>
+        <p>
+          Next steps: replace the linear text classifier with embedding-based semantic retrieval (and Chinese input
+          support), add more dynamic gestures beyond pinch (fist, point, wave), generate whole teaching scenes instead
+          of single objects, and extend the single-servo channel to a multi-servo force-feedback glove.
+        </p>
       </article>
 
       <div>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DIY 3D printer build · Jintian JTST</title>
+  <meta name="description" content="Building and configuring a DIY 3D printer (Dayu Spa) with custom-flashed Marlin firmware.">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="apple-touch-icon" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="logo"></span>
+        <span>Jintian JTST</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/projects/">Projects</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container article-list">
+      <article class="card">
+        <div class="kicker">Project</div>
+        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">DIY 3D printer build</h1>
+        <p class="meta">Hardware · Embedded firmware · Maker project</p>
+        <p>
+          Building a Dayu Spa DIY 3D printer from a full parts kit — mechanical assembly, wiring, and configuring and
+          flashing Marlin firmware for the printer's board, including the ESP32-based wireless control module.
+        </p>
+        <div class="badges">
+          <span class="badge">Marlin</span>
+          <span class="badge">PlatformIO</span>
+          <span class="badge">ESP32</span>
+          <span class="badge">Hardware</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Overview</h2>
+        <p>
+          A DIY printer kit is only half a product: the other half is firmware configuration. This project covered the
+          full build cycle — frame and motion system assembly, hotend and bed wiring, then working through the Marlin
+          source tree to match the board pinout, stepper drivers, thermistors, and bed-leveling setup, and building
+          and flashing the firmware with PlatformIO. The board's ESP3D module adds Wi-Fi printing and a web control
+          interface.
+        </p>
+        <h3>What I learned</h3>
+        <p>
+          How a real-time motion controller is organized (HALs for different MCU families, stepper kinematics, thermal
+          safety loops), how to debug hardware with firmware logs, and the practical gap between "compiles" and
+          "prints a clean first layer" — calibration of steps/mm, PID tuning, and leveling.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Tech stack</h2>
+        <p>Marlin firmware (C++) · PlatformIO build system · ESP3D / ESP32 wireless module · 3D printing toolchain (slicer, calibration prints).</p>
+        <h3>Links</h3>
+        <p>【待填写】Build photos and print results.</p>
+      </article>
+
+      <article class="card">
+        <h2>Media (image/video)</h2>
+        <p class="meta">Build photos and timelapse prints go here.</p>
+        <div class="video-placeholder">【待填写】photos / video embed</div>
+      </article>
+
+      <div>
+        <a class="small-link" href="/projects/">← Back to projects</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© <span data-year></span> Jintian JTST</div>
+      <div>Built as a static site for GitHub Pages.</div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>
