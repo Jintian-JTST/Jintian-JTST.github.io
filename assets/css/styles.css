@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Orbix";
+  src: url("/assets/fonts/Orbix-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   --bg: #000000;
   --panel: #111822;
@@ -1056,4 +1064,68 @@ h1 {
   .proof-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Restored opening sequence: auto-exits and remains absent when JavaScript fails. */
+body.intro-running {
+  overflow: hidden;
+}
+
+.home-page .navbar {
+  transition: opacity 360ms ease, transform 360ms ease, background-color 360ms ease;
+}
+
+.home-page.intro-running .navbar {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.home-title {
+  font-family: "Orbix", var(--brand-font);
+  font-weight: 400;
+  letter-spacing: 0.045em;
+  margin-right: -0.045em;
+}
+
+.home-intro {
+  z-index: 60;
+  visibility: hidden;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(92, 219, 213, 0.08), transparent 34rem),
+    #000;
+  transition: opacity 500ms cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s 500ms;
+}
+
+.home-intro.intro-playing,
+.home-intro.intro-leaving {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.home-intro.intro-playing:not(.intro-leaving) {
+  opacity: 1;
+}
+
+.home-intro.intro-leaving {
+  opacity: 0;
+}
+
+.home-intro .intro-nebula,
+.home-intro .intro-nebula::after,
+.home-intro .intro-energy-ring,
+.home-intro .intro-ring-primary,
+.home-intro .intro-logo-core,
+.home-intro .intro-logo {
+  animation-play-state: paused;
+}
+
+.home-intro.intro-playing .intro-nebula,
+.home-intro.intro-playing .intro-nebula::after,
+.home-intro.intro-playing .intro-energy-ring,
+.home-intro.intro-playing .intro-ring-primary,
+.home-intro.intro-playing .intro-logo-core,
+.home-intro.intro-playing .intro-logo {
+  animation-play-state: running;
 }

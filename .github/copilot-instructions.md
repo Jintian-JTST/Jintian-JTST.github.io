@@ -3,10 +3,10 @@
 ## Big picture architecture
 - This repo is a plain static GitHub Pages site (no framework, no bundler, no Jekyll).
 - Each section is a folder with `index.html` (e.g., `about/`, `projects/`, `contact/`).
-- `index.html` (root) is the custom homepage with a visible-first hero and starfield enhancement.
+- `index.html` (root) is the custom homepage with a short auto-exiting logo intro, a visible-first hero, and starfield enhancement.
 - Shared presentation logic is centralized in:
   - `assets/css/styles.css` (global theme + layout + responsive behavior)
-  - `assets/js/main.js` (nav active state, dynamic year, and progressive starfield enhancement)
+  - `assets/js/main.js` (nav active state, dynamic year, progressive intro, and starfield enhancement)
 
 ## Structural patterns to preserve
 - Keep site-wide links root-absolute (`/about/`, `/assets/css/styles.css`) rather than relative paths.
@@ -39,7 +39,7 @@
 - Canonical interactions to reuse:
   - Links/buttons: `160ms ease` hover/focus transitions.
   - Cards/panels: `200–220ms` transitions with `cubic-bezier(0.2, 0.7, 0.2, 1)` and subtle lift/glow.
-  - Homepage only: lightweight starfield enhancement; core content must remain visible without JavaScript.
+  - Homepage only: short logo materialisation plus starfield enhancement; the intro must auto-exit and core content must remain visible without JavaScript.
 - Interaction baseline: when hovering/focusing interactive buttons or cards, they should lift slightly (`translateY(...)`) and show accent glow (consistent with existing `rgba(92,219,213,...)` shadows).
 - For clickable cards, reuse the homepage pattern: `class="card card-link"` (do not invent parallel card hover classes).
 - If adding new interactive UI, match existing glow color and elevation style (`rgba(92,219,213,...)`, `var(--shadow)`).

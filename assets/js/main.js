@@ -29,6 +29,49 @@
     });
   }
 
+  function initOpeningAnimation() {
+    const intro = document.getElementById('homeIntro');
+    if (!intro) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let finished = false;
+    let leaveTimer = 0;
+    let finishTimer = 0;
+
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      window.clearTimeout(leaveTimer);
+      window.clearTimeout(finishTimer);
+      intro.classList.remove('intro-playing', 'intro-leaving');
+      intro.hidden = true;
+      document.body.classList.remove('intro-running');
+      window.removeEventListener('keydown', handleKeydown);
+    };
+
+    const beginExit = () => {
+      if (finished) return;
+      intro.classList.add('intro-leaving');
+      finishTimer = window.setTimeout(finish, 520);
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === 'Escape') beginExit();
+    };
+
+    intro.hidden = false;
+    document.body.classList.add('intro-running');
+    window.addEventListener('keydown', handleKeydown);
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => intro.classList.add('intro-playing'));
+    });
+
+    leaveTimer = window.setTimeout(beginExit, 2150);
+  }
+
   function initStarfield() {
     const canvas = document.getElementById('siteStarfield');
     if (!canvas) return;
@@ -129,6 +172,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     setActiveNavLink();
     setCurrentYear();
+    initOpeningAnimation();
     initStarfield();
   });
 })();
