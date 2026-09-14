@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-labelledby="title desc">
+  <title id="title">SecondTouchReality system architecture</title>
+  <desc id="desc">Camera input is processed by Python hand tracking, streamed to Unity, and connected to Arduino haptic feedback. A text classifier also supplies objects to Unity.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#5cdbd5"/></marker>
+    <style>.box{fill:#111822;stroke:#5cdbd5;stroke-width:3}.label{fill:#e6edf3;font:600 30px system-ui,sans-serif;text-anchor:middle}.sub{fill:#9aa7b5;font:22px system-ui,sans-serif;text-anchor:middle}.line{stroke:#5cdbd5;stroke-width:4;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1440" height="720" rx="34" fill="#05080c"/>
+  <text x="72" y="82" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="38" font-weight="700">Perception → Semantics → Interaction → Hardware</text>
+  <rect class="box" x="70" y="250" width="240" height="150" rx="24"/><text class="label" x="190" y="318">Webcam</text><text class="sub" x="190" y="354">RGB frames</text>
+  <rect class="box" x="390" y="250" width="280" height="150" rx="24"/><text class="label" x="530" y="310">Python tracking</text><text class="sub" x="530" y="350">21 landmarks · pinch</text><text class="sub" x="530" y="380">depth estimate</text>
+  <rect class="box" x="760" y="250" width="280" height="150" rx="24"/><text class="label" x="900" y="310">Unity</text><text class="sub" x="900" y="350">hand reconstruction</text><text class="sub" x="900" y="380">grab interaction</text>
+  <rect class="box" x="1130" y="250" width="240" height="150" rx="24"/><text class="label" x="1250" y="310">Arduino</text><text class="sub" x="1250" y="350">servo haptics</text>
+  <rect class="box" x="760" y="500" width="280" height="120" rx="24"/><text class="label" x="900" y="550">Text classifier</text><text class="sub" x="900" y="585">description → object</text>
+  <path class="line" d="M310 325H390"/><path class="line" d="M670 325H760"/><text class="sub" x="715" y="300">UDP JSON</text><path class="line" d="M1040 325H1130"/><text class="sub" x="1085" y="300">serial</text><path class="line" d="M900 500V410"/>
+</svg>

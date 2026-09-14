@@ -1,7 +1,5 @@
 # Jintian JTST
 
-Physics @ Oxford
+Physics, computation, and interactive systems.
 
-## Projects
-- Muon g-2 simulation
-- VR interaction system
+[View the website](/)

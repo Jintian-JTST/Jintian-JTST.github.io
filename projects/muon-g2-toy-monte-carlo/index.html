@@ -12,14 +12,13 @@
 <body>
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/">
-        <span class="logo"></span>
+      <a class="brand" href="/" aria-label="Jintian JTST home">
+        <span class="logo" aria-hidden="true"></span>
         <span>Jintian JTST</span>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Primary navigation">
         <a href="/">Home</a>
-        <a href="/projects/">Projects</a>
-        <a href="/blog/">Blog</a>
+        <a class="active" href="/projects/" aria-current="page">Projects</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
@@ -42,6 +41,7 @@
           <span class="badge">Simulation</span>
           <span class="badge">Data analysis</span>
         </div>
+        <img class="project-figure" style="margin-top: 22px;" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 toy Monte Carlo data and five-parameter wiggle fits">
       </article>
 
       <article class="card">
@@ -64,31 +64,29 @@
       <article class="card">
         <h2>Tech stack</h2>
         <p>Python · NumPy for event generation · SciPy / least-squares fitting · Matplotlib for the wiggle plots and residuals.</p>
-        <h3>Links</h3>
-        <p>【待填写】GitHub、Demo、报告或论文链接。</p>
+        <div class="project-links">
+          <a class="button primary" href="https://github.com/Jintian-JTST/2026-Summer-Research-Internship" target="_blank" rel="noopener">View repository</a>
+          <a class="button" href="https://github.com/Jintian-JTST/PSXM_sim" target="_blank" rel="noopener">View PSXM repository</a>
+          <a class="button" href="/assets/projects/muon-g2/report-toy-monte-carlo.pdf" target="_blank" rel="noopener">Read Toy MC report</a>
+          <a class="button" href="/assets/projects/muon-g2/report-psxm.pdf" target="_blank" rel="noopener">Read PSXM report</a>
+        </div>
       </article>
 
       <article class="card">
-        <h2>Media (image/video)</h2>
-        <p class="meta">你可以把截图、录屏或演示视频放在这个区域。</p>
-
-        <h3>Option A: Upload local video file</h3>
-        <p>将视频放到 <strong>/assets/videos/</strong> 后，替换下面 src。</p>
-        <video controls preload="metadata" style="width:100%; border-radius: 14px; border: 1px solid var(--line); background: #05080c;">
-          <source src="/assets/videos/muon-g2-demo.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-
-        <h3 style="margin-top: 18px;">Option B: Embed from external platform</h3>
-        <p>如果你想嵌入 Bilibili / YouTube，把 iframe 粘贴到这里：</p>
-        <div class="video-placeholder">【待填写】iframe embed code</div>
-      </article>
-
-      <article class="card">
-        <h2>Notes / Next steps</h2>
-        <p>
-          Planned extensions: add systematic-effect studies (gain shifts, pileup, lost muons) on top of the statistical
-          toy, and compare fitting strategies (binned χ² vs. unbinned likelihood). Code and plots to be linked here.
+        <h2>Evidence</h2>
+        <div class="proof-grid">
+          <figure>
+            <img class="project-figure" src="/assets/projects/muon-g2/evidence-residual-comparison.png" alt="Comparison of residual structures in muon g-2 spectra">
+            <figcaption>Residual comparison used to identify structure not captured by the toy model.</figcaption>
+          </figure>
+          <figure>
+            <img class="project-figure" src="/assets/projects/muon-g2/evidence-psxm-field.png" alt="Solved PSXM magnetic field lines and coil currents">
+            <figcaption>A related design study of the inner PSXM coil system for spiral injection.</figcaption>
+          </figure>
+        </div>
+        <p class="meta" style="margin-top: 16px;">
+          The toy model is deliberately simplified. The reports distinguish simulated behaviour, adopted design
+          benchmarks, and limitations from claims about the full experiment.
         </p>
       </article>
 
@@ -100,7 +98,7 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> Jintian JTST</div>
+      <div>© <span data-year>2026</span> Jintian JTST</div>
       <div>Built as a static site for GitHub Pages.</div>
     </div>
   </footer>

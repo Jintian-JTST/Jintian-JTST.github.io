@@ -12,14 +12,13 @@
 <body>
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/">
-        <span class="logo"></span>
+      <a class="brand" href="/" aria-label="Jintian JTST home">
+        <span class="logo" aria-hidden="true"></span>
         <span>Jintian JTST</span>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Primary navigation">
         <a href="/">Home</a>
-        <a href="/projects/">Projects</a>
-        <a href="/blog/">Blog</a>
+        <a class="active" href="/projects/" aria-current="page">Projects</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
@@ -46,6 +45,19 @@
           <span class="badge">Arduino</span>
           <span class="badge">scikit-learn</span>
         </div>
+        <div class="project-links">
+          <a class="button primary" href="https://github.com/Jintian-JTST/SecondTouchReality" target="_blank" rel="noopener">View repository</a>
+        </div>
+        <div class="proof-grid" style="margin-top: 22px;">
+          <figure>
+            <img class="project-figure" src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" alt="OneTouchReality five-servo force-feedback glove prototype">
+            <figcaption>The three-person OneTouchReality force-feedback glove prototype.</figcaption>
+          </figure>
+          <figure>
+            <img class="project-figure" src="/assets/projects/second-touch-reality/evidence-hand-tracking.jpg" alt="MediaPipe hand tracking running on a laptop">
+            <figcaption>Real-time hand landmark and gesture tracking during the prototype build.</figcaption>
+          </figure>
+        </div>
       </article>
 
       <article class="card">
@@ -62,6 +74,7 @@
           physical feedback. Each module talks over simple protocols (UDP JSON, line-based TCP, single-byte serial), so
           any part can be swapped or tested in isolation.
         </p>
+        <img class="project-figure" src="/assets/projects/second-touch-reality/architecture.svg" alt="SecondTouchReality system architecture from camera input to Arduino haptic feedback">
       </article>
 
       <article class="card">
@@ -91,26 +104,20 @@
       </article>
 
       <article class="card">
-        <h2>Demo video</h2>
-        <p class="meta">可直接上传视频，或嵌入外部视频链接。</p>
-        <video controls preload="metadata" style="width:100%; border-radius: 14px; border: 1px solid var(--line); background: #05080c;">
-          <source src="/assets/videos/vr-prototype-demo.mp4" type="video/mp4">
+        <h2>Prototype demo</h2>
+        <p class="meta">OneTouchReality, the earlier team prototype that led to SecondTouchReality.</p>
+        <video class="project-video" controls preload="metadata" poster="/assets/projects/second-touch-reality/hero-haptic-glove.jpg">
+          <source src="/assets/projects/second-touch-reality/demo-one-touch-prototype.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
-        <div class="video-placeholder" style="margin-top: 14px;">【待填写】external video embed</div>
       </article>
 
       <article class="card">
-        <h2>Results and future work</h2>
+        <h2>Current scope</h2>
         <p>
-          The prototype runs as a single <code>python main.py</code> plus one Unity scene: the virtual hand follows in
-          real time, objects can be pinched, moved and released reliably, text queries spawn the right model with
-          confidence scores around 0.9 on the trained categories, and the servo responds to pinch with low latency.
-        </p>
-        <p>
-          Next steps: replace the linear text classifier with embedding-based semantic retrieval (and Chinese input
-          support), add more dynamic gestures beyond pinch (fist, point, wave), generate whole teaching scenes instead
-          of single objects, and extend the single-servo channel to a multi-servo force-feedback glove.
+          The repository contains the complete prototype path across Python, Unity, and Arduino. It remains an
+          experimental system: the current haptic bridge is a prototype channel, and the media above documents the
+          earlier team-built glove rather than a production-ready SecondTouchReality device.
         </p>
       </article>
 
@@ -122,7 +129,7 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> Jintian JTST</div>
+      <div>© <span data-year>2026</span> Jintian JTST</div>
       <div>Built as a static site for GitHub Pages.</div>
     </div>
   </footer>

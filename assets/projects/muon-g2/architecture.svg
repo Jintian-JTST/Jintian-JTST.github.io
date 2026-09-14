@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+  <title id="title">Muon g-2 analysis and PSXM design workflows</title>
+  <desc id="desc">Two verified research workflows: toy event generation through fitting and residual analysis, and PSXM coil geometry through weighted least squares and field diagnostics.</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#5cdbd5"/></marker><style>.box{fill:#111822;stroke:#5cdbd5;stroke-width:3}.t{fill:#e6edf3;font:600 27px system-ui,sans-serif;text-anchor:middle}.s{fill:#9aa7b5;font:20px system-ui,sans-serif;text-anchor:middle}.h{fill:#8bf1ee;font:700 32px system-ui,sans-serif}.l{stroke:#5cdbd5;stroke-width:4;marker-end:url(#a)}</style></defs>
+  <rect width="1440" height="760" rx="34" fill="#05080c"/>
+  <text class="h" x="70" y="75">Toy Monte Carlo</text>
+  <rect class="box" x="70" y="125" width="250" height="120" rx="22"/><text class="t" x="195" y="177">Generate events</text><text class="s" x="195" y="212">wiggle function</text>
+  <rect class="box" x="410" y="125" width="250" height="120" rx="22"/><text class="t" x="535" y="177">Histogram</text><text class="s" x="535" y="212">decay positrons</text>
+  <rect class="box" x="750" y="125" width="250" height="120" rx="22"/><text class="t" x="875" y="177">Five-parameter fit</text><text class="s" x="875" y="212">recover ωa</text>
+  <rect class="box" x="1090" y="125" width="280" height="120" rx="22"/><text class="t" x="1230" y="177">Residuals + FFT</text><text class="s" x="1230" y="212">model diagnostics</text>
+  <line class="l" x1="320" y1="185" x2="410" y2="185"/><line class="l" x1="660" y1="185" x2="750" y2="185"/><line class="l" x1="1000" y1="185" x2="1090" y2="185"/>
+  <text class="h" x="70" y="410">Inner PSXM design</text>
+  <rect class="box" x="70" y="460" width="250" height="120" rx="22"/><text class="t" x="195" y="512">Coil geometry</text><text class="s" x="195" y="547">field targets</text>
+  <rect class="box" x="410" y="460" width="250" height="120" rx="22"/><text class="t" x="535" y="512">Weighted LS</text><text class="s" x="535" y="547">solve currents</text>
+  <rect class="box" x="750" y="460" width="250" height="120" rx="22"/><text class="t" x="875" y="512">Field analysis</text><text class="s" x="875" y="547">dipole · gradient</text>
+  <rect class="box" x="1090" y="460" width="280" height="120" rx="22"/><text class="t" x="1230" y="512">Shield scan</text><text class="s" x="1230" y="547">residual diagnostics</text>
+  <line class="l" x1="320" y1="520" x2="410" y2="520"/><line class="l" x1="660" y1="520" x2="750" y2="520"/><line class="l" x1="1000" y1="520" x2="1090" y2="520"/>
+</svg>

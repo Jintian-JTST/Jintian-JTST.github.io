@@ -20,15 +20,14 @@
 
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/">
+      <a class="brand" href="/" aria-label="Jintian JTST home">
         <span class="logo" aria-hidden="true"></span>
         <span>Jintian JTST</span>
       </a>
 
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="/">Home</a>
+        <a class="active" href="/" aria-current="page">Home</a>
         <a href="/projects/">Projects</a>
-        <a href="/blog/">Blog</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
@@ -36,29 +35,6 @@
   </header>
 
   <main class="home-main">
-    <section class="home-intro" id="homeIntro" aria-label="Opening animation">
-      <div class="intro-nebula" aria-hidden="true"></div>
-
-      <div class="intro-energy-ring" aria-hidden="true">
-        <svg class="intro-ring-svg" viewBox="0 0 100 100" role="presentation" focusable="false">
-          <circle class="intro-ring-track" cx="50" cy="50" r="45" pathLength="100"></circle>
-          <circle class="intro-ring-primary" cx="50" cy="50" r="45" pathLength="100"></circle>
-        </svg>
-      </div>
-
-      <div class="intro-logo-anchor">
-        <div class="intro-logo-drift" id="introLogoDrift">
-          <div class="intro-logo-core">
-            <img class="intro-logo" src="/assets/images/none.png" alt="Jintian JTST logo">
-          </div>
-        </div>
-      </div>
-
-      <div class="scroll-cue" id="scrollCue" aria-hidden="true">
-        <span class="scroll-cue-arrow"></span>
-      </div>
-    </section>
-
     <div class="home-content">
       <section class="hero">
         <div class="container home-title-wrap">
@@ -75,69 +51,31 @@
 
           <div class="hero-actions">
             <a class="button primary" href="/projects/">View projects</a>
-            <a class="button" href="/blog/">Read the blog</a>
             <a class="button" href="/contact/">Contact</a>
           </div>
+
+          <a class="scroll-cue" href="#selectedWork">
+            <span>Selected work</span>
+            <span class="scroll-cue-arrow" aria-hidden="true"></span>
+          </a>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Featured areas</h2>
-              <p>These are the most useful blocks for a personal academic or technical website.</p>
-            </div>
-          </div>
-
-          <div class="grid-3">
-            <a class="card card-link" href="/projects/">
-              <h3>Projects</h3>
-              <p>Show the work you actually made: simulations, prototypes, analysis scripts, tools, hardware, or demos.</p>
-              <div class="badges">
-                <span class="badge">GitHub links</span>
-                <span class="badge">Results</span>
-                <span class="badge">Screenshots</span>
-              </div>
-            </a>
-
-            <a class="card card-link" href="/blog/">
-              <h3>Blog / Notes</h3>
-              <p>Use this for short posts, technical notes, experiment logs, reading summaries, or opinions you want to keep public.</p>
-              <div class="badges">
-                <span class="badge">Short posts</span>
-                <span class="badge">Technical notes</span>
-                <span class="badge">Updates</span>
-              </div>
-            </a>
-
-            <a class="card card-link" href="/about/">
-              <h3>About / CV</h3>
-              <p>Put your one-paragraph bio, current role, interests, skills, and a downloadable CV or contact links.</p>
-              <div class="badges">
-                <span class="badge">Bio</span>
-                <span class="badge">Skills</span>
-                <span class="badge">PDF CV</span>
-              </div>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
+      <section class="section" id="selectedWork">
         <div class="container">
           <div class="section-head">
             <div>
               <h2>Selected projects</h2>
-              <p>A personal site works best when the homepage points to a few concrete things, not just a generic introduction.</p>
+              <p>Hardware prototypes, physics simulations, and small software experiments selected for clear, inspectable evidence.</p>
             </div>
             <a class="small-link" href="/projects/">See all projects</a>
           </div>
 
           <div class="grid-2">
             <a class="card card-link" href="/projects/vr-hand-interaction-prototype/">
+              <img class="card-media" src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" alt="Five-servo force-feedback glove prototype">
               <h3>SecondTouchReality</h3>
-              <p>Webcam-based VR hand interaction: 3D hand tracking, pinch-grab in Unity, natural-language object generation, and Arduino haptic feedback in one pipeline.</p>
+              <p>A modular webcam-to-Unity interaction prototype, evolved from a three-person force-feedback glove built at AdventureX.</p>
               <div class="badges">
                 <span class="badge">XR</span>
                 <span class="badge">Python + Unity</span>
@@ -146,8 +84,9 @@
             </a>
 
             <a class="card card-link" href="/projects/generative-transformer/">
+              <img class="card-media" src="/assets/projects/transformer/architecture.svg" alt="Character-level transformer implementation architecture">
               <h3>Generative Transformer from scratch</h3>
-              <p>A GPT-style transformer written from scratch in PyTorch and trained on the Harry Potter novels — every layer built by hand.</p>
+              <p>A character-level GPT-style implementation used to study attention, decoder blocks, tokenization, and training code directly in PyTorch.</p>
               <div class="badges">
                 <span class="badge">PyTorch</span>
                 <span class="badge">Transformer</span>
@@ -155,23 +94,25 @@
               </div>
             </a>
 
-            <a class="card card-link" href="/projects/wechat-ai-clone/">
-              <h3>WeChat AI clone</h3>
-              <p>LoRA fine-tuning Qwen2-0.5B on my own chat history so the model replies in my actual texting style.</p>
-              <div class="badges">
-                <span class="badge">LLM</span>
-                <span class="badge">LoRA</span>
-                <span class="badge">Fine-tuning</span>
-              </div>
-            </a>
-
             <a class="card card-link" href="/projects/muon-g2-toy-monte-carlo/">
+              <img class="card-media" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 toy Monte Carlo wiggle fit">
               <h3>Muon g-2 toy Monte Carlo</h3>
               <p>Toy simulation and fitting pipeline for the muon g-2 "wiggle plot" — numerics, statistics, and scientific thinking.</p>
               <div class="badges">
                 <span class="badge">Python</span>
                 <span class="badge">Simulation</span>
                 <span class="badge">Analysis</span>
+              </div>
+            </a>
+
+            <a class="card card-link" href="/projects/small-tools-and-experiments/">
+              <img class="card-media" src="/assets/projects/manim/evidence-muon-positron-diagram.png" alt="Muon spin and decay positron diagram rendered with Manim">
+              <h3>Small tools and experiments</h3>
+              <p>Manim visualisations, MiniMind training experiments, and earlier interaction prototypes.</p>
+              <div class="badges">
+                <span class="badge">Manim</span>
+                <span class="badge">MiniMind</span>
+                <span class="badge">Experiments</span>
               </div>
             </a>
           </div>
@@ -182,7 +123,7 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> Jintian JTST</div>
+      <div>© <span data-year>2026</span> Jintian JTST</div>
       <div>Built as a static site for GitHub Pages.</div>
     </div>
   </footer>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Generative Transformer from scratch · Jintian JTST</title>
-  <meta name="description" content="A character-level GPT built from scratch in PyTorch and trained on the Harry Potter novels.">
+  <meta name="description" content="A character-level GPT-style transformer implementation in PyTorch.">
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -12,14 +12,13 @@
 <body>
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/">
-        <span class="logo"></span>
+      <a class="brand" href="/" aria-label="Jintian JTST home">
+        <span class="logo" aria-hidden="true"></span>
         <span>Jintian JTST</span>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Primary navigation">
         <a href="/">Home</a>
-        <a href="/projects/">Projects</a>
-        <a href="/blog/">Blog</a>
+        <a class="active" href="/projects/" aria-current="page">Projects</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
@@ -33,9 +32,8 @@
         <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Generative Transformer from scratch</h1>
         <p class="meta">Deep learning · PyTorch · Language modeling</p>
         <p>
-          A decoder-only transformer (GPT-style) implemented from scratch in PyTorch — no Hugging Face, no pre-built
-          attention layers — and trained as a character-level language model on the Harry Potter novels until it
-          generates passable wizard-flavored prose.
+          A decoder-only transformer (GPT-style) implemented directly in PyTorch — no Hugging Face model and no
+          pre-built attention layer — as a study of character-level language modelling.
         </p>
         <div class="badges">
           <span class="badge">PyTorch</span>
@@ -55,24 +53,16 @@
         <p>
           A character-level tokenizer over the book corpus, a batched data pipeline with train/validation split, the
           full model (~6 layers, 6 heads, 384-dim embeddings, dropout regularization), a training loop with periodic
-          loss estimation and checkpointing, and a sampling script for open-ended text generation. Training ran on an
-          Intel GPU via the PyTorch XPU backend.
+          loss estimation and checkpointing, and a sampling path for text generation. The code also includes an Intel
+          XPU execution path.
         </p>
       </article>
 
       <article class="card">
         <h2>Tech stack</h2>
         <p>Python · PyTorch (built directly on <code>nn.Module</code> primitives) · Jupyter notebooks for experiments · Intel XPU acceleration.</p>
-        <h3>Links</h3>
-        <p>【待填写】GitHub repo link and sample generated text.</p>
-      </article>
-
-      <article class="card">
-        <h2>Notes / Next steps</h2>
-        <p>
-          Planned: switch from character-level to a BPE tokenizer, scale up the context window, and compare training
-          dynamics against my MiniMind experiment runs to see how data quality and tokenization change the results.
-        </p>
+        <img class="project-figure" style="margin-top: 20px;" src="/assets/projects/transformer/architecture.svg" alt="Architecture of the character-level transformer implementation">
+        <p class="meta" style="margin-top: 14px;">This page documents the implementation. No checkpoint, training log, loss curve, or generated sample is presented as a completed result.</p>
       </article>
 
       <div>
@@ -83,7 +73,7 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> Jintian JTST</div>
+      <div>© <span data-year>2026</span> Jintian JTST</div>
       <div>Built as a static site for GitHub Pages.</div>
     </div>
   </footer>

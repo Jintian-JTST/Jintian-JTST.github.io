@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="680" viewBox="0 0 1440 680" role="img" aria-labelledby="title desc">
+  <title id="title">Character-level transformer implementation</title><desc id="desc">Text is tokenized into characters, embedded, passed through six decoder blocks and an output head, then sampled. The diagram documents code structure, not a verified training result.</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#5cdbd5"/></marker><style>.box{fill:#111822;stroke:#5cdbd5;stroke-width:3}.t{fill:#e6edf3;font:600 26px system-ui,sans-serif;text-anchor:middle}.s{fill:#9aa7b5;font:19px system-ui,sans-serif;text-anchor:middle}.l{stroke:#5cdbd5;stroke-width:4;marker-end:url(#a)}</style></defs>
+  <rect width="1440" height="680" rx="34" fill="#05080c"/><text x="70" y="78" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="38" font-weight="700">Character-level Transformer · implementation map</text>
+  <rect class="box" x="55" y="250" width="210" height="130" rx="22"/><text class="t" x="160" y="305">Text corpus</text><text class="s" x="160" y="342">characters</text>
+  <rect class="box" x="325" y="250" width="220" height="130" rx="22"/><text class="t" x="435" y="305">Tokenizer</text><text class="s" x="435" y="342">context length 8</text>
+  <rect class="box" x="605" y="250" width="230" height="130" rx="22"/><text class="t" x="720" y="305">Embeddings</text><text class="s" x="720" y="342">token + position</text>
+  <rect class="box" x="895" y="210" width="250" height="210" rx="22"/><text class="t" x="1020" y="270">6 decoder blocks</text><text class="s" x="1020" y="312">6-head attention</text><text class="s" x="1020" y="344">MLP · residuals</text><text class="s" x="1020" y="376">layer norm</text>
+  <rect class="box" x="1205" y="250" width="180" height="130" rx="22"/><text class="t" x="1295" y="305">LM head</text><text class="s" x="1295" y="342">sampling</text>
+  <line class="l" x1="265" y1="315" x2="325" y2="315"/><line class="l" x1="545" y1="315" x2="605" y2="315"/><line class="l" x1="835" y1="315" x2="895" y2="315"/><line class="l" x1="1145" y1="315" x2="1205" y2="315"/>
+  <text x="720" y="560" fill="#9aa7b5" font-family="system-ui,sans-serif" font-size="24" text-anchor="middle">Verified locally: source code and notebooks · Not yet verified: checkpoint, training log, loss curve, or sample output</text>
+</svg>

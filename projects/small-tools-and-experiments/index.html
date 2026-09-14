@@ -12,14 +12,13 @@
 <body>
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/">
-        <span class="logo"></span>
+      <a class="brand" href="/" aria-label="Jintian JTST home">
+        <span class="logo" aria-hidden="true"></span>
         <span>Jintian JTST</span>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Primary navigation">
         <a href="/">Home</a>
-        <a href="/projects/">Projects</a>
-        <a href="/blog/">Blog</a>
+        <a class="active" href="/projects/" aria-current="page">Projects</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
@@ -32,7 +31,7 @@
         <div class="kicker">Project collection</div>
         <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Small tools and experiments</h1>
         <p class="meta">Scripts · Utilities · Personal tooling</p>
-        <p>这里可以放多个小项目，每个都写 3-5 行说明，作为长期更新页面。</p>
+        <p>A compact collection of working experiments that do not need a full project page.</p>
       </article>
 
       <article class="card">
@@ -47,10 +46,10 @@
       <article class="card">
         <h2>MiniMind training experiments</h2>
         <p>
-          Hands-on runs of the open-source MiniMind project: training a ~26M-parameter Chinese language model from
-          scratch on consumer hardware, walking through the full stack of pretraining, supervised fine-tuning, LoRA,
-          and DPO. A practical companion to my from-scratch Generative Transformer project.
+          Hands-on work in the open-source MiniMind codebase, including DirectML-related changes, pretraining and
+          supervised fine-tuning experiments, resume behaviour, and locally saved checkpoints.
         </p>
+        <a class="small-link" href="https://github.com/Jintian-JTST/minimind" target="_blank" rel="noopener">View MiniMind fork</a>
       </article>
 
       <article class="card">
@@ -63,12 +62,12 @@
       </article>
 
       <article class="card">
-        <h2>Optional demo media</h2>
-        <p>如果某个小工具有可视化界面，也可以放演示视频：</p>
-        <video controls preload="metadata" style="width:100%; border-radius: 14px; border: 1px solid var(--line); background: #05080c;">
-          <source src="/assets/videos/tools-demo.mp4" type="video/mp4">
+        <h2>Rendered Manim demo</h2>
+        <video class="project-video" controls preload="metadata">
+          <source src="/assets/projects/manim/demo-single-planet.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
+        <div style="margin-top: 14px;"><a class="small-link" href="https://github.com/Jintian-JTST/Manim" target="_blank" rel="noopener">View Manim repository</a></div>
       </article>
 
       <div>
@@ -79,7 +78,7 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>© <span data-year></span> Jintian JTST</div>
+      <div>© <span data-year>2026</span> Jintian JTST</div>
       <div>Built as a static site for GitHub Pages.</div>
     </div>
   </footer>

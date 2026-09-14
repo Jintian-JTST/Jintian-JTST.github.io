@@ -1,28 +1,13 @@
-# Jintian JTST personal site template
+# Jintian JTST
 
-A simple static website for GitHub Pages. No Jekyll, Ruby, or build tools required.
+Personal website for Jintian Wang, built as a plain static site and published with GitHub Pages.
 
-## Pages
-- Home
-- Projects
-- Blog
-- About
-- Contact
+## Structure
 
-## How to use
-1. Copy these files into your GitHub Pages repository.
-2. Replace the placeholder text with your own content.
-3. Commit and push to GitHub.
+- `index.html` — home
+- `projects/` — selected projects and experiments
+- `about/` — biography, education, and activities
+- `contact/` — public contact links
+- `assets/projects/` — curated Proof of Work media and reports
 
-## Add a new blog post
-Copy one of the folders under `blog/` and change the title and content inside `index.html`.
-
-## Suggested content to keep on a personal site
-- A short home-page introduction
-- Projects with links and short explanations
-- Blog posts or notes
-- CV or timeline
-- Contact links
-- Talks, posters, or presentations
-- Reading log
-- A simple "Now" page
+Project assets are selected for publication rather than copied wholesale. See `assets/projects/README.md` for evidence and privacy status.
