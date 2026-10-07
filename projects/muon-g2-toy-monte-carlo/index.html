@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Muon g-2 toy Monte Carlo · Jintian JTST</title>
-  <meta name="description" content="Project detail page for Muon g-2 toy Monte Carlo.">
+  <title>Muon g-2 &amp; PSXM modelling · Jintian Wang / JTST</title>
+  <meta name="description" content="Muon g-2 toy time-spectrum fitting and PSXM six-coil magnet modelling: scientific Python, residual analysis, numerical models and technical reports.">
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -29,12 +29,13 @@
     <div class="container article-list">
       <article class="card">
         <div class="kicker">Project</div>
-        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Muon g-2 toy Monte Carlo</h1>
-        <p class="meta">Physics simulation · Python · Statistical fitting</p>
+        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Muon g-2 &amp; PSXM modelling</h1>
+        <p class="meta">Research · April and July–September 2026 · Scientific Python</p>
         <p>
           A toy Monte Carlo study of the muon g-2 measurement: generating synthetic decay-positron time spectra with
           the characteristic exponential decay modulated by the anomalous precession ("wiggle plot"), then fitting the
-          precession frequency back out and studying how statistics and systematic effects move the result.
+          precession frequency back out and examining residual structure. A related summer study investigated a
+          six-coil PSXM magnet model for spiral injection.
         </p>
         <div class="badges">
           <span class="badge">Python</span>
@@ -50,15 +51,27 @@
           The muon's anomalous magnetic moment is one of the most precisely measured quantities in physics, and the
           experimental method — extracting the anomalous precession frequency ω<sub>a</sub> from the time distribution
           of decay positrons — is a beautiful exercise in statistics. This project rebuilds that pipeline at toy scale:
-          generate pseudo-data, check the distributions behave as expected, and verify that the fit recovers the input
-          parameters without bias.
+          generate pseudo-data, fit the time spectrum and compare the estimated frequency with the known input.
+          One saved fit differs from that input by 0.64 reported standard errors; this is a single-fit comparison.
         </p>
-        <h3>What I built</h3>
+        <h3>Analysis and implementation</h3>
         <p>
-          A toy event generator for the five-parameter wiggle function N(t) = N₀ e<sup>−t/τ</sup>[1 + A cos(ω<sub>a</sub>t + φ)],
-          histogramming and visualization of the generated spectra, and a fitting stage that recovers the parameters
-          and examines pulls and uncertainties as a function of sample size.
+          The toy pipeline uses N(t) = N₀ e<sup>−t/τ</sup>[1 + A cos(ω<sub>a</sub>t + φ)] for the five-parameter
+          time-spectrum fit. I worked on its Python generation and analysis code, debugging, fitting and
+          visualisation, with AI-assisted implementation in the first version. Saved outputs contain 10.99 million
+          selected positron counts. I compared toy and ROOT-data residuals using FFT analysis and documented
+          assumptions and mismatches in a 12-page technical report.
         </p>
+      </article>
+
+      <article class="card" id="psxm">
+        <h2>PSXM Magnet Design</h2>
+        <p class="meta">Shanghai Jiao Tong University · Summer research, July–September 2026</p>
+        <p>I formulated a six-coil magnet model in Python/NumPy and used least-squares current solves to investigate
+          dipole and quadrupole field patterns. I compared numerical results with an analytic ideal-shell reference
+          and examined the trade-off between shielding radius and field capability within the 2D approximation.</p>
+        <p>I co-authored a 19-page design report with Zejia Lu under Professor Liang Li and presented the study to
+          SJTU–KEK collaborators. The results describe a numerical magnetostatic model, not measured hardware performance.</p>
       </article>
 
       <article class="card">

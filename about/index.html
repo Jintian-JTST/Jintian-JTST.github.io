@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About · Jintian JTST</title>
-  <meta name="description" content="About Jintian Wang — MPhys physics student at the University of Oxford working across physics, computation, and interactive systems.">
+  <title>About · Jintian Wang / JTST</title>
+  <meta name="description" content="Jintian Wang: MPhys Physics at Oxford, Exeter College. Research in scientific computing, muon g-2 analysis and magnet modelling, alongside interactive systems and software projects.">
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -12,120 +12,79 @@
 <body>
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/" aria-label="Jintian JTST home">
-        <span class="logo" aria-hidden="true"></span>
-        <span>Jintian JTST</span>
-      </a>
+      <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="/">Home</a>
-        <a href="/projects/">Projects</a>
-        <a class="active" href="/about/" aria-current="page">About</a>
-        <a href="/contact/">Contact</a>
+        <a href="/">Home</a><a href="/projects/">Projects</a><a class="active" href="/about/" aria-current="page">About</a><a href="/contact/">Contact</a>
       </nav>
     </div>
   </header>
-
-  <main class="section">
+  <main class="section academic-about">
     <div class="container">
-      <div class="grid-2">
-        <article class="card">
-          <div class="kicker">About</div>
-          <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Jintian Wang</h1>
-          <p>
-            I'm an MPhys physics student at the University of Oxford (Exeter College), originally from Shanghai.
-            I like building things end to end: from solving the differential equations, to writing the code,
-            to soldering the hardware that makes it move.
-          </p>
-          <p>
-            My work sits at the intersection of physics, computation, and interaction: particle-physics simulations,
-            experimental modelling, VR hand-tracking systems, and hardware prototypes. This site collects the work
-            that I can document with code, results, or physical evidence.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Skills</h3>
-          <div class="badges">
-            <span class="badge">Python</span>
-            <span class="badge">C++</span>
-            <span class="badge">Java</span>
-            <span class="badge">Unity / C#</span>
-            <span class="badge">Arduino</span>
-            <span class="badge">Blender</span>
-            <span class="badge">LaTeX</span>
-            <span class="badge">Premiere</span>
-          </div>
-          <div style="margin-top: 18px;">
-            <a class="button primary" href="/assets/cv/Jintian-Wang-CV.pdf" target="_blank" rel="noopener">Download CV (PDF)</a>
-          </div>
-        </article>
-      </div>
-
-      <section class="section" style="padding-top: 28px;">
-        <div class="section-head">
-          <div>
-            <h2>Education</h2>
-          </div>
-        </div>
+      <section class="academic-intro" aria-labelledby="aboutHeading">
+        <div class="kicker">Oxford Physics · Exeter College</div>
+        <h1 id="aboutHeading">Jintian Wang <span class="about-alias">/ JTST</span></h1>
+        <p class="academic-lead">I'm an MPhys Physics student at the University of Oxford, Exeter College. I work across computational physics, simulation and interactive systems, with an interest in how numerical models relate to experiments and physical devices.</p>
+        <p class="meta">Enrolled October 2025 · Expected completion June 2029<br>First-year result: Distinction (2025/26)</p>
+      </section>
+      <section class="section compact-section" aria-labelledby="interestsHeading">
+        <h2 id="interestsHeading">Academic Interests</h2>
+        <p>My current interests include computational physics, particle and high-energy physics, numerical modelling and simulation. I am particularly interested in parameter estimation, uncertainty and the comparison of simplified models with experimental data.</p>
+        <p>Alongside physics, I explore sensing and interaction through Unity, computer vision and hardware prototypes.</p>
+      </section>
+      <section class="section compact-section" aria-labelledby="experienceHeading">
+        <h2 id="experienceHeading">Selected Research &amp; Experience</h2>
         <div class="grid-2">
           <article class="card">
-            <h3>MPhys in Physics — University of Oxford</h3>
-            <div class="meta">Exeter College · 2025 – 2029</div>
-            <p>Studying theoretical and experimental physics on the four-year MPhys course.</p>
+            <div class="meta">Shanghai Jiao Tong University · July–September 2026</div>
+            <h3>PSXM Magnet Design</h3>
+            <p>As a summer research student, I modelled a six-coil magnet using Python/NumPy and least-squares current solves. I examined dipole and quadrupole fields, compared numerical results with an ideal-shell reference and studied shield-radius trade-offs within a 2D approximation.</p>
+            <p>I co-authored a 19-page technical report with Zejia Lu under Professor Liang Li and presented the study to SJTU–KEK collaborators.</p>
+            <a class="small-link" href="/projects/muon-g2-toy-monte-carlo/#psxm">Research and report →</a>
           </article>
           <article class="card">
-            <h3>Guanghua Cambridge International School</h3>
-            <div class="meta">Shanghai · 2022 – 2025</div>
-            <p>A-Levels in Mathematics, Further Mathematics, Physics, and Computer Science — all at A*.</p>
+            <div class="meta">Research project · April 2026</div>
+            <h3>Muon g-2 Toy Monte Carlo</h3>
+            <p>I analysed simulated decay-positron time spectra using a five-parameter fit, compared a saved fit with the known input frequency and examined toy and ROOT-data residuals with Fourier analysis.</p>
+            <p>The work combines scientific Python, model fitting and uncertainty analysis, documented in a 12-page technical report.</p>
+            <a class="small-link" href="/projects/muon-g2-toy-monte-carlo/">Analysis, code and results →</a>
+          </article>
+          <article class="card">
+            <div class="meta">AdventureX 2026 · Front-end contributor</div>
+            <h3>OneTapReality</h3>
+            <p>I contribute front-end interfaces to a four-person travel-album app built with React Native, Expo and TypeScript. My work includes canvas editing, draft recovery, saved photo and rotation state, and account-transition safeguards.</p>
+            <p>The team has a working app and TestFlight beta; backend development is led by a teammate.</p>
+            <a class="small-link" href="/projects/one-tap-reality/">Project and contribution evidence →</a>
+          </article>
+          <article class="card">
+            <div class="meta">Oxford China Forum · July 2026–present</div>
+            <h3>President, 14th Oxford China Forum</h3>
+            <p>I coordinate the forum's volunteer work across external relations, publicity, content and operations. In September 2026, I helped deliver its Chongqing AI salon with Zhejiang University, coordinating the programme, guest liaison and on-site logistics.</p>
           </article>
         </div>
       </section>
-
-      <section class="section" style="padding-top: 28px;">
-        <div class="section-head">
-          <div>
-            <h2>Experience & activities</h2>
-          </div>
-        </div>
-        <div class="grid-3">
-          <article class="card">
-            <h3>AdventureX Hackathon</h3>
-            <div class="meta">Hangzhou · July 2025</div>
-            <p>
-              Built <strong>OneTouchReality</strong> with two teammates: an interactive bionic robotic arm combining
-              Python computer vision, Unity VR control, and Arduino hardware. I designed and implemented the
-              virtual-to-physical synchronization — the system that later evolved into
-              <a class="small-link" href="/projects/vr-hand-interaction-prototype/">SecondTouchReality</a>.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Physics Club — Vice President</h3>
-            <div class="meta">Guanghua Cambridge · 2024 – 2025</div>
-            <p>
-              Led weekly club sessions exploring physics beyond the syllabus, with a focus on where frontier
-              technology meets fundamental principles.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Independent research (IPQ)</h3>
-            <div class="meta">Shanghai · 2023 – 2024</div>
-            <p>
-              Studied the period of a physical pendulum oscillating in water: surveyed the literature, built two
-              independent models by solving the governing differential equations, then designed experiments to
-              test the models against each other.
-            </p>
-          </article>
+      <section class="section compact-section" aria-labelledby="methodsHeading">
+        <h2 id="methodsHeading">Methods &amp; Tools</h2>
+        <p>My scientific work uses Python, NumPy, SciPy, pandas and Matplotlib for numerical models, least squares, fitting and residual analysis; I use uproot to read ROOT-file data, and Git and LaTeX for research work.</p>
+        <p>Project-specific tools include MediaPipe and Unity/C# for hand interaction, and React Native, Expo and TypeScript for OneTapReality's front end.</p>
+      </section>
+      <section class="section compact-section earlier-experience" aria-labelledby="earlierHeading">
+        <h2 id="earlierHeading">Earlier Experience</h2>
+        <p><strong>Liquid-damped compound pendulum, IPQ (2023–2024):</strong> I compared linear and quadratic drag models with video-timed oscillation experiments, using a 3D-printed container and Python analysis. <a class="small-link" href="https://github.com/Jintian-JTST/International-Project-Qualification" target="_blank" rel="noopener">Code and project material →</a></p>
+        <p><strong>OneTouch / SecondTouchReality (July–November 2025):</strong> I worked on Python hand tracking and Unity reconstruction and interaction; teammates built the Arduino and mechanical hardware. <a class="small-link" href="/projects/vr-hand-interaction-prototype/">Prototype →</a></p>
+        <p><strong>Guanghua Cambridge International School, Shanghai (2022–2025):</strong> A Levels: four A*s, with Computer Science A; IPQ: A*. I also served as Physics Club vice president in 2024–2025.</p>
+      </section>
+      <section class="section compact-section" aria-labelledby="aboutContactHeading">
+        <h2 id="aboutContactHeading">Contact / CV</h2>
+        <div class="project-links">
+          <a class="button primary" href="mailto:jintian.wang@exeter.ox.ac.uk">Oxford Email</a>
+          <a class="button" href="https://github.com/Jintian-JTST" target="_blank" rel="noopener">GitHub</a>
+          <a class="button" href="https://www.linkedin.com/in/jintian-wang-0802a8389/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="button" href="/assets/cv/Jintian-Wang-CV.pdf" target="_blank" rel="noopener">Public CV (PDF)</a>
         </div>
       </section>
     </div>
   </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span data-year>2026</span> Jintian JTST</div>
-      <div><a class="small-link" href="/contact/">Contact</a></div>
-    </div>
-  </footer>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><div><a class="small-link" href="/contact/">Contact</a></div></div></footer>
   <script src="/assets/js/main.js"></script>
 </body>
 </html>

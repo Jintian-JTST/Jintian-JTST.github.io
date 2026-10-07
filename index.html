@@ -3,15 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jintian JTST</title>
-  <meta name="description" content="Personal website of Jintian JTST: physics, projects, writing, and notes.">
+  <title>Jintian Wang / JTST · Oxford Physics</title>
+  <meta name="description" content="Jintian Wang, an Oxford Physics student at Exeter College, working across computational physics, simulation, interactive systems and hardware.">
 
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 
@@ -57,20 +54,14 @@
     <div class="home-content">
       <section class="hero">
         <div class="container home-title-wrap">
-          <div class="kicker">Physics · Builder · Creator</div>
-
-          <h1 class="home-title">JTST</h1>
-
-          <p class="home-intro-text">
-            Building elegant systems across physics, computation, and interface design.
-            I focus on clarity, precision, and ideas that become real.
-          </p>
-
-          <p class="home-font-note"></p>
+          <div class="kicker">Exeter College · University of Oxford</div>
+          <h1 class="home-identity"><span>Jintian Wang</span><span class="identity-divider"> / </span><span class="home-wordmark">JTST</span></h1>
+          <p class="home-affiliation">Physics student at the University of Oxford</p>
+          <p class="home-intro-text">working across computational physics, simulation, interactive systems and hardware.</p>
 
           <div class="hero-actions">
-            <a class="button primary" href="/projects/">View projects</a>
-            <a class="button" href="/contact/">Contact</a>
+            <a class="button primary" href="#selectedWork">Explore selected work</a>
+            <a class="button" href="/assets/cv/Jintian-Wang-CV.pdf" target="_blank" rel="noopener">Public CV (PDF)</a>
           </div>
 
           <a class="scroll-cue" href="#selectedWork">
@@ -84,56 +75,62 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <h2>Selected projects</h2>
-              <p>Hardware prototypes, physics simulations, and small software experiments selected for clear, inspectable evidence.</p>
+              <h2>Selected Work</h2>
+              <p>Research, interaction and software, with code and results.</p>
             </div>
             <a class="small-link" href="/projects/">See all projects</a>
           </div>
 
-          <div class="grid-2">
+          <div class="grid-3 selected-work-grid">
+            <a class="card card-link" href="/projects/muon-g2-toy-monte-carlo/">
+              <img class="card-media" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 time-spectrum data and fitted model">
+              <div class="kicker">Physics Research</div>
+              <h3>Muon g-2 &amp; PSXM</h3>
+              <p>Time-spectrum fitting and a six-coil magnet modelling study. Python analysis, result plots and technical reports.</p>
+              <div class="badges"><span class="badge">Scientific computing</span><span class="badge">Modelling</span></div>
+            </a>
+
             <a class="card card-link" href="/projects/vr-hand-interaction-prototype/">
               <img class="card-media" src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" alt="Five-servo force-feedback glove prototype">
+              <div class="kicker">Interactive Systems</div>
               <h3>SecondTouchReality</h3>
-              <p>A modular webcam-to-Unity interaction prototype, evolved from a three-person force-feedback glove built at AdventureX.</p>
-              <div class="badges">
-                <span class="badge">XR</span>
-                <span class="badge">Python + Unity</span>
-                <span class="badge">Hardware</span>
-              </div>
+              <p>A team-built gesture and hardware prototype. I developed Python hand tracking and Unity interaction.</p>
+              <div class="badges"><span class="badge">MediaPipe</span><span class="badge">Python + Unity</span></div>
             </a>
 
-            <a class="card card-link" href="/projects/generative-transformer/">
-              <img class="card-media" src="/assets/projects/transformer/architecture.svg" alt="Character-level transformer implementation architecture">
-              <h3>Generative Transformer from scratch</h3>
-              <p>A character-level GPT-style implementation used to study attention, decoder blocks, tokenization, and training code directly in PyTorch.</p>
-              <div class="badges">
-                <span class="badge">PyTorch</span>
-                <span class="badge">Transformer</span>
-                <span class="badge">From scratch</span>
-              </div>
+            <a class="card card-link" href="/projects/one-tap-reality/">
+              <img class="card-media logo-media" src="/assets/projects/one-tap-reality/hero-logo.png" alt="OneTapReality team project logo">
+              <div class="kicker">Software Project</div>
+              <h3>OneTapReality</h3>
+              <p>A four-person AdventureX travel-album app. My front-end work covers the editor, draft recovery and saved layouts.</p>
+              <div class="badges"><span class="badge">React Native / Expo</span><span class="badge">TypeScript</span></div>
             </a>
-
-            <a class="card card-link" href="/projects/muon-g2-toy-monte-carlo/">
-              <img class="card-media" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 toy Monte Carlo wiggle fit">
-              <h3>Muon g-2 toy Monte Carlo</h3>
-              <p>Toy simulation and fitting pipeline for the muon g-2 "wiggle plot" — numerics, statistics, and scientific thinking.</p>
-              <div class="badges">
-                <span class="badge">Python</span>
-                <span class="badge">Simulation</span>
-                <span class="badge">Analysis</span>
-              </div>
-            </a>
-
-            <a class="card card-link" href="/projects/small-tools-and-experiments/">
-              <img class="card-media" src="/assets/projects/manim/evidence-muon-positron-diagram.png" alt="Muon spin and decay positron diagram rendered with Manim">
-              <h3>Small tools and experiments</h3>
-              <p>Manim visualisations, MiniMind training experiments, and earlier interaction prototypes.</p>
-              <div class="badges">
-                <span class="badge">Manim</span>
-                <span class="badge">MiniMind</span>
-                <span class="badge">Experiments</span>
-              </div>
-            </a>
+          </div>
+        </div>
+      </section>
+      <section class="section home-details">
+        <div class="container grid-2">
+          <div>
+            <h2>Current Interests</h2>
+            <p>Computational physics and particle / high-energy physics, especially numerical models, simulation and the analysis of experimental data.</p>
+            <p>Interactive systems and hardware: how sensing, software and physical devices can work together.</p>
+          </div>
+          <div>
+            <h2>Short About</h2>
+            <p>I'm an MPhys Physics student at Exeter College, Oxford. My recent work includes a summer magnet-design study at Shanghai Jiao Tong University and front-end contributions to OneTapReality. I also chair Oxford China Forum.</p>
+            <a class="small-link" href="/about/">More about my background →</a>
+          </div>
+        </div>
+      </section>
+      <section class="section home-contact" aria-labelledby="homeContactHeading">
+        <div class="container">
+          <h2 id="homeContactHeading">Contact / CV</h2>
+          <p>For research, projects or collaboration, email is the best way to reach me.</p>
+          <div class="project-links">
+            <a class="button primary" href="mailto:jintian.wang@exeter.ox.ac.uk">Oxford Email</a>
+            <a class="button" href="https://github.com/Jintian-JTST" target="_blank" rel="noopener">GitHub</a>
+            <a class="button" href="https://www.linkedin.com/in/jintian-wang-0802a8389/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="button" href="/assets/cv/Jintian-Wang-CV.pdf" target="_blank" rel="noopener">Public CV (PDF)</a>
           </div>
         </div>
       </section>

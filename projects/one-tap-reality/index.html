@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OneTapReality · Jintian Wang / JTST</title>
+  <meta name="description" content="My front-end contributions to OneTapReality, a four-person AdventureX 2026 travel-album app: canvas editing, draft recovery, persistence and account-transition safeguards.">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="apple-touch-icon" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="/">Home</a><a class="active" href="/projects/" aria-current="page">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container article-list">
+      <article class="card">
+        <div class="kicker">AdventureX 2026 · Team project</div>
+        <h1 class="project-heading">OneTapReality</h1>
+        <p class="meta">Travel-album app · React Native / Expo · TypeScript · Front-end contributor</p>
+        <p>OneTapReality is a four-person project for creating, editing and sharing travel albums, with an NFC gift-card workflow. The team developed a working app and a TestFlight beta.</p>
+        <p>My contribution focuses on front-end interfaces and editor behaviour: layouts, interactions, saved state and recovery. Backend development is led by a teammate.</p>
+        <img class="project-figure project-logo" src="/assets/projects/one-tap-reality/hero-logo.png" alt="OneTapReality team project logo">
+        <div class="project-links"><a class="button primary" href="https://github.com/CarterWells111/OneTapReality" target="_blank" rel="noopener">Team repository</a></div>
+      </article>
+      <article class="card">
+        <h2>My Front-End Contributions</h2>
+        <p><strong>Album editing:</strong> refined the canvas editor's interactions, including font controls and photo handling, so layouts could be edited, saved and reopened.</p>
+        <p><strong>Draft recovery:</strong> added explicit recovery and discard choices for unsaved album edits, including recovery of title and travel-date metadata.</p>
+        <p><strong>Persistence:</strong> fixed saved rotation state and photo/font persistence across editor and reader views.</p>
+        <p><strong>Account transitions:</strong> guarded asynchronous editor updates against changes of account or editing session, and added regression checks for draft recovery, geometry and account changes.</p>
+      </article>
+      <article class="card">
+        <h2>Code Evidence</h2>
+        <p>These changes can be inspected in the team's public history.</p>
+        <div class="evidence-links">
+          <a class="small-link" href="https://github.com/CarterWells111/OneTapReality/commit/0aa59c83a8bf2c8a51b19ceab8f723670dec0e66" target="_blank" rel="noopener">Canvas interactions and photo/font persistence →</a>
+          <a class="small-link" href="https://github.com/CarterWells111/OneTapReality/commit/7b9be0c220ce64ba86c4011d40db40d24f408b53" target="_blank" rel="noopener">Rotation persistence and regression tests →</a>
+          <a class="small-link" href="https://github.com/CarterWells111/OneTapReality/commit/d1e6e2cb6e64dfe4026e1cb79e2034a1d87c45ce" target="_blank" rel="noopener">Beta-feedback fixes, draft recovery and account safeguards →</a>
+        </div>
+        <p class="meta">Development used AI-assisted tools. The project is a team effort; these links document specific changes and regression checks.</p>
+      </article>
+      <article class="card">
+        <h2>Team System Overview</h2>
+        <figure class="architecture-figure">
+          <img class="project-figure" src="/assets/projects/one-tap-reality/architecture.svg" alt="Team architecture: local travel-album editor, on-device export, shared publishing and NFC gifts">
+          <figcaption>The team's system overview. My work is concentrated in the front-end editor and its local saved state.</figcaption>
+        </figure>
+      </article>
+      <a class="small-link" href="/projects/">← Back to projects</a>
+    </div>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><div><a class="small-link" href="/contact/">Contact</a></div></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

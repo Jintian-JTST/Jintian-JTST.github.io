@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SecondTouchReality — VR hand interaction system · Jintian JTST</title>
-  <meta name="description" content="Camera-based VR hand interaction: MediaPipe hand tracking, Unity pinch-grab interaction, natural-language object generation, and Arduino haptic feedback.">
+  <meta name="description" content="OneTouch / SecondTouchReality team prototype: my Python/MediaPipe hand tracking and Unity interaction work, connected to hardware built by teammates.">
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -36,8 +36,10 @@
           Unity reconstructs a virtual hand you can pinch and grab with, a lightweight text model spawns 3D objects
           from English descriptions ("a small red apple"), and an Arduino servo closes the loop with physical feedback
           when you pinch. The full chain is <strong>Perception → Semantics → Interaction → Hardware</strong>, evolved
-          from my earlier OneTouchReality gesture-controlled robotic arm project.
+          from the earlier team-built OneTouchReality prototype.
         </p>
+        <p>My contribution is the Python and Unity software: tracking, hand reconstruction, bone updates and
+          object interaction. Teammates handled the Arduino, servos and mechanical integration.</p>
         <div class="badges">
           <span class="badge">Python</span>
           <span class="badge">Unity / C#</span>
@@ -92,14 +94,14 @@
           control when nothing is held.
         </p>
         <p>
-          <strong>Language → objects:</strong> a HashingVectorizer + SGDClassifier model (trained on my own collected
-          dataset of description/label pairs) runs behind a TCP server. Typing "a green apple" in the Unity dialog
+          <strong>Language → objects:</strong> a character n-gram HashingVectorizer + SGDClassifier maps description
+          inputs to object labels behind a TCP server. Typing "a green apple" in the Unity dialog
           returns a label that <code>ModelLibrary</code> / <code>RuntimeModelLoader</code> map to a prefab or a GLB
           model loaded at runtime via GLTFast.
         </p>
         <p>
-          <strong>Hardware:</strong> pinch-state transitions are forwarded over serial to an Arduino driving a servo —
-          a minimal but complete haptic channel, designed to scale toward a multi-servo force-feedback glove.
+          <strong>Hardware integration:</strong> the team prototype forwards pinch-state transitions over serial to
+          an Arduino driving a servo. The Arduino and mechanical hardware were built by teammates.
         </p>
       </article>
 

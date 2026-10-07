@@ -882,8 +882,8 @@ h1 {
 }
 
 .home-page .hero {
-  min-height: calc(100svh - 72px);
-  padding: clamp(72px, 11vh, 128px) 0 44px;
+  min-height: 0;
+  padding: 32px 0 16px;
 }
 
 .home-title-wrap {
@@ -970,7 +970,7 @@ h1 {
   }
 
   .home-page .hero {
-    padding: 64px 0 42px;
+    padding: 40px 0 24px;
   }
 
   .home-title-wrap {
@@ -1023,8 +1023,8 @@ h1 {
   }
 
   .home-page .hero {
-    min-height: calc(100svh - 108px);
-    padding: 48px 0 36px;
+    min-height: 0;
+    padding: 36px 0 24px;
   }
 
   .home-title {
@@ -1128,4 +1128,70 @@ body.intro-running {
 .home-intro.intro-playing .intro-logo-core,
 .home-intro.intro-playing .intro-logo {
   animation-play-state: running;
+}
+
+/* Academic identity and compact homepage. The opening animation is independent. */
+.home-identity {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 14px;
+  margin: 8px 0 4px;
+  font-size: clamp(2.35rem, 4.2vw, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+}
+
+.home-wordmark,
+.about-alias {
+  font-family: "Orbix", var(--brand-font);
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  color: var(--accent-2);
+}
+
+.home-wordmark { font-size: 0.72em; }
+.identity-divider { color: var(--muted); font-size: 0.68em; font-weight: 400; }
+.home-affiliation { font-size: clamp(1.08rem, 2vw, 1.3rem); margin: 6px 0 0; }
+.home-title-wrap { gap: 6px; }
+.home-title-wrap .home-intro-text { max-width: none; margin-bottom: 0; color: var(--muted); }
+.home-title-wrap .hero-actions { margin-top: 8px; }
+.home-title-wrap .scroll-cue { margin-top: 8px; font-size: 0.85rem; }
+#selectedWork { scroll-margin-top: 110px; padding: 20px 0 40px; }
+#selectedWork .section-head h2 { margin-bottom: 6px; }
+#selectedWork .section-head p { margin-bottom: 0; }
+.selected-work-grid .card { padding: 18px; }
+.selected-work-grid .card-media { height: 130px; aspect-ratio: auto; margin-bottom: 16px; }
+.selected-work-grid h3 { margin: 8px 0; font-size: 1.2rem; }
+.selected-work-grid p { font-size: 0.95rem; }
+.logo-media { object-fit: contain; background: #f1e3cf; }
+.home-details,
+.home-contact { padding: 38px 0; border-top: 1px solid var(--line); }
+.home-details .grid-2 { gap: 48px; }
+.academic-intro { max-width: 850px; }
+.academic-intro h1,
+.project-heading { font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.15; margin: 12px 0 18px; }
+.about-alias { font-size: 0.55em; white-space: nowrap; }
+.academic-lead { font-size: 1.12rem; }
+.compact-section { padding: 32px 0 0; }
+.earlier-experience { color: var(--muted); }
+.earlier-experience h2 { color: var(--text); }
+.project-logo { max-width: 520px; margin: 24px auto; }
+.evidence-links { display: grid; gap: 14px; margin: 22px 0; }
+.architecture-figure { margin: 0; }
+.architecture-figure figcaption { margin-top: 12px; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 900px) {
+  .home-details .grid-2 { gap: 24px; }
+}
+
+@media (max-width: 700px) {
+  .home-identity { gap: 6px 10px; letter-spacing: -0.04em; }
+  .home-identity > span:first-child { flex-basis: 100%; }
+  .home-title-wrap .home-intro-text { max-width: 36ch; }
+  .home-title-wrap { width: min(calc(100% - 24px), 900px); }
+  .home-contact .project-links,
+  .academic-about .project-links { gap: 8px; }
+  .academic-lead { font-size: 1rem; }
 }
