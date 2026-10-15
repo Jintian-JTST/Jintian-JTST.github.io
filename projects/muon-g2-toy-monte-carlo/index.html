@@ -32,10 +32,8 @@
         <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Muon g-2 &amp; PSXM modelling</h1>
         <p class="meta">Research · April and July–September 2026 · Scientific Python</p>
         <p>
-          A toy Monte Carlo study of the muon g-2 measurement: generating synthetic decay-positron time spectra with
-          the characteristic exponential decay modulated by the anomalous precession ("wiggle plot"), then fitting the
-          precession frequency back out and examining residual structure. A related summer study investigated a
-          six-coil PSXM magnet model for spiral injection.
+          Two research studies connected to the muon g-2 experiment: a toy analysis of decay-positron time spectra,
+          followed by a numerical study of a six-coil steering magnet for spiral injection.
         </p>
         <div class="badges">
           <span class="badge">Python</span>
@@ -46,12 +44,10 @@
       </article>
 
       <article class="card">
-        <h2>Overview</h2>
+        <h2>Toy Monte Carlo analysis</h2>
         <p>
-          The muon's anomalous magnetic moment is one of the most precisely measured quantities in physics, and the
-          experimental method — extracting the anomalous precession frequency ω<sub>a</sub> from the time distribution
-          of decay positrons — is a beautiful exercise in statistics. This project rebuilds that pipeline at toy scale:
-          generate pseudo-data, fit the time spectrum and compare the estimated frequency with the known input.
+          The toy study extracts the anomalous precession frequency ω<sub>a</sub> from simulated decay-positron
+          times and compares the fitted value with the known input.
           One saved fit differs from that input by 0.64 reported standard errors; this is a single-fit comparison.
         </p>
         <h3>Analysis and implementation</h3>
@@ -112,7 +108,7 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div>© <span data-year>2026</span> Jintian JTST</div>
-      <div>Built as a static site for GitHub Pages.</div>
+      <a class="small-link" href="/contact/">Contact</a>
     </div>
   </footer>
   <script src="/assets/js/main.js"></script>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Projects · Jintian JTST</title>
-  <meta name="description" content="Projects by Jintian JTST.">
+  <title>Projects · Jintian Wang / JTST</title>
+  <meta name="description" content="Research, interactive systems and learning experiments by Jintian Wang, with project evidence and contribution details.">
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -12,94 +12,60 @@
 <body>
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/" aria-label="Jintian JTST home">
-        <span class="logo" aria-hidden="true"></span>
-        <span>Jintian JTST</span>
-      </a>
+      <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="/">Home</a>
-        <a class="active" href="/projects/" aria-current="page">Projects</a>
+        <a class="active" aria-current="page" href="/projects/">Projects</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
     </div>
   </header>
-
-  <main class="section">
+  <main class="section project-directory">
     <div class="container">
-      <div class="section-head">
-        <div>
-          <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Projects</h1>
-          <p>Physics simulations, interactive systems, and small experiments.</p>
-        </div>
-      </div>
-
-      <div class="article-list">
-        <a class="card card-link" href="/projects/one-tap-reality/">
-          <img class="card-media logo-media" src="/assets/projects/one-tap-reality/hero-logo.png" alt="OneTapReality team project logo">
-          <h3>OneTapReality</h3>
-          <div class="meta">AdventureX 2026 · Four-person team · Front-end contributor</div>
-          <p>A travel-album app with an editable canvas and NFC gifts. My contributions include editor interactions, draft recovery, photo and rotation persistence, and account-transition safeguards.</p>
-          <div class="badges"><span class="badge">React Native / Expo</span><span class="badge">TypeScript</span></div>
+      <div class="directory-header"><h1>Projects</h1><p class="meta">Research studies, team software and smaller experiments.</p></div>
+      <section class="directory-group" aria-labelledby="researchHeading">
+        <h2 id="researchHeading">Research</h2>
+        <a class="directory-entry" href="/projects/muon-g2-toy-monte-carlo/">
+          <img src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 fitted time spectra">
+          <div class="directory-copy"><h3>Muon g-2 &amp; PSXM modelling</h3><div class="meta">2026 · Scientific computing</div><p>Decay-spectrum analysis and a numerical design study of a six-coil steering magnet.</p></div>
+          <span class="directory-arrow" aria-hidden="true">↗</span>
         </a>
-
-        <a class="card card-link" href="/projects/vr-hand-interaction-prototype/">
-          <img class="card-media" src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" alt="Five-servo force-feedback glove prototype">
-          <h3>SecondTouchReality — VR hand interaction system</h3>
-          <div class="meta">XR · Computer vision · Natural language · Hardware</div>
-          <p>A gesture-controlled team prototype. My Python/MediaPipe and Unity software reconstructs a virtual hand and handles object interaction; teammates built the Arduino and mechanical hardware.</p>
-          <div class="badges">
-            <span class="badge">Python + Unity</span>
-            <span class="badge">MediaPipe</span>
-            <span class="badge">Arduino</span>
-          </div>
+        <a class="directory-entry" href="/projects/compound-pendulum/">
+          <img src="/assets/projects/compound-pendulum/hero-apparatus-in-water.jpg" alt="Compound pendulum apparatus in water">
+          <div class="directory-copy"><h3>Liquid-damped compound pendulum</h3><div class="meta">2023–2024 · IPQ</div><p>Two descriptions of liquid drag compared with measurements from a custom pendulum apparatus.</p></div>
+          <span class="directory-arrow" aria-hidden="true">↗</span>
         </a>
-
-        <a class="card card-link" href="/projects/generative-transformer/">
-          <img class="card-media" src="/assets/projects/transformer/architecture.svg" alt="Character-level transformer implementation architecture">
-          <h3>Generative Transformer from scratch</h3>
-          <div class="meta">Deep learning · PyTorch · Language modeling</div>
-          <p>A GPT-style decoder-only transformer implementation in PyTorch, built to study attention, multi-head blocks, tokenization, and the training loop.</p>
-          <div class="badges">
-            <span class="badge">PyTorch</span>
-            <span class="badge">Transformer</span>
-            <span class="badge">From scratch</span>
-          </div>
+      </section>
+      <section class="directory-group" aria-labelledby="systemsHeading">
+        <h2 id="systemsHeading">Interactive systems &amp; software</h2>
+        <a class="directory-entry" href="/projects/vr-hand-interaction-prototype/">
+          <img src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" alt="Team-built haptic glove prototype">
+          <div class="directory-copy"><h3>SecondTouchReality</h3><div class="meta">2025 · Team prototype</div><p>Camera landmarks, virtual hands and pinch interaction connected in Python and Unity.</p></div>
+          <span class="directory-arrow" aria-hidden="true">↗</span>
         </a>
-
-        <a class="card card-link" href="/projects/muon-g2-toy-monte-carlo/">
-          <img class="card-media" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 toy Monte Carlo wiggle fit">
-          <h3>Muon g-2 &amp; PSXM modelling</h3>
-          <div class="meta">Physics simulation · Python · Statistical fitting</div>
-          <p>Time-spectrum fitting, residual analysis and a six-coil magnet-design study, documented through result plots, code and technical reports.</p>
-          <div class="badges">
-            <span class="badge">Scientific computing</span>
-            <span class="badge">Data analysis</span>
-            <span class="badge">Python</span>
-          </div>
+        <a class="directory-entry" href="/projects/one-tap-reality/">
+          <img src="/assets/projects/one-tap-reality/hero-logo.png" alt="OneTapReality team project logo" class="directory-logo">
+          <div class="directory-copy"><h3>OneTapReality</h3><div class="meta">2026 · Team app</div><p>Album-editing interfaces and local-state recovery for a travel-album app.</p></div>
+          <span class="directory-arrow" aria-hidden="true">↗</span>
         </a>
-
-        <a class="card card-link" href="/projects/small-tools-and-experiments/">
-          <img class="card-media" src="/assets/projects/manim/evidence-muon-positron-diagram.png" alt="Muon spin and decay positron diagram rendered with Manim">
-          <h3>Small tools and experiments</h3>
-          <div class="meta">Scripts · Utilities · Personal tooling</div>
-          <p>Manim physics animations, MiniMind learning experiments and earlier VR hand-interaction prototypes.</p>
-          <div class="badges">
-            <span class="badge">Manim</span>
-            <span class="badge">MiniMind</span>
-            <span class="badge">Experiments</span>
-          </div>
+      </section>
+      <section class="directory-group" aria-labelledby="experimentsHeading">
+        <h2 id="experimentsHeading">Experiments</h2>
+        <a class="directory-entry" href="/projects/small-tools-and-experiments/">
+          <img src="/assets/projects/manim/evidence-muon-positron-diagram.png" alt="Manim diagram of muon spin and positron emission">
+          <div class="directory-copy"><h3>Scientific visualisation &amp; small experiments</h3><div class="meta">Manim · Learning experiments</div><p>Rendered physics animations and diagrams, alongside notes on local model-training exploration.</p></div>
+          <span class="directory-arrow" aria-hidden="true">↗</span>
         </a>
-      </div>
+        <a class="directory-entry" href="/projects/generative-transformer/">
+          <img src="/assets/projects/transformer/architecture.svg" alt="Character-level transformer architecture">
+          <div class="directory-copy"><h3>Transformer learning implementation</h3><div class="meta">PyTorch · Tutorial-based study</div><p>A character-level decoder implementation used to study attention and language-model training code.</p></div>
+          <span class="directory-arrow" aria-hidden="true">↗</span>
+        </a>
+      </section>
     </div>
   </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span data-year>2026</span> Jintian JTST</div>
-      <div><a class="small-link" href="/contact/">Contact</a></div>
-    </div>
-  </footer>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/contact/">Contact</a></div></footer>
   <script src="/assets/js/main.js"></script>
 </body>
 </html>

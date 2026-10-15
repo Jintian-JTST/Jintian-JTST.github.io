@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Generative Transformer from scratch · Jintian JTST</title>
-  <meta name="description" content="A character-level GPT-style transformer implementation in PyTorch.">
+  <title>Transformer learning implementation · Jintian Wang / JTST</title>
+  <meta name="description" content="A tutorial-based character-level transformer study in PyTorch, with AI-assisted implementation and an architecture overview.">
   <link rel="icon" type="image/png" href="/assets/images/square.png">
   <link rel="apple-touch-icon" href="/assets/images/square.png">
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -12,71 +12,37 @@
 <body>
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="/" aria-label="Jintian JTST home">
-        <span class="logo" aria-hidden="true"></span>
-        <span>Jintian JTST</span>
-      </a>
+      <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="/">Home</a>
-        <a class="active" href="/projects/" aria-current="page">Projects</a>
+        <a class="active" aria-current="page" href="/projects/">Projects</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
       </nav>
     </div>
   </header>
-
   <main class="section">
     <div class="container article-list">
       <article class="card">
-        <div class="kicker">Project</div>
-        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Generative Transformer from scratch</h1>
-        <p class="meta">Deep learning · PyTorch · Language modeling</p>
-        <p>
-          A decoder-only transformer (GPT-style) implemented directly in PyTorch — no Hugging Face model and no
-          pre-built attention layer — as a study of character-level language modelling.
-        </p>
-        <div class="badges">
-          <span class="badge">PyTorch</span>
-          <span class="badge">Transformer</span>
-          <span class="badge">From scratch</span>
-        </div>
+        <div class="kicker">Learning experiment · PyTorch</div>
+        <h1 class="project-heading">Transformer learning implementation</h1>
+        <p>A tutorial-based character-level decoder implementation, developed with AI assistance to learn how attention and decoder blocks fit together.</p>
+        <div class="project-links"><a class="button" href="https://github.com/Jintian-JTST/Generative-Transformer" target="_blank" rel="noopener">Study repository</a></div>
       </article>
-
       <article class="card">
-        <h2>Overview</h2>
-        <p>
-          The goal was to understand the transformer architecture by building every piece myself: token and positional
-          embeddings, scaled dot-product self-attention, multi-head attention, feed-forward blocks, residual
-          connections, and layer normalization, assembled into a stack of decoder blocks with a language-model head.
-        </p>
-        <h3>What I built</h3>
-        <p>
-          A character-level tokenizer over the book corpus, a batched data pipeline with train/validation split, the
-          full model (~6 layers, 6 heads, 384-dim embeddings, dropout regularization), a training loop with periodic
-          loss estimation and checkpointing, and a sampling path for text generation. The code also includes an Intel
-          XPU execution path.
-        </p>
+        <h2>What the code covers</h2>
+        <p>The notebooks explore token and positional embeddings, scaled dot-product attention, multiple attention heads, feed-forward blocks, residual connections and layer normalisation.</p>
+        <p>The implementation also includes data batching, training-loop and sampling code, with an Intel XPU execution path.</p>
+        <figure class="evidence-figure">
+          <img class="project-figure" src="/assets/projects/transformer/architecture.svg" alt="Overview of the character-level decoder implementation, including attention and training code">
+          <figcaption>Implementation overview for the learning exercise.</figcaption>
+        </figure>
+        <p class="meta">Scope: architecture and code study. No completed training run, loss curve or generated output is verified here.</p>
       </article>
-
-      <article class="card">
-        <h2>Tech stack</h2>
-        <p>Python · PyTorch (built directly on <code>nn.Module</code> primitives) · Jupyter notebooks for experiments · Intel XPU acceleration.</p>
-        <img class="project-figure" style="margin-top: 20px;" src="/assets/projects/transformer/architecture.svg" alt="Architecture of the character-level transformer implementation">
-        <p class="meta" style="margin-top: 14px;">This page documents the implementation. No checkpoint, training log, loss curve, or generated sample is presented as a completed result.</p>
-      </article>
-
-      <div>
-        <a class="small-link" href="/projects/">← Back to projects</a>
-      </div>
+      <a class="small-link" href="/projects/">← Back to projects</a>
     </div>
   </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span data-year>2026</span> Jintian JTST</div>
-      <div>Built as a static site for GitHub Pages.</div>
-    </div>
-  </footer>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/contact/">Contact</a></div></footer>
   <script src="/assets/js/main.js"></script>
 </body>
 </html>

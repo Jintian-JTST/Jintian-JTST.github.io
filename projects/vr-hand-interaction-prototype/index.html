@@ -32,11 +32,8 @@
         <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">SecondTouchReality — VR hand interaction system</h1>
         <p class="meta">XR · Computer vision · Natural language · Hardware feedback</p>
         <p>
-          An end-to-end prototype that turns a plain webcam into a VR input device: Python tracks your hand in 3D,
-          Unity reconstructs a virtual hand you can pinch and grab with, a lightweight text model spawns 3D objects
-          from English descriptions ("a small red apple"), and an Arduino servo closes the loop with physical feedback
-          when you pinch. The full chain is <strong>Perception → Semantics → Interaction → Hardware</strong>, evolved
-          from the earlier team-built OneTouchReality prototype.
+          A camera-based interaction prototype that connects hand tracking to virtual objects and a hardware-feedback
+          path. SecondTouchReality is the software iteration of the team's 2025 OneTouchReality prototype.
         </p>
         <p>My contribution is the Python and Unity software: tracking, hand reconstruction, bone updates and
           object interaction. Teammates handled the Arduino, servos and mechanical integration.</p>
@@ -63,18 +60,10 @@
       </article>
 
       <article class="card">
-        <h2>Problem and design</h2>
+        <h2>Architecture</h2>
         <p>
-          Most hand-tracking demos stop at drawing landmarks on a screen. I wanted a complete, hackable loop where a
-          single camera is enough to manipulate virtual objects naturally — no headset, no glove, no depth sensor.
-          The key design problems were: estimating real-world hand depth from a monocular camera, making grabbing
-          feel stable despite noisy tracking, and letting users create scene content by simply describing it in words.
-        </p>
-        <p>
-          The architecture is deliberately modular: Python handles perception (hand keypoints, depth, pinch state) and
-          semantics (text → object label), Unity handles reconstruction and interaction, and an Arduino bridge handles
-          physical feedback. Each module talks over simple protocols (UDP JSON, line-based TCP, single-byte serial), so
-          any part can be swapped or tested in isolation.
+          The software separates perception, text classification and scene interaction. UDP JSON carries hand state,
+          TCP carries model labels, and a serial bridge connects the hardware-feedback path.
         </p>
         <img class="project-figure" src="/assets/projects/second-touch-reality/architecture.svg" alt="SecondTouchReality system architecture from camera input to Arduino haptic feedback">
       </article>
@@ -101,7 +90,7 @@
         </p>
         <p>
           <strong>Hardware integration:</strong> the team prototype forwards pinch-state transitions over serial to
-          an Arduino driving a servo. The Arduino and mechanical hardware were built by teammates.
+          an Arduino driving a servo.
         </p>
       </article>
 
@@ -132,7 +121,7 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div>© <span data-year>2026</span> Jintian JTST</div>
-      <div>Built as a static site for GitHub Pages.</div>
+      <a class="small-link" href="/contact/">Contact</a>
     </div>
   </footer>
   <script src="/assets/js/main.js"></script>
