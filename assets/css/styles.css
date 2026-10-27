@@ -378,7 +378,7 @@ code {
   display:grid;
   place-items:center
 }
-/* Hollow letters: only the outline, nothing inside. */
+/* Solid white letters. */
 .wordmark {
   margin:0;
   font-family:"Orbix","Segoe UI",sans-serif;
@@ -388,15 +388,14 @@ code {
   letter-spacing:.06em;
   padding-left:.06em;
   white-space:nowrap;
-  color:transparent;
-  -webkit-text-stroke:1.2px rgba(226,240,238,.9);
-  text-shadow:0 0 28px rgba(140,231,223,.12)
+  color:#fff;
+  filter:drop-shadow(0 0 22px rgba(255,255,255,.12))
 }
 .js-ready .wordmark {
   opacity:0
 }
 .js-ready.hero-ready .wordmark {
-  animation:wordmarkIn 1.1s cubic-bezier(.2,.75,.25,1) both
+  animation:wordmarkIn 650ms cubic-bezier(.2,.75,.25,1) both
 }
 @keyframes wordmarkIn {
   from {
@@ -407,7 +406,7 @@ code {
   to {
     opacity:1;
     letter-spacing:.06em;
-    filter:blur(0)
+    filter:blur(0) drop-shadow(0 0 22px rgba(255,255,255,.12))
   }
 }
 .hero-scroll {
@@ -605,32 +604,32 @@ code {
   width:min(52vw,250px);
   height:auto;
   overflow:visible;
-  transition:opacity 420ms ease,transform 420ms cubic-bezier(.4,0,.2,1),filter 420ms ease
+  transition:opacity 300ms ease,transform 300ms cubic-bezier(.4,0,.2,1),filter 300ms ease
 }
 .logo-lines path {
   fill:none;
-  stroke:#bff3ee;
-  stroke-width:1.2px;
+  stroke:#65ece3;
+  stroke-width:1.4px;
   stroke-linejoin:round;
   vector-effect:non-scaling-stroke;
   stroke-dasharray:1;
   stroke-dashoffset:1;
   opacity:0
 }
+/* The fill is the original logo artwork, so colour and grid texture match exactly. */
 .logo-fill {
-  fill:var(--accent);
   opacity:0
 }
 .intro-playing .logo-lines path {
-  animation:logoTrace 1.25s calc(var(--i) * 75ms + 150ms) cubic-bezier(.45,.05,.3,1) forwards,logoLinesOut 400ms 2.35s ease forwards
+  animation:logoTrace 560ms calc(var(--i) * 32ms + 80ms) cubic-bezier(.5,0,.3,1) forwards,logoLinesOut 220ms 1s ease forwards
 }
 .intro-playing .logo-fill {
-  animation:logoFill 600ms 1.95s ease forwards
+  animation:logoFill 260ms 820ms ease-out forwards
 }
 .home-intro.intro-leaving .intro-logo {
   opacity:0;
-  transform:scale(.94);
-  filter:blur(4px)
+  transform:scale(.96);
+  filter:blur(3px)
 }
 @keyframes logoTrace {
   0% {

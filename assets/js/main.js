@@ -75,7 +75,7 @@
       if (finished || exitStarted) return;
       exitStarted = true;
       intro.classList.add('intro-leaving');
-      finishTimer = window.setTimeout(finish, 430);
+      finishTimer = window.setTimeout(finish, 300);
     };
     const onKey = (event) => {
       if (event.key === 'Escape') {
@@ -91,8 +91,8 @@
     window.requestAnimationFrame(() => {
       if (!finished) intro.classList.add('intro-playing');
     });
-    exitTimer = window.setTimeout(exit, 2850);
-    watchdog = window.setTimeout(finish, 4600);
+    exitTimer = window.setTimeout(exit, 1300);
+    watchdog = window.setTimeout(finish, 2600);
     return finish;
   }
 
@@ -373,99 +373,148 @@
     });
   }
 
-  // Hero page turn: the first screen resists a little, then past a threshold it
-  // glides to the next page instead of stopping halfway. Below the hero, scrolling is native.
+  // Hero page turn as a physical system. Inside the first screen the page tracks the
+  // wheel or finger directly (with a little drag), then a damped spring with the release
+  // velocity carries it to the nearest page. Below the hero, scrolling is native.
   function initHeroSnap() {
     const hero = document.querySelector('.signature-hero');
-    const pull = document.querySelector('.hero-pull');
     const next = document.getElementById('homeIntroduction');
-    if (!hero || !pull || !next) return;
+    if (!hero || !next) return;
     const root = document.documentElement;
-    const THRESHOLD = 110;
-    let travel = 0;
-    let animating = false;
+    const DRAG = .85; // fraction of input that moves the page while held
+    const OMEGA = 13; // spring natural frequency, rad/s
+    const ZETA = .86; // damping ratio: just under critical, so it settles with life
+    let x = 0; // position within the hero, px
+    let v = 0; // velocity, px/s
+    let target = null;
+    let origin = 0;
+    let frame = 0;
+    let last = 0;
+    let lastInput = 0;
+    let holding = false;
     let releaseTimer;
-    let touchY = null;
+    let touch = null;
 
+    const edge = () => next.getBoundingClientRect().top + window.scrollY;
     const enabled = () => !reducedMotion.matches && !document.body.classList.contains('intro-running') && !document.body.classList.contains('viewer-open');
-    const target = () => next.getBoundingClientRect().top + window.scrollY;
-    // Zone: anywhere inside the hero, or resting exactly on the next page's top edge.
     const inZone = (direction) => {
       const y = window.scrollY;
-      const edge = target();
-      if (y < edge - 2) return true;
-      return direction < 0 && Math.abs(y - edge) <= 2;
+      const e = edge();
+      if (frame || holding) return true;
+      if (y < e - 1) return true;
+      return direction < 0 && Math.abs(y - e) <= 1;
     };
-    const damp = (value) => Math.sign(value) * 70 * (1 - Math.exp(-Math.abs(value) / 160));
-    const setPull = (value, smooth) => {
-      pull.style.transition = smooth ? 'transform 520ms cubic-bezier(.2,.8,.2,1)' : 'none';
-      pull.style.transform = value ? 'translate3d(0,' + (-damp(value)).toFixed(2) + 'px,0)' : '';
-    };
-    const release = () => { travel = 0; setPull(0, true); };
-
-    function glide(to) {
-      animating = true;
-      travel = 0;
-      setPull(0, true);
-      const from = window.scrollY;
-      const distance = to - from;
-      const duration = Math.min(1100, 650 + Math.abs(distance) * .25);
-      const start = performance.now();
+    const apply = () => {
       root.style.scrollBehavior = 'auto';
-      const ease = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-      const step = (now) => {
-        const t = Math.min(1, (now - start) / duration);
-        window.scrollTo(0, from + distance * ease(t));
-        if (t < 1) window.requestAnimationFrame(step);
-        else {
-          root.style.scrollBehavior = '';
-          // Swallow trailing momentum from the same gesture.
-          window.setTimeout(() => { animating = false; }, 260);
-        }
-      };
-      window.requestAnimationFrame(step);
+      window.scrollTo(0, x);
+    };
+    function settle() {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      root.style.scrollBehavior = '';
     }
-
-    function push(delta) {
-      travel += delta;
-      if (Math.sign(travel) !== Math.sign(delta)) travel = delta;
-      if (Math.abs(travel) >= THRESHOLD) glide(travel > 0 ? target() : 0);
-      else setPull(travel, false);
+    function tick(now) {
+      const dt = Math.min(.032, (now - last) / 1000 || .016);
+      last = now;
+      if (holding) {
+        // Friction while input is held keeps the velocity estimate honest.
+        v *= Math.exp(-dt * 8);
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+      const a = -OMEGA * OMEGA * (x - target) - 2 * ZETA * OMEGA * v;
+      v += a * dt;
+      x += v * dt;
+      const top = edge();
+      if (x < 0) { x = 0; v = Math.max(0, v) * -.2; }
+      apply();
+      if (Math.abs(x - target) < .5 && Math.abs(v) < 8) {
+        x = target;
+        apply();
+        settle();
+        // Hand off to native scrolling just below the hero.
+        if (target >= top - 1) target = null;
+        return;
+      }
+      frame = requestAnimationFrame(tick);
+    }
+    function run() {
+      if (!frame) { last = performance.now(); frame = requestAnimationFrame(tick); }
+    }
+    // Choose the page from where the motion would coast to, with a commit threshold.
+    function release() {
+      holding = false;
+      const top = edge();
+      const coast = x + v * .22;
+      const moved = coast - origin;
+      const threshold = Math.min(80, top * .1);
+      if (Math.abs(moved) > threshold) target = moved > 0 ? top : 0;
+      else target = origin;
+      run();
+    }
+    function grab() {
+      if (!holding) {
+        holding = true;
+        x = window.scrollY;
+        if (!frame) origin = Math.abs(x - edge()) < 2 ? edge() : (x < edge() / 2 ? 0 : edge());
+      }
+      run();
+    }
+    function feed(delta, now) {
+      const gap = now - lastInput;
+      lastInput = now;
+      const top = edge();
+      const move = delta * DRAG;
+      x = Math.max(0, Math.min(top, x + move));
+      // A lone event carries displacement only; a stream of events carries velocity.
+      if (gap > 120) v = 0;
+      else v = v * .6 + (move / (Math.max(8, gap) / 1000)) * .4;
+      apply();
     }
 
     window.addEventListener('wheel', (event) => {
       if (!enabled() || event.ctrlKey) return;
       const delta = event.deltaMode === 1 ? event.deltaY * 32 : event.deltaY;
       if (!delta || !inZone(delta)) return;
+      // Already resting on the next page and still pushing down: let native scrolling take over.
+      if (delta > 0 && holding && x >= edge() - .5) {
+        clearTimeout(releaseTimer);
+        holding = false;
+        target = null;
+        settle();
+        return;
+      }
       event.preventDefault();
-      if (animating) return;
-      window.clearTimeout(releaseTimer);
-      push(delta);
-      releaseTimer = window.setTimeout(() => { if (!animating) release(); }, 200);
+      grab();
+      feed(delta, performance.now());
+      clearTimeout(releaseTimer);
+      releaseTimer = setTimeout(release, 90);
     }, { passive: false });
 
     window.addEventListener('touchstart', (event) => {
-      touchY = event.touches.length === 1 ? event.touches[0].clientY : null;
+      if (event.touches.length !== 1) { touch = null; return; }
+      touch = { y: event.touches[0].clientY, active: false };
     }, { passive: true });
     window.addEventListener('touchmove', (event) => {
-      if (touchY === null || !enabled()) return;
-      const delta = touchY - event.touches[0].clientY;
-      if (!delta || !inZone(delta)) return;
+      if (!touch || !enabled()) return;
+      const y = event.touches[0].clientY;
+      const delta = touch.y - y;
+      if (!touch.active) {
+        if (!delta || !inZone(delta)) return;
+        touch.active = true;
+        grab();
+      }
       event.preventDefault();
-      if (animating) return;
-      travel = delta;
-      setPull(travel, false);
+      touch.y = y;
+      feed(delta / DRAG, performance.now());
     }, { passive: false });
     window.addEventListener('touchend', () => {
-      if (touchY === null) return;
-      touchY = null;
-      if (animating || !travel) return;
-      if (Math.abs(travel) >= 60) glide(travel > 0 ? target() : 0);
-      else release();
+      if (touch && touch.active) release();
+      touch = null;
     }, { passive: true });
 
     window.addEventListener('keydown', (event) => {
-      if (!enabled() || animating || event.defaultPrevented) return;
+      if (!enabled() || event.defaultPrevented) return;
       if (event.target.closest && event.target.closest('input,textarea,select,[contenteditable]')) return;
       const down = ['ArrowDown', 'PageDown', ' '].includes(event.key) && !event.shiftKey;
       const up = ['ArrowUp', 'PageUp'].includes(event.key) || (event.key === ' ' && event.shiftKey);
@@ -473,7 +522,11 @@
       const direction = down ? 1 : -1;
       if (!inZone(direction)) return;
       event.preventDefault();
-      glide(down ? target() : 0);
+      x = window.scrollY;
+      v = direction * 900;
+      target = down ? edge() : 0;
+      holding = false;
+      run();
     });
   }
 
