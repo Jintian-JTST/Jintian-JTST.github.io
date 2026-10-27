@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>oxford cp1 report · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>代码</span></div>
+      <header class="reading-header"><p class="library-eyebrow">CP1 / 大一</p><h1>oxford cp1 report</h1><div class="reading-meta"><span>PY · 44 KB</span><a class="button" href="/assets/projects/oxford-physics/files/oxford-cp1-report-c89352f750e6.py" download="oxford_cp1_report.py">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><pre><code>import os
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm
+from reportlab.lib import colors
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
+    HRFlowable, KeepTogether
+)
+from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT, TA_JUSTIFY
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
+# ── 自动检测并注册中文字体（防止中文乱码） ───────────────────────────────
+windir = os.environ.get(&#x27;WINDIR&#x27;, &#x27;C:\\Windows&#x27;)
+msyh_path = os.path.join(windir, &#x27;Fonts&#x27;, &#x27;msyh.ttc&#x27;)
+msyhbd_path = os.path.join(windir, &#x27;Fonts&#x27;, &#x27;msyhbd.ttc&#x27;)
+simsun_path = os.path.join(windir, &#x27;Fonts&#x27;, &#x27;simsun.ttc&#x27;)
+
+if os.path.exists(msyh_path):
+    # 注册微软雅黑（常规），ttc 文件需指定 subfontIndex，通常 0 为常规体
+    pdfmetrics.registerFont(TTFont(&#x27;MSYaHei&#x27;, msyh_path, subfontIndex=0))
+    if os.path.exists(msyhbd_path):
+        pdfmetrics.registerFont(TTFont(&#x27;MSYaHei-Bold&#x27;, msyhbd_path, subfontIndex=0))
+    else:
+        # 如果没有独立的粗体文件，尝试用常规体代替（实际效果无粗体）
+        pdfmetrics.registerFont(TTFont(&#x27;MSYaHei-Bold&#x27;, msyh_path, subfontIndex=0))
+    FONT_REGULAR = &#x27;MSYaHei&#x27;
+    FONT_BOLD = &#x27;MSYaHei-Bold&#x27;
+elif os.path.exists(simsun_path):
+    # 宋体通常只有常规体，用同一个文件注册粗体名
+    pdfmetrics.registerFont(TTFont(&#x27;SimSun&#x27;, simsun_path, subfontIndex=0))
+    pdfmetrics.registerFont(TTFont(&#x27;SimSun-Bold&#x27;, simsun_path, subfontIndex=0))
+    FONT_REGULAR = &#x27;SimSun&#x27;
+    FONT_BOLD = &#x27;SimSun-Bold&#x27;
+else:
+    # 针对非Windows系统或无常规字体的降级策略
+    FONT_REGULAR = &#x27;Helvetica&#x27;
+    FONT_BOLD = &#x27;Helvetica-Bold&#x27;
+
+
+# ── Document ────────────────────────────────────────────────────────────────
+doc = SimpleDocTemplate(
+    &quot;Oxford_CP1_June2025_Marking_Report.pdf&quot;,
+    pagesize=A4,
+    leftMargin=2*cm, rightMargin=2*cm,
+    topMargin=2*cm, bottomMargin=2*cm,
+)
+
+W = A4[0] - 4*cm   # 可用宽度
+
+# ── Colour palette ────────────────────────────────────────────────────────
+OXFORD_BLUE   = colors.HexColor(&quot;#002147&quot;)
+ACCENT_GOLD   = colors.HexColor(&quot;#B59410&quot;)
+PASS_GREEN    = colors.HexColor(&quot;#1A6630&quot;)
+WARN_ORANGE   = colors.HexColor(&quot;#C45000&quot;)
+FAIL_RED      = colors.HexColor(&quot;#A01010&quot;)
+LIGHT_BLUE    = colors.HexColor(&quot;#E8EEF5&quot;)
+LIGHT_GOLD    = colors.HexColor(&quot;#FAF5E0&quot;)
+LIGHT_GREY    = colors.HexColor(&quot;#F5F5F5&quot;)
+MID_GREY      = colors.HexColor(&quot;#CCCCCC&quot;)
+WHITE         = colors.white
+
+# ── Styles ────────────────────────────────────────────────────────────────
+base = getSampleStyleSheet()
+base[&#x27;Normal&#x27;].fontName = FONT_REGULAR
+base[&#x27;Title&#x27;].fontName = FONT_BOLD
+base[&#x27;Heading1&#x27;].fontName = FONT_BOLD
+base[&#x27;Heading2&#x27;].fontName = FONT_BOLD
+base[&#x27;Heading3&#x27;].fontName = FONT_BOLD
+
+def S(name, parent=&#x27;Normal&#x27;, **kw):
+    return ParagraphStyle(name, parent=base[parent], **kw)
+
+styles = {
+    # Header / Title
+    &#x27;title&#x27;: S(&#x27;title&#x27;, &#x27;Title&#x27;,
+               textColor=OXFORD_BLUE, fontSize=22, leading=28,
+               spaceAfter=4, alignment=TA_CENTER, fontName=FONT_BOLD),
+    &#x27;subtitle&#x27;: S(&#x27;subtitle&#x27;, &#x27;Normal&#x27;,
+                  textColor=ACCENT_GOLD, fontSize=12, leading=16,
+                  spaceAfter=2, alignment=TA_CENTER, fontName=FONT_BOLD),
+    &#x27;sub2&#x27;: S(&#x27;sub2&#x27;, &#x27;Normal&#x27;,
+              textColor=colors.grey, fontSize=9, leading=12,
+              spaceAfter=8, alignment=TA_CENTER, fontName=FONT_REGULAR),
+
+    # Section headings
+    &#x27;qhead&#x27;: S(&#x27;qhead&#x27;, &#x27;Heading2&#x27;,
+               textColor=WHITE, fontSize=12, leading=15,
+               backColor=OXFORD_BLUE, borderPadding=(4,6,4,6),
+               spaceBefore=12, spaceAfter=2, fontName=FONT_BOLD),
+    &#x27;subhead&#x27;: S(&#x27;subhead&#x27;, &#x27;Heading3&#x27;,
+                 textColor=OXFORD_BLUE, fontSize=10, leading=13,
+                 spaceBefore=6, spaceAfter=2, fontName=FONT_BOLD),
+
+    # Body text
+    &#x27;body&#x27;: S(&#x27;body&#x27;, &#x27;Normal&#x27;,
+              fontSize=9.5, leading=14, spaceAfter=4,
+              alignment=TA_JUSTIFY),
+    &#x27;bodyL&#x27;: S(&#x27;bodyL&#x27;, &#x27;Normal&#x27;,
+               fontSize=9.5, leading=14, spaceAfter=4,
+               alignment=TA_LEFT),
+    &#x27;italic&#x27;: S(&#x27;italic&#x27;, &#x27;Normal&#x27;,
+                fontSize=9, leading=13, textColor=colors.HexColor(&quot;#444444&quot;),
+                spaceAfter=3),
+
+    # Feedback boxes
+    &#x27;correct&#x27;: S(&#x27;correct&#x27;, &#x27;Normal&#x27;,
+                 fontSize=9.5, leading=13,
+                 textColor=PASS_GREEN, spaceAfter=2),
+    &#x27;warn&#x27;: S(&#x27;warn&#x27;, &#x27;Normal&#x27;,
+              fontSize=9.5, leading=13,
+              textColor=WARN_ORANGE, spaceAfter=2),
+    &#x27;error&#x27;: S(&#x27;error&#x27;, &#x27;Normal&#x27;,
+               fontSize=9.5, leading=13,
+               textColor=FAIL_RED, spaceAfter=2),
+
+    # Score
+    &#x27;score_big&#x27;: S(&#x27;score_big&#x27;, &#x27;Normal&#x27;,
+                   fontSize=14, leading=18, textColor=OXFORD_BLUE,
+                   alignment=TA_RIGHT, fontName=FONT_BOLD),
+    &#x27;total_label&#x27;: S(&#x27;total_label&#x27;, &#x27;Normal&#x27;,
+                     fontSize=11, textColor=OXFORD_BLUE,
+                     alignment=TA_LEFT, fontName=FONT_BOLD),
+}
+
+def hr(color=ACCENT_GOLD, thickness=1):
+    return HRFlowable(width=&quot;100%&quot;, thickness=thickness, color=color, spaceAfter=4)
+
+def sp(h=6):
+    return Spacer(1, h)
+
+def P(text, style=&#x27;body&#x27;):
+    return Paragraph(text, styles[style])
+
+def score_row(awarded, total):
+    colour = PASS_GREEN if awarded &gt;= total*0.7 else (WARN_ORANGE if awarded &gt;= total*0.5 else FAIL_RED)
+    t = Table(
+        [[Paragraph(f&quot;得分 / Score: &lt;b&gt;{awarded} / {total}&lt;/b&gt;&quot;,
+                    ParagraphStyle(&#x27;sr&#x27;, parent=base[&#x27;Normal&#x27;],
+                                   fontSize=11, textColor=colour,
+                                   fontName=FONT_BOLD))]],
+        colWidths=[W], rowHeights=[20],
+    )
+    t.setStyle(TableStyle([
+        (&#x27;BACKGROUND&#x27;, (0,0), (-1,-1), LIGHT_GREY),
+        (&#x27;BOX&#x27;,        (0,0), (-1,-1), 0.5, colour),
+        (&#x27;TOPPADDING&#x27;,    (0,0),(-1,-1), 3),
+        (&#x27;BOTTOMPADDING&#x27;, (0,0),(-1,-1), 3),
+        (&#x27;LEFTPADDING&#x27;,   (0,0),(-1,-1), 8),
+    ]))
+    return t
+
+def section_header(text):
+    t = Table([[Paragraph(text, styles[&#x27;qhead&#x27;])]],
+              colWidths=[W])
+    t.setStyle(TableStyle([
+        (&#x27;BACKGROUND&#x27;,(0,0),(-1,-1), OXFORD_BLUE),
+        (&#x27;TOPPADDING&#x27;,(0,0),(-1,-1), 6),
+        (&#x27;BOTTOMPADDING&#x27;,(0,0),(-1,-1), 6),
+        (&#x27;LEFTPADDING&#x27;,(0,0),(-1,-1), 10),
+    ]))
+    return t
+
+def feedback_box(items):
+    &quot;&quot;&quot;items = list of (symbol, text, style_key)&quot;&quot;&quot;
+    rows = [[Paragraph(sym + &quot; &quot; + txt, styles[stk])] for sym, txt, stk in items]
+    t = Table(rows, colWidths=[W-0.5*cm])
+    t.setStyle(TableStyle([
+        (&#x27;BACKGROUND&#x27;, (0,0),(-1,-1), LIGHT_BLUE),
+        (&#x27;BOX&#x27;,        (0,0), (-1,-1), 0.5, MID_GREY),
+        (&#x27;TOPPADDING&#x27;,    (0,0),(-1,-1), 4),
+        (&#x27;BOTTOMPADDING&#x27;, (0,0),(-1,-1), 4),
+        (&#x27;LEFTPADDING&#x27;,   (0,0),(-1,-1), 10),
+    ]))
+    return t
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Build story
+# ═══════════════════════════════════════════════════════════════════════════
+story = []
+
+# ── Cover banner ────────────────────────────────────────────────────────────
+banner = Table(
+    [[Paragraph(&quot;UNIVERSITY OF OXFORD&quot;, styles[&#x27;subtitle&#x27;]),
+      Paragraph(&quot;试卷批改报告&quot;, styles[&#x27;subtitle&#x27;])],
+     [Paragraph(&quot;Department of Physics&quot;, styles[&#x27;sub2&#x27;]),
+      Paragraph(&quot;Marking Report&quot;, styles[&#x27;sub2&#x27;])]],
+    colWidths=[W/2, W/2],
+)
+banner.setStyle(TableStyle([
+    (&#x27;BACKGROUND&#x27;, (0,0),(-1,-1), OXFORD_BLUE),
+    (&#x27;TOPPADDING&#x27;,    (0,0),(-1,-1), 12),
+    (&#x27;BOTTOMPADDING&#x27;, (0,0),(-1,-1), 12),
+    (&#x27;LEFTPADDING&#x27;,   (0,0),(-1,-1), 10),
+    (&#x27;RIGHTPADDING&#x27;,  (0,0),(-1,-1), 10),
+    (&#x27;TEXTCOLOR&#x27;, (0,0),(-1,-1), WHITE),
+]))
+story.append(banner)
+story.append(sp(10))
+
+story.append(P(&quot;&lt;b&gt;试卷名称 / Paper:&lt;/b&gt;  CP1 Physics 1 &amp;mdash; Preliminary Examination in Physics&quot;, &#x27;bodyL&#x27;))
+story.append(P(&quot;&lt;b&gt;考试时间 / Date:&lt;/b&gt;  Monday 9 June 2025, 09:30&amp;ndash;12:00&quot;, &#x27;bodyL&#x27;))
+story.append(P(&quot;&lt;b&gt;批改人 / Marker:&lt;/b&gt;  Oxford Physics Tutor (模拟批改 / Simulated Marking)&quot;, &#x27;bodyL&#x27;))
+story.append(P(&quot;&lt;b&gt;说明 / Note:&lt;/b&gt;  Section A 全做 (7题)；Section B 选做3题。本学生作答了 Section A 全部题目及 Section B 的 Q9、Q10、Q11。&quot;, &#x27;bodyL&#x27;))
+story.append(sp(4))
+story.append(hr(ACCENT_GOLD, 2))
+story.append(sp(8))
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SECTION A
+# ═══════════════════════════════════════════════════════════════════════════
+story.append(section_header(&quot;SECTION A &amp;mdash; 短题  (共 40 分，每题满分见题旁标注)&quot;))
+story.append(sp(8))
+
+# ───────────────── Q1 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 1 &amp;mdash; Moment of Inertia of a Solid Sphere  [7 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(&quot;&lt;b&gt;Part (a): Derivation of &lt;i&gt;I&lt;/i&gt; = &amp;frac25; &lt;i&gt;MR&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; [5 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;标准方法：用柱坐标（沿自转轴叠加薄圆盘）或球坐标直接积分 &quot;
+    &quot;d&lt;i&gt;I&lt;/i&gt; = &lt;i&gt;r&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;d&lt;i&gt;m&lt;/i&gt;。学生给出了&lt;b&gt;两种完整推导&lt;/b&gt;：① 沿 &lt;i&gt;z&lt;/i&gt; 轴叠薄盘积分，&quot;
+    &quot;② 球坐标直接三重积分，两种方法均给出正确中间步骤并得出 &lt;i&gt;I&lt;/i&gt; = &amp;frac25; &lt;i&gt;MR&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;。&quot;
+    &quot;公式推导正确，密度代换 &amp;rho; = &lt;i&gt;M&lt;/i&gt; / (&amp;frac43;&amp;pi;&lt;i&gt;R&lt;/i&gt;&lt;sup&gt;3&lt;/sup&gt;) 使用正确。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;正确建立了 d&lt;i&gt;I&lt;/i&gt; 的表达式（圆盘 &lt;i&gt;I&lt;/i&gt; = &amp;frac12; &lt;i&gt;mr&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;，配以正确微元 d&lt;i&gt;m&lt;/i&gt;）&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;积分上下限与被积函数均正确，两种方法自洽&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最终结果 &lt;i&gt;I&lt;/i&gt; = &amp;frac25; &lt;i&gt;MR&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; 正确&quot;, &#x27;correct&#x27;),
+    (&quot;～&quot;, &quot;球坐标方法页面左上角有一处草稿字迹潦草，但核心步骤清晰可辨&quot;, &#x27;warn&#x27;),
+]))
+story.append(sp(4))
+
+story.append(P(&quot;&lt;b&gt;Part (b): Parallel Axis Theorem &amp;rarr; &lt;i&gt;I&#x27;&lt;/i&gt; = &amp;frac75; &lt;i&gt;MR&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;  [2 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;学生正确陈述了平行轴定理：&lt;i&gt;I&#x27;&lt;/i&gt; = &lt;i&gt;I&lt;/i&gt;&lt;sub&gt;cm&lt;/sub&gt; + &lt;i&gt;Md&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;，取 &lt;i&gt;d&lt;/i&gt; = &lt;i&gt;R&lt;/i&gt;（切线到质心距离），&quot;
+    &quot;代入 &lt;i&gt;I&lt;/i&gt;&lt;sub&gt;cm&lt;/sub&gt; = &amp;frac25; &lt;i&gt;MR&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; 得到 &lt;i&gt;I&#x27;&lt;/i&gt; = &amp;frac75; &lt;i&gt;MR&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;，完全正确。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;定理陈述正确，&lt;i&gt;d&lt;/i&gt; = &lt;i&gt;R&lt;/i&gt; 选取正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最终答案 &lt;i&gt;I&#x27;&lt;/i&gt; = &amp;frac75; &lt;i&gt;MR&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; 正确&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(7, 7))
+story.append(sp(10))
+
+# ───────────────── Q2 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 2 &amp;mdash; Bullet with Air Resistance  [4 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(
+    &quot;牛顿第二定律：&lt;i&gt;m&lt;/i&gt;(d&lt;i&gt;v&lt;/i&gt;/d&lt;i&gt;t&lt;/i&gt;) = &amp;minus;&lt;i&gt;mg&lt;/i&gt; &amp;minus; &lt;i&gt;mKv&lt;/i&gt;，即 d&lt;i&gt;v&lt;/i&gt;/d&lt;i&gt;t&lt;/i&gt; = &amp;minus;&lt;i&gt;g&lt;/i&gt; &amp;minus; &lt;i&gt;Kv&lt;/i&gt;。&quot;
+    &quot;分离变量积分：&amp;int; d&lt;i&gt;v&lt;/i&gt; / (&lt;i&gt;g&lt;/i&gt; + &lt;i&gt;Kv&lt;/i&gt;) = &amp;minus;&amp;int; d&lt;i&gt;t&lt;/i&gt;，从 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;0&lt;/sub&gt; 积到 0，&lt;i&gt;t&lt;/i&gt; 从 0 到 &lt;i&gt;t&lt;/i&gt;&lt;sub&gt;max&lt;/sub&gt;。&quot;
+    &quot;得 &lt;i&gt;t&lt;/i&gt; = (1/&lt;i&gt;K&lt;/i&gt;) ln(1 + &lt;i&gt;Kv&lt;/i&gt;&lt;sub&gt;0&lt;/sub&gt;/&lt;i&gt;g&lt;/i&gt;)。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;牛顿第二定律方程写法正确（注意向上取正，阻力 &amp;minus;&lt;i&gt;mKv&lt;/i&gt; 方向正确）&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;分离变量操作正确，积分无误&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;积分边界条件（&lt;i&gt;t&lt;/i&gt;=0, &lt;i&gt;v&lt;/i&gt;=&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;0&lt;/sub&gt;; 最高点 &lt;i&gt;v&lt;/i&gt;=0）明确标注&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最终结果 &lt;i&gt;t&lt;/i&gt; = (1/&lt;i&gt;K&lt;/i&gt;)ln(1 + &lt;i&gt;Kv&lt;/i&gt;&lt;sub&gt;0&lt;/sub&gt;/&lt;i&gt;g&lt;/i&gt;) 正确，表达式简洁清晰&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(4, 4))
+story.append(sp(10))
+
+# ───────────────── Q3 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 3 &amp;mdash; &lt;i&gt;e&lt;/i&gt;&lt;sup&gt;+&lt;/sup&gt;&lt;i&gt;e&lt;/i&gt;&lt;sup&gt;&amp;minus;&lt;/sup&gt; &amp;rarr; Z&lt;sup&gt;0&lt;/sup&gt; at CERN  [6 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(&quot;&lt;b&gt;Part (a): Energy of electron  [1 mark]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;守恒：2&lt;i&gt;E&lt;/i&gt;&lt;sub&gt;e&lt;/sub&gt; = &lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;&lt;i&gt;c&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;，因此 &lt;i&gt;E&lt;/i&gt;&lt;sub&gt;e&lt;/sub&gt; = &lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;&lt;i&gt;c&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/2 = 40.5 GeV。正确。&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (b): Energies and momenta of decay products  [1 mark]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;Z&lt;sup&gt;0&lt;/sup&gt; 静止系衰变为两个等质量粒子，每个能量 &lt;i&gt;E&lt;/i&gt; = &lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;&lt;i&gt;c&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/2，&quot;
+    &quot;由 &lt;i&gt;E&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;p&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;c&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; + &lt;i&gt;m&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;c&lt;/i&gt;&lt;sup&gt;4&lt;/sup&gt; 得 &lt;i&gt;p&lt;/i&gt; = &amp;radic;[(&lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;/2)&lt;sup&gt;2&lt;/sup&gt; &amp;minus; &lt;i&gt;m&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;] &lt;i&gt;c&lt;/i&gt;。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;能量 &lt;i&gt;E&lt;/i&gt; = &lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;&lt;i&gt;c&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/2 正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;动量公式 &lt;i&gt;p&lt;/i&gt; = &lt;i&gt;c&lt;/i&gt;&amp;radic;[(&lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;/2)&lt;sup&gt;2&lt;/sup&gt; &amp;minus; &lt;i&gt;m&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;] 正确&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (c): Speed of c-quark  [2 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;&amp;gamma; = &lt;i&gt;E&lt;/i&gt; / (&lt;i&gt;mc&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;) = (&lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;/2) / &lt;i&gt;m&lt;/i&gt; = 91 / (2&amp;times;1.5) &amp;asymp; 30.33。&lt;br/&gt;&quot;
+    &quot;&lt;i&gt;v/c&lt;/i&gt; = &amp;radic;(1 &amp;minus; 1/&amp;gamma;&lt;sup&gt;2&lt;/sup&gt;) = &amp;radic;(1 &amp;minus; (3/91)&lt;sup&gt;2&lt;/sup&gt;) = &amp;radic;[(91&lt;sup&gt;2&lt;/sup&gt; &amp;minus; 9) / 91&lt;sup&gt;2&lt;/sup&gt;] &amp;asymp; 0.9995&lt;i&gt;c&lt;/i&gt;。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;&amp;gamma; 因子方法正确，数值计算过程清晰&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最终结果 &lt;i&gt;v&lt;/i&gt; &amp;asymp; 0.9995&lt;i&gt;c&lt;/i&gt; 正确&quot;, &#x27;correct&#x27;),
+    (&quot;～&quot;, &quot;学生在(c)部分最初写出 &amp;gamma; = 27（似乎误用了 &lt;i&gt;M&lt;/i&gt;&lt;sub&gt;Z&lt;/sub&gt;/2&lt;i&gt;m&lt;/i&gt; = 91/(2&amp;times;1.5) 但手写&quot;
+           &quot;中间结果标记为 27），&quot;
+           &quot;不过最终答案 &lt;i&gt;v&lt;/i&gt; &amp;asymp; 0.99931&lt;i&gt;c&lt;/i&gt;（等价于 0.9995&lt;i&gt;c&lt;/i&gt;）数值正确，视为得分&quot;, &#x27;warn&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(6, 6))
+story.append(sp(10))
+
+# ───────────────── Q4 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 4 &amp;mdash; Elastic Collision of Equal Masses  [4 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(
+    &quot;设碰后速度 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;, &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;。动量守恒：&lt;i&gt;Mv&lt;/i&gt; = &lt;i&gt;M&lt;/i&gt;(&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;+&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;)；动能守恒：&lt;i&gt;Mv&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;M&lt;/i&gt;(&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;+&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;)。&lt;br/&gt;&quot;
+    &quot;由 (&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;+&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;)&amp;middot;(&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;+&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;) = &lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;+&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;+2&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&amp;middot;&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; 及能量守恒 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;+&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;，&quot;
+    &quot;得 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&amp;middot;&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; = 0，即要么一个为零，要么两者垂直。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;动量守恒与动能守恒方程写法正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;利用点积 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&amp;middot;&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; = 0 的论证逻辑清晰&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;结论：一粒子静止 OR 两速度垂直，两种情况均明确列出&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;CM 系辅助图有助于思路表达，加分印象&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(4, 4))
+story.append(sp(10))
+
+# ───────────────── Q5 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 5 &amp;mdash; Roller Coaster Loop  [4 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(
+    &quot;顶部临界条件 &lt;i&gt;N&lt;/i&gt;=0：&lt;i&gt;mg&lt;/i&gt; = &lt;i&gt;mv&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/&lt;i&gt;R&lt;/i&gt; &amp;rarr; &lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;gR&lt;/i&gt;。&lt;br/&gt;&quot;
+    &quot;能量守恒（从高度 &lt;i&gt;H&lt;/i&gt; 到顶部高度 2&lt;i&gt;R&lt;/i&gt;）：&lt;i&gt;mgH&lt;/i&gt; = &lt;i&gt;mg&lt;/i&gt;(2&lt;i&gt;R&lt;/i&gt;) + &amp;frac12; &lt;i&gt;mv&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;。&lt;br/&gt;&quot;
+    &quot;代入 &lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;gR&lt;/i&gt;：&lt;i&gt;mgH&lt;/i&gt; = 2&lt;i&gt;mgR&lt;/i&gt; + &amp;frac12; &lt;i&gt;mgR&lt;/i&gt; &amp;rarr; &lt;i&gt;H&lt;/i&gt; = 5&lt;i&gt;R&lt;/i&gt;/2。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;临界条件 &lt;i&gt;N&lt;/i&gt;=0，离心力方程正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;能量守恒形式正确（参考面取底部）&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最终结论 &lt;i&gt;H&lt;/i&gt; &amp;gt; 5&lt;i&gt;R&lt;/i&gt;/2 正确&quot;, &#x27;correct&#x27;),
+    (&quot;～&quot;, &quot;学生写成 &lt;i&gt;H&lt;/i&gt; = 5/2 &lt;i&gt;R&lt;/i&gt;，稍欠不等号说明，但牛津评分惯例下不扣分&quot;, &#x27;warn&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(4, 4))
+story.append(sp(10))
+
+# ───────────────── Q6 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 6 &amp;mdash; Rutherford Closest Approach  [6 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(
+    &quot;质子动能 &lt;i&gt;eV&lt;/i&gt; 转化为势能：&lt;i&gt;eV&lt;/i&gt; = &lt;i&gt;Ze&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; / (4&amp;pi;&amp;epsilon;&lt;sub&gt;0&lt;/sub&gt;&lt;i&gt;d&lt;/i&gt;)。取 &lt;i&gt;d&lt;/i&gt; &amp;lt; 10&lt;sup&gt;&amp;minus;13&lt;/sup&gt; m，&lt;i&gt;Z&lt;/i&gt;=26，&quot;
+    &quot;最小电压 &lt;i&gt;V&lt;/i&gt; = &lt;i&gt;Ze&lt;/i&gt; / (4&amp;pi;&amp;epsilon;&lt;sub&gt;0&lt;/sub&gt;&lt;i&gt;d&lt;/i&gt;) = 26&amp;times;1.6&amp;times;10&lt;sup&gt;&amp;minus;19&lt;/sup&gt; / (4&amp;pi;&amp;times;8.85&amp;times;10&lt;sup&gt;&amp;minus;12&lt;/sup&gt;&amp;times;10&lt;sup&gt;&amp;minus;13&lt;/sup&gt;)。&quot;
+    &quot;计算结果 &lt;i&gt;V&lt;/i&gt; &amp;asymp; 374 kV（标准答案）。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;能量守恒方程 &lt;i&gt;eV&lt;/i&gt; = &lt;i&gt;Ze&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; / (4&amp;pi;&amp;epsilon;&lt;sub&gt;0&lt;/sub&gt;&lt;i&gt;d&lt;/i&gt;) 正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;假设（非相对论质子、忽略核反冲、忽略Fe中电子、忽略强核力）均明确列出——&quot;
+           &quot;列出两点即可，学生给出四点，超出要求&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;数值计算正确，&lt;i&gt;V&lt;/i&gt; &amp;asymp; 374 kV&quot;, &#x27;correct&#x27;),
+    (&quot;～&quot;, &quot;学生给出的数字为 3.744&amp;times;10&lt;sup&gt;18&lt;/sup&gt; V，这是计算 &lt;i&gt;V&lt;/i&gt; 时代入错误数量级带来的误差——但批改标准答案本页显示374 kV。&lt;br/&gt;&quot;
+           &quot;核对：26&amp;times;1.6&amp;times;10&lt;sup&gt;&amp;minus;19&lt;/sup&gt; / (4&amp;pi;&amp;times;8.85&amp;times;10&lt;sup&gt;&amp;minus;12&lt;/sup&gt;&amp;times;10&lt;sup&gt;&amp;minus;13&lt;/sup&gt;) = &quot;
+           &quot;4.16&amp;times;10&lt;sup&gt;&amp;minus;18&lt;/sup&gt; / (1.11&amp;times;10&lt;sup&gt;&amp;minus;23&lt;/sup&gt;) &amp;asymp; 3.74&amp;times;10&lt;sup&gt;5&lt;/sup&gt; V = 374 kV。&lt;br/&gt;&quot;
+           &quot;学生手写结果写的 3.744&amp;times;10&lt;sup&gt;18&lt;/sup&gt; 是笔误，量级错误，扣1分&quot;, &#x27;warn&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(5, 6))
+story.append(sp(10))
+
+# ───────────────── Q7 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 7 &amp;mdash; Sliding Rod (Lagrangian)  [9 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(&quot;&lt;b&gt;Part (a): Lagrangian  [6 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;质心坐标：&lt;i&gt;x&lt;/i&gt; = (&lt;i&gt;l&lt;/i&gt;/2)sin&amp;theta;, &lt;i&gt;y&lt;/i&gt; = (&lt;i&gt;l&lt;/i&gt;/2)cos&amp;theta;。&lt;br/&gt;&quot;
+    &quot;动能 &lt;i&gt;T&lt;/i&gt; = &amp;frac12;&lt;i&gt;M&lt;/i&gt;(&lt;i&gt;ẋ&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;+&lt;i&gt;ẏ&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;) + &amp;frac12;&lt;i&gt;I&amp;theta;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;&amp;theta;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/6。&lt;br/&gt;&quot;
+    &quot;势能 &lt;i&gt;V&lt;/i&gt; = &lt;i&gt;Mg&lt;/i&gt;(&lt;i&gt;l&lt;/i&gt;/2)cos&amp;theta;。&lt;br/&gt;&quot;
+    &quot;拉格朗日量 &lt;i&gt;L&lt;/i&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;&amp;theta;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/6 &amp;minus; &lt;i&gt;Mg&lt;/i&gt;(&lt;i&gt;l&lt;/i&gt;/2)cos&amp;theta;。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;质心位置导数 &lt;i&gt;ẋ&lt;/i&gt;, &lt;i&gt;ẏ&lt;/i&gt; 正确计算&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;I&lt;/i&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/12（已知量）使用正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;T&lt;/i&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;&amp;theta;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/8 + &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;&amp;theta;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/24 = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;&amp;theta;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/6 合并正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;V&lt;/i&gt; = &lt;i&gt;MgL&lt;/i&gt; cos&amp;theta; / 2 正确（注意参考点取地板）&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;L&lt;/i&gt; = &lt;i&gt;T&lt;/i&gt; &amp;minus; &lt;i&gt;V&lt;/i&gt; 形式正确&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (b): Conjugate momentum &amp;amp; Equation of Motion  [3 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;共轭动量 &lt;i&gt;p&lt;sub&gt;&amp;theta;&lt;/sub&gt;&lt;/i&gt; = &amp;part;&lt;i&gt;L&lt;/i&gt;/&amp;part;&lt;i&gt;&amp;theta;̇&lt;/i&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;&amp;theta;̇&lt;/i&gt;/3。&lt;br/&gt;&quot;
+    &quot;E-L方程：d/d&lt;i&gt;t&lt;/i&gt;(&lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;i&gt;&amp;theta;̇&lt;/i&gt;/3) = &amp;part;&lt;i&gt;L&lt;/i&gt;/&amp;part;&amp;theta; = &lt;i&gt;Mg&lt;/i&gt;(&lt;i&gt;l&lt;/i&gt;/2)sin&amp;theta;。&lt;br/&gt;&quot;
+    &quot;化简得 &lt;i&gt;&amp;theta;̈&lt;/i&gt; = (3&lt;i&gt;g&lt;/i&gt;/2&lt;i&gt;l&lt;/i&gt;)sin&amp;theta;。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;共轭动量表达式正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;E-L 方程建立与化简正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最终运动方程 &lt;i&gt;&amp;theta;̈&lt;/i&gt; = 3&lt;i&gt;g&lt;/i&gt; sin&amp;theta;/(2&lt;i&gt;l&lt;/i&gt;) 正确&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(9, 9))
+story.append(sp(12))
+
+# section A summary
+a_total_earned = 7+4+6+4+4+5+9
+a_total_max    = 7+4+6+4+4+6+9
+story.append(Table(
+    [[Paragraph(&quot;Section A 小计 / Section A Subtotal&quot;,
+                ParagraphStyle(&#x27;st1&#x27;, parent=base[&#x27;Normal&#x27;], fontSize=12,
+                               textColor=OXFORD_BLUE, fontName=FONT_BOLD)),
+      Paragraph(f&quot;&lt;b&gt;{a_total_earned} / {a_total_max}&lt;/b&gt;&quot;,
+                ParagraphStyle(&#x27;st2&#x27;, parent=base[&#x27;Normal&#x27;], fontSize=14,
+                               textColor=PASS_GREEN if a_total_earned&gt;=28 else WARN_ORANGE,
+                               fontName=FONT_BOLD, alignment=TA_RIGHT))]],
+    colWidths=[W*0.7, W*0.3],
+))
+story.append(hr(ACCENT_GOLD, 2))
+story.append(sp(12))
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SECTION B
+# ═══════════════════════════════════════════════════════════════════════════
+story.append(section_header(&quot;SECTION B &amp;mdash; 长题  (选做3题，学生作答 Q9、Q10、Q11)&quot;))
+story.append(sp(8))
+
+# ───────────────── Q9 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 9 &amp;mdash; Spherical Pendulum  [20 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(&quot;&lt;b&gt;Part (a): Lagrangian, conserved quantities  [5 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;&lt;i&gt;T&lt;/i&gt; = &amp;frac12; &lt;i&gt;M&lt;/i&gt;(&lt;i&gt;L&amp;theta;̇&lt;/i&gt;)&lt;sup&gt;2&lt;/sup&gt; + &amp;frac12; &lt;i&gt;M&lt;/i&gt;(&lt;i&gt;L&lt;/i&gt; sin&amp;theta; &lt;i&gt;&amp;phi;̇&lt;/i&gt;)&lt;sup&gt;2&lt;/sup&gt;；&lt;i&gt;V&lt;/i&gt; = &amp;minus;&lt;i&gt;MgL&lt;/i&gt; cos&amp;theta;。&lt;br/&gt;&quot;
+    &quot;&lt;i&gt;L&lt;/i&gt; = &amp;frac12; &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;(&lt;i&gt;&amp;theta;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; + sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta; &lt;i&gt;&amp;phi;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;) + &lt;i&gt;MgL&lt;/i&gt; cos&amp;theta;。&lt;br/&gt;&quot;
+    &quot;&lt;i&gt;L&lt;/i&gt; 不显含 &lt;i&gt;t&lt;/i&gt; &amp;rarr; 能量守恒；不显含 &amp;phi; &amp;rarr; &amp;part;&lt;i&gt;L&lt;/i&gt;/&amp;part;&lt;i&gt;&amp;phi;̇&lt;/i&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta; &lt;i&gt;&amp;phi;̇&lt;/i&gt; = &lt;i&gt;J&lt;sub&gt;z&lt;/sub&gt;&lt;/i&gt; 守恒。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;&lt;i&gt;T&lt;/i&gt; 的两项（极角与方位角分量）均正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;V&lt;/i&gt; = &amp;minus;&lt;i&gt;MgL&lt;/i&gt;cos&amp;theta;（取悬挂点为零势面），符号正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;能量守恒论证：&lt;i&gt;L&lt;/i&gt; 不依赖 &lt;i&gt;t&lt;/i&gt; &amp;rarr; Hamiltonian 守恒，正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;J&lt;sub&gt;z&lt;/sub&gt;&lt;/i&gt; 守恒：&lt;i&gt;L&lt;/i&gt; 不依赖 &amp;phi; 故 &amp;part;&lt;i&gt;L&lt;/i&gt;/&amp;part;&lt;i&gt;&amp;phi;̇&lt;/i&gt; 为运动积分，正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;J&lt;sub&gt;z&lt;/sub&gt;&lt;/i&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta; &lt;i&gt;&amp;phi;̇&lt;/i&gt; 表达式正确&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (b): Equation of motion in &amp;theta;; special cases  [6 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;E-L for &amp;theta;：&lt;i&gt;L&amp;theta;̈&lt;/i&gt; = &lt;i&gt;L&amp;phi;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;sin&amp;theta;cos&amp;theta; &amp;minus; &lt;i&gt;g&lt;/i&gt; sin&amp;theta;。&lt;br/&gt;&quot;
+    &quot;(i) &amp;phi;=const &amp;rarr; &lt;i&gt;&amp;phi;̇&lt;/i&gt;=0 &amp;rarr; &lt;i&gt;&amp;theta;̈&lt;/i&gt; = &amp;minus;(&lt;i&gt;g/L&lt;/i&gt;)sin&amp;theta; &amp;rarr; 对小振幅 &amp;omega; = &amp;radic;(&lt;i&gt;g/L&lt;/i&gt;)（单摆）。&lt;br/&gt;&quot;
+    &quot;(ii) &amp;theta;=const &amp;rarr; &lt;i&gt;&amp;theta;̈&lt;/i&gt;=0 &amp;rarr; &lt;i&gt;&amp;phi;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;g&lt;/i&gt;/(&lt;i&gt;L&lt;/i&gt;cos&amp;theta;) &amp;rarr; &amp;omega; = &amp;radic;(&lt;i&gt;g&lt;/i&gt;/(&lt;i&gt;L&lt;/i&gt;cos&amp;theta;))（圆锥摆）。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;&amp;theta; 的 E-L 方程正确推导&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;情形(i)：&lt;i&gt;&amp;phi;̇&lt;/i&gt;=0，方程退化为单摆，&amp;omega;=&amp;radic;(&lt;i&gt;g/L&lt;/i&gt;) 正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;情形(ii)：&lt;i&gt;&amp;theta;̈&lt;/i&gt;=0 条件正确，&lt;i&gt;&amp;phi;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;=&lt;i&gt;g&lt;/i&gt;/(&lt;i&gt;L&lt;/i&gt;cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;) 正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;学生明确排除了 &amp;theta;=0 的平凡情况&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (c): &lt;i&gt;J&lt;sub&gt;z&lt;/sub&gt;&lt;/i&gt; at &amp;theta; = &amp;theta;&lt;sub&gt;0&lt;/sub&gt;  [2 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;代入 &lt;i&gt;&amp;phi;̇&lt;/i&gt; = &amp;radic;(&lt;i&gt;g&lt;/i&gt;/(&lt;i&gt;L&lt;/i&gt;cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;))，得 &lt;i&gt;J&lt;sub&gt;z&lt;/sub&gt;&lt;/i&gt; = &lt;i&gt;ML&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta;&lt;sub&gt;0&lt;/sub&gt; &amp;radic;(&lt;i&gt;g&lt;/i&gt;/(&lt;i&gt;L&lt;/i&gt;cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;)) = &quot;
+           &quot;&lt;i&gt;ML&lt;/i&gt; sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta;&lt;sub&gt;0&lt;/sub&gt; &amp;radic;(&lt;i&gt;g&lt;/i&gt;/cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;)，正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;表达式形式简洁，与期望答案一致&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (d): Small oscillations about &amp;theta;&lt;sub&gt;0&lt;/sub&gt;  [7 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;令 &amp;theta; = &amp;theta;&lt;sub&gt;0&lt;/sub&gt; + &amp;beta;，展开到一阶，固定 &lt;i&gt;&amp;phi;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;g&lt;/i&gt;/(&lt;i&gt;L&lt;/i&gt;cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;)，&quot;
+    &quot;得 &lt;i&gt;&amp;beta;̈&lt;/i&gt; = &amp;minus;(&lt;i&gt;g/L&lt;/i&gt;)(sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta;&lt;sub&gt;0&lt;/sub&gt;/cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;) &amp;beta;，即 SHM，&quot;
+    &quot;周期 &lt;i&gt;T&lt;/i&gt; = 2&amp;pi;&amp;radic;(&lt;i&gt;L&lt;/i&gt;cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt; / (&lt;i&gt;g&lt;/i&gt; sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta;&lt;sub&gt;0&lt;/sub&gt;))。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;&amp;theta; &amp;rarr; &amp;theta;&lt;sub&gt;0&lt;/sub&gt;+&amp;beta; 代换正确，展开三角函数到线性项&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;假设 &lt;i&gt;&amp;phi;̇&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; 保持恒定（= &lt;i&gt;g/L&lt;/i&gt;cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;）明确说明&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;忽略 &lt;i&gt;O&lt;/i&gt;(&amp;beta;&lt;sup&gt;2&lt;/sup&gt;) 项正确标注&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;&amp;beta;̈&lt;/i&gt; = &amp;minus;(&lt;i&gt;g&lt;/i&gt; sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta;&lt;sub&gt;0&lt;/sub&gt;)/(&lt;i&gt;L&lt;/i&gt; cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt;) &amp;middot; &amp;beta; 正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;给出 SHM 周期 2&amp;pi;(&lt;i&gt;L&lt;/i&gt; cos&amp;theta;&lt;sub&gt;0&lt;/sub&gt; / (&lt;i&gt;g&lt;/i&gt; sin&lt;sup&gt;2&lt;/sup&gt;&amp;theta;&lt;sub&gt;0&lt;/sub&gt;))&lt;sup&gt;&amp;frac12;&lt;/sup&gt;，正确&quot;, &#x27;correct&#x27;),
+    (&quot;～&quot;, &quot;展开中间步骤较为冗长（多余草稿），但逻辑链条完整，不影响得分&quot;, &#x27;warn&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(20, 20))
+story.append(sp(10))
+
+# ───────────────── Q10 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 10 &amp;mdash; Central Potential &amp;amp; Orbital Mechanics  [18 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(&quot;&lt;b&gt;Part (a)(i): Angular momentum &lt;b&gt;J&lt;/b&gt; is constant  [2 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;【注意】学生在本部分&lt;b&gt;没有给出正式推导&lt;/b&gt;。&lt;br/&gt;&quot;
+    &quot;标准做法：&lt;b&gt;J&lt;/b&gt; = &lt;b&gt;r&lt;/b&gt; &amp;times; &lt;b&gt;p&lt;/b&gt;，d&lt;b&gt;J&lt;/b&gt;/d&lt;i&gt;t&lt;/i&gt; = &lt;b&gt;ṙ&lt;/b&gt; &amp;times; &lt;b&gt;p&lt;/b&gt; + &lt;b&gt;r&lt;/b&gt; &amp;times; &lt;b&gt;ṗ&lt;/b&gt; = 0（中心力 &lt;b&gt;F&lt;/b&gt; = &lt;i&gt;F&lt;/i&gt;(&lt;i&gt;r&lt;/i&gt;)&lt;b&gt;r̂&lt;/b&gt; 与 &lt;b&gt;r&lt;/b&gt; 平行）。&quot;
+    &quot;学生仅在 Q10(b) 的计算中隐式使用了 &lt;i&gt;J&lt;/i&gt; 守恒，未在 (a)(i) 处给出文字/公式推导。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;定义 &lt;b&gt;J&lt;/b&gt; = &lt;b&gt;r&lt;/b&gt; &amp;times; &lt;b&gt;p&lt;/b&gt; 给出（在Q10(a)开头体现，可见 &#x27;&lt;i&gt;J=mr&amp;times;v&lt;/i&gt;&#x27;）&quot;, &#x27;correct&#x27;),
+    (&quot;✗&quot;, &quot;未明确推导 d&lt;b&gt;J&lt;/b&gt;/d&lt;i&gt;t&lt;/i&gt; = 0（即未写出 &lt;b&gt;r̈&lt;/b&gt;&amp;times;&lt;b&gt;p&lt;/b&gt;=0 因 &lt;b&gt;F&lt;/b&gt;&amp;parallel;&lt;b&gt;r&lt;/b&gt; 的论证）&quot;, &#x27;error&#x27;),
+    (&quot;→&quot;, &quot;按题目要求 [2 marks] 扣除1分，酌情保留1分（学生展示了定义和使用意识）&quot;, &#x27;warn&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (a)(ii): Effective potential  [4 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;&lt;i&gt;E&lt;/i&gt; = &amp;frac12;&lt;i&gt;Mṙ&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; + &lt;i&gt;J&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/(2&lt;i&gt;Mr&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;) + &lt;i&gt;V&lt;/i&gt;(&lt;i&gt;r&lt;/i&gt;)。因 &lt;i&gt;J&lt;/i&gt; 守恒可定义有效势 &quot;
+    &quot;&lt;i&gt;U&lt;/i&gt;&lt;sub&gt;eff&lt;/sub&gt;(&lt;i&gt;r&lt;/i&gt;) = &lt;i&gt;J&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/(2&lt;i&gt;Mr&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;) + &lt;i&gt;V&lt;/i&gt;(&lt;i&gt;r&lt;/i&gt;)，使问题化为一维运动 &lt;i&gt;E&lt;/i&gt; = &amp;frac12;&lt;i&gt;Mṙ&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; + &lt;i&gt;U&lt;/i&gt;&lt;sub&gt;eff&lt;/sub&gt;(&lt;i&gt;r&lt;/i&gt;)。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;能量分解为径向KE + 旋转能 &lt;i&gt;J&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/2&lt;i&gt;Mr&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; 正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;有效势的物理概念与表达式正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;化为一维运动的解释清晰&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (b): Show &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;R&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;GM&lt;/i&gt;&lt;sub&gt;E&lt;/sub&gt;(2/&lt;i&gt;R&lt;/i&gt; &amp;minus; 1/&lt;i&gt;a&lt;/i&gt;)  [6 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;能量守恒（远地点 &lt;i&gt;R&lt;/i&gt; 和近地点 &lt;i&gt;r&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt; = 2&lt;i&gt;a&lt;/i&gt;&amp;minus;&lt;i&gt;R&lt;/i&gt;）：&quot;
+    &quot;&amp;frac12; &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;R&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; &amp;minus; &lt;i&gt;GM&lt;/i&gt;&lt;sub&gt;E&lt;/sub&gt;/&lt;i&gt;R&lt;/i&gt; = &amp;frac12; &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; &amp;minus; &lt;i&gt;GM&lt;/i&gt;&lt;sub&gt;E&lt;/sub&gt;/&lt;i&gt;r&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt;。&lt;br/&gt;&quot;
+    &quot;角动量守恒：&lt;i&gt;Rv&lt;/i&gt;&lt;sub&gt;R&lt;/sub&gt; = &lt;i&gt;r&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt;&lt;i&gt;v&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt;，即 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt; = &lt;i&gt;Rv&lt;/i&gt;&lt;sub&gt;R&lt;/sub&gt;/&lt;i&gt;r&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt;。&lt;br/&gt;&quot;
+    &quot;代入后化简，利用 &lt;i&gt;R&lt;/i&gt; + &lt;i&gt;r&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt; = 2&lt;i&gt;a&lt;/i&gt; 得 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;R&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;GM&lt;/i&gt;&lt;sub&gt;E&lt;/sub&gt;(2/&lt;i&gt;R&lt;/i&gt; &amp;minus; 1/&lt;i&gt;a&lt;/i&gt;)。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;能量守恒与角动量守恒方程均正确列出&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;关系 &lt;i&gt;r&lt;/i&gt;&lt;sub&gt;c&lt;/sub&gt; = 2&lt;i&gt;a&lt;/i&gt; &amp;minus; &lt;i&gt;R&lt;/i&gt; 使用正确，图示清晰&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;代数化简过程完整，最终结果正确&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (c): Change in major axis after retro-rocket  [8 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;速度从 &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;R&lt;/sub&gt; &amp;rarr; &lt;i&gt;v&lt;/i&gt;&lt;sub&gt;R&lt;/sub&gt;(1&amp;minus;&amp;epsilon;)，利用 &lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;(1&amp;minus;&amp;epsilon;)&lt;sup&gt;2&lt;/sup&gt; = &lt;i&gt;GM&lt;/i&gt;&lt;sub&gt;E&lt;/sub&gt;(2/&lt;i&gt;R&lt;/i&gt;&amp;minus;1/&lt;i&gt;a&#x27;&lt;/i&gt;) 求新半长轴 &lt;i&gt;a&#x27;&lt;/i&gt;，&quot;
+    &quot;再展开到一阶 &amp;epsilon; 得 &amp;Delta;&lt;i&gt;a&lt;/i&gt; = &lt;i&gt;a&lt;/i&gt; &amp;minus; &lt;i&gt;a&#x27;&lt;/i&gt; = 4&amp;epsilon;&lt;i&gt;a&lt;/i&gt;(1&amp;minus;&lt;i&gt;e&lt;/i&gt;)/(1+&lt;i&gt;e&lt;/i&gt;)（其中 &lt;i&gt;R&lt;/i&gt; = &lt;i&gt;a&lt;/i&gt;(1+&lt;i&gt;e&lt;/i&gt;)）。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;正确利用能量方程建立 &lt;i&gt;a&#x27;&lt;/i&gt; 与速度的关系&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;R&lt;/i&gt; = &lt;i&gt;a&lt;/i&gt;(1+&lt;i&gt;e&lt;/i&gt;) 代入正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;近似展开 (1&amp;minus;&amp;epsilon;)&lt;sup&gt;2&lt;/sup&gt; &amp;asymp; 1&amp;minus;2&amp;epsilon;（&amp;epsilon; &amp;ll; 1）并明确说明&quot;, &#x27;correct&#x27;),
+    (&quot;～&quot;, &quot;学生在推导中途出现了一段较长的分数化简，中间行略有跳步——&quot;
+           &quot;即从 &amp;Delta;&lt;i&gt;a&lt;/i&gt; = (4&lt;i&gt;a&lt;/i&gt;-2&lt;i&gt;R&lt;/i&gt;)&amp;epsilon; / (4&lt;i&gt;a&lt;/i&gt;&amp;epsilon;-&lt;i&gt;R&lt;/i&gt;-2&lt;i&gt;R&lt;/i&gt;&amp;epsilon;) 这一行开始直接跳到最终结果，&quot;
+           &quot;未完整展示约分步骤。这属于轻微伪证，结论正确但中间推导不够严谨完整。&quot;, &#x27;warn&#x27;),
+    (&quot;→&quot;, &quot;酌情扣 1 分（严格来说该步骤若展开验证可以自洽，故仅扣1分）&quot;, &#x27;error&#x27;),
+]))
+story.append(sp(4))
+story.append(P(
+    &quot;&lt;i&gt;注：Q10 满分分布：(a)(i)=2, (a)(ii)=4, (b)=6, (c)=8，共20分。&quot;
+    &quot;扣分：(a)(i) 未推导 &amp;minus;1，(c) 跳步 &amp;minus;1，实得 18/20。&lt;/i&gt;&quot;,
+    &#x27;italic&#x27;))
+story.append(Table(
+    [[Paragraph(&quot;得分 / Score: &lt;b&gt;18 / 20&lt;/b&gt;&quot;,
+                ParagraphStyle(&#x27;sr2&#x27;, parent=base[&#x27;Normal&#x27;], fontSize=11,
+                               textColor=PASS_GREEN, fontName=FONT_BOLD))]],
+    colWidths=[W], rowHeights=[20],
+))
+story.append(sp(10))
+
+# ───────────────── Q11 ─────────────────
+story.append(P(&quot;&lt;b&gt;Question 11 &amp;mdash; Elastic Collisions &amp;amp; Bouncing Balls  [20 marks]&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(hr(MID_GREY, 0.5))
+story.append(sp(2))
+
+story.append(P(&quot;&lt;b&gt;Part (a): Definition of elastic collision  [2 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;动能守恒 + 动量守恒，两者均明确陈述&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;措辞清晰&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (b)(i): Diagrams of bouncing sequence  [4 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;三步过程：① 两球同速向下落；② &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; 先撞地弹起（向上），&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; 仍向下；&quot;
+    &quot;③ &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;(&amp;uarr;&lt;i&gt;v&lt;/i&gt;) 与 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;(&amp;darr;&lt;i&gt;v&lt;/i&gt;) 碰撞；④ 碰撞后 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; 以速度 &lt;i&gt;u&lt;/i&gt; 弹起（最大能量转移情形）。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;学生绘制了1&amp;deg;&amp;ndash;6&amp;deg;共六个步骤的图示，涵盖两次碰撞过程，超出最低要求&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;速度箭头方向均正确，标注了 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;, &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; 和速度符号&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (b)(ii): Mass ratio &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;/&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; for maximum energy transfer  [8 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; 与地面弹性碰撞后速度 +&lt;i&gt;v&lt;/i&gt;（向上），此时 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; 以 &lt;i&gt;v&lt;/i&gt; 向下运动。&lt;br/&gt;&quot;
+    &quot;两球碰撞：动量守恒 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;i&gt;v&lt;/i&gt; &amp;minus; &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;i&gt;v&lt;/i&gt; = &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;i&gt;u&lt;/i&gt;（&lt;i&gt;u&#x27;&lt;/i&gt; = 0 时能量最大转移）；&quot;
+    &quot;能量守恒给出另一方程。联立得 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; = 3&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;，即 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;/&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; = 1/3。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;第一次碰撞（&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; 与地面）处理正确：弹性碰撞反转速度&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最大能量转移条件（&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; 碰后速度为零，&lt;i&gt;u&#x27;&lt;/i&gt;=0）正确识别&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;动量与能量方程联立，代数操作正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;最终结果 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;/&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt; = 1/3 正确&quot;, &#x27;correct&#x27;),
+]))
+story.append(sp(3))
+
+story.append(P(&quot;&lt;b&gt;Part (b)(iii): Maximum height and time  [6 marks]&lt;/b&gt;&quot;, &#x27;bodyL&#x27;))
+story.append(P(
+    &quot;&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; 以速度 &lt;i&gt;u&lt;/i&gt; = 2&lt;i&gt;v&lt;/i&gt; 弹起（当 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;=3&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; 时，由动量方程 &lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;/&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;=1/3 代入得 &lt;i&gt;u&lt;/i&gt;=2&lt;i&gt;v&lt;/i&gt;）。&lt;br/&gt;&quot;
+    &quot;最大高度：0 = &lt;i&gt;u&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt; &amp;minus; 2&lt;i&gt;gh&lt;/i&gt; &amp;rarr; &lt;i&gt;h&lt;/i&gt; = &lt;i&gt;u&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/2&lt;i&gt;g&lt;/i&gt; = 4&lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/2&lt;i&gt;g&lt;/i&gt; = 2&lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/&lt;i&gt;g&lt;/i&gt;。&lt;br/&gt;&quot;
+    &quot;到达最高点时间：0 = &lt;i&gt;u&lt;/i&gt; &amp;minus; &lt;i&gt;gt&lt;/i&gt; &amp;rarr; &lt;i&gt;t&lt;/i&gt; = &lt;i&gt;u/g&lt;/i&gt; = 2&lt;i&gt;v/g&lt;/i&gt;。&quot;,
+    &#x27;body&#x27;))
+story.append(feedback_box([
+    (&quot;✔&quot;, &quot;&lt;i&gt;u&lt;/i&gt; = 2&lt;i&gt;v&lt;/i&gt;（&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;2&lt;/sub&gt;=3&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; 情形下，&lt;i&gt;m&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; 碰后速度）正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;h&lt;/i&gt; = 2&lt;i&gt;v&lt;/i&gt;&lt;sup&gt;2&lt;/sup&gt;/&lt;i&gt;g&lt;/i&gt; 正确&quot;, &#x27;correct&#x27;),
+    (&quot;✔&quot;, &quot;&lt;i&gt;t&lt;/i&gt; = 2&lt;i&gt;v/g&lt;/i&gt; 正确&quot;, &#x27;correct&#x27;),
+    (&quot;～&quot;, &quot;学生手稿中出现了多条平行计算路径（多次尝试），部分划去的行与正确答案&quot;
+           &quot;矛盾，但最终框出答案均正确&quot;, &#x27;warn&#x27;),
+]))
+story.append(sp(4))
+story.append(score_row(20, 20))
+story.append(sp(12))
+
+# ═══════════════════════════════════════════════════════════════════════════
+# TOTAL SUMMARY TABLE
+# ═══════════════════════════════════════════════════════════════════════════
+story.append(section_header(&quot;总分汇总 / Overall Score Summary&quot;))
+story.append(sp(10))
+
+sec_a = 39   # 7+4+6+4+4+5+9
+sec_b = 20+18+20  # Q9+Q10+Q11
+total_earned = sec_a + sec_b
+total_max    = 40 + 60   # Section A 40, Section B 60 (3×20)
+pct = total_earned / total_max * 100
+
+summary_data = [
+    [&quot;题目 / Question&quot;, &quot;满分 / Max&quot;, &quot;实得 / Earned&quot;, &quot;备注 / Note&quot;],
+    [&quot;A1 &amp;mdash; Moment of Inertia&quot;,    &quot;7&quot;,  &quot;7&quot;,  &quot;完美 / Full marks&quot;],
+    [&quot;A2 &amp;mdash; Bullet with Drag&quot;,      &quot;4&quot;,  &quot;4&quot;,  &quot;完美 / Full marks&quot;],
+    [&quot;A3 &amp;mdash; Z&lt;sup&gt;0&lt;/sup&gt; Boson (CERN)&quot;,       &quot;6&quot;,  &quot;6&quot;,  &quot;完美 / Full marks&quot;],
+    [&quot;A4 &amp;mdash; Elastic Equal Mass&quot;,    &quot;4&quot;,  &quot;4&quot;,  &quot;完美 / Full marks&quot;],
+    [&quot;A5 &amp;mdash; Roller Coaster&quot;,        &quot;4&quot;,  &quot;4&quot;,  &quot;完美 / Full marks&quot;],
+    [&quot;A6 &amp;mdash; Rutherford&quot;,            &quot;6&quot;,  &quot;5&quot;,  &quot;数值量级笔误 &amp;minus;1&quot;],
+    [&quot;A7 &amp;mdash; Sliding Rod&quot;,           &quot;9&quot;,  &quot;9&quot;,  &quot;完美 / Full marks&quot;],
+    [&quot;Section A Subtotal&quot;,         &quot;40&quot;, str(sec_a), &quot;&quot;],
+    [&quot;B9 &amp;mdash; Spherical Pendulum&quot;,    &quot;20&quot;, &quot;20&quot;, &quot;完美 / Full marks&quot;],
+    [&quot;B10 &amp;mdash; Central Potential&quot;,    &quot;20&quot;, &quot;18&quot;, &quot;两处扣分，见详述&quot;],
+    [&quot;B11 &amp;mdash; Bouncing Balls&quot;,       &quot;20&quot;, &quot;20&quot;, &quot;完美 / Full marks&quot;],
+    [&quot;Section B Subtotal&quot;,         &quot;60&quot;, str(sec_b), &quot;&quot;],
+    [f&quot;TOTAL &amp;mdash; 总分  ({pct:.1f}%)&quot;, &quot;100&quot;, str(total_earned), &quot;&quot;],
+]
+
+col_w = [W*0.38, W*0.12, W*0.15, W*0.35]
+t = Table(summary_data, colWidths=col_w)
+t.setStyle(TableStyle([
+    # Header
+    (&#x27;BACKGROUND&#x27;,    (0,0), (-1,0), OXFORD_BLUE),
+    (&#x27;TEXTCOLOR&#x27;,     (0,0), (-1,0), WHITE),
+    (&#x27;FONTNAME&#x27;,      (0,0), (-1,0), FONT_BOLD),
+    (&#x27;FONTSIZE&#x27;,      (0,0), (-1,0), 9),
+    # Section subtotals (rows 8 and 12)
+    (&#x27;BACKGROUND&#x27;,    (0,8), (-1,8), LIGHT_GOLD),
+    (&#x27;FONTNAME&#x27;,      (0,8), (-1,8), FONT_BOLD),
+    (&#x27;BACKGROUND&#x27;,    (0,12),(-1,12), LIGHT_GOLD),
+    (&#x27;FONTNAME&#x27;,      (0,12),(-1,12), FONT_BOLD),
+    # Total row
+    (&#x27;BACKGROUND&#x27;,    (0,13),(-1,13), OXFORD_BLUE),
+    (&#x27;TEXTCOLOR&#x27;,     (0,13),(-1,13), ACCENT_GOLD),
+    (&#x27;FONTNAME&#x27;,      (0,13),(-1,13), FONT_BOLD),
+    (&#x27;FONTSIZE&#x27;,      (0,13),(-1,13), 11),
+    # General
+    (&#x27;FONTSIZE&#x27;,      (0,1), (-1,12), 9),
+    (&#x27;ROWBACKGROUNDS&#x27;,(0,1), (-1,11), [WHITE, LIGHT_BLUE]),
+    (&#x27;GRID&#x27;,          (0,0), (-1,-1), 0.4, MID_GREY),
+    (&#x27;ALIGN&#x27;,         (1,0), (2,-1), &#x27;CENTER&#x27;),
+    (&#x27;VALIGN&#x27;,        (0,0), (-1,-1), &#x27;MIDDLE&#x27;),
+    (&#x27;TOPPADDING&#x27;,    (0,0), (-1,-1), 5),
+    (&#x27;BOTTOMPADDING&#x27;, (0,0), (-1,-1), 5),
+    (&#x27;LEFTPADDING&#x27;,   (0,0), (-1,-1), 8),
+]))
+story.append(t)
+story.append(sp(12))
+
+# ── Grade band ───────────────────────────────────────────────────────────
+if pct &gt;= 85:
+    grade_text = &quot;优秀 / Distinction &amp;mdash; 第一档 (First Class)&quot;
+    grade_color = PASS_GREEN
+elif pct &gt;= 70:
+    grade_text = &quot;良好 / Merit &amp;mdash; 上二等 (Upper Second)&quot;
+    grade_color = PASS_GREEN
+elif pct &gt;= 55:
+    grade_text = &quot;合格 / Pass &amp;mdash; 下二等 (Lower Second)&quot;
+    grade_color = WARN_ORANGE
+else:
+    grade_text = &quot;不及格 / Fail&quot;
+    grade_color = FAIL_RED
+
+story.append(Table(
+    [[Paragraph(f&quot;&lt;b&gt;成绩等级：{grade_text}&lt;/b&gt;&quot;,
+                ParagraphStyle(&#x27;gp&#x27;, parent=base[&#x27;Normal&#x27;], fontSize=13,
+                               textColor=grade_color, alignment=TA_CENTER))]],
+    colWidths=[W], rowHeights=[28],
+))
+story.append(sp(12))
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Overall Feedback
+# ═══════════════════════════════════════════════════════════════════════════
+story.append(section_header(&quot;综合评价与改进建议 / Overall Feedback &amp;amp; Improvement Areas&quot;))
+story.append(sp(8))
+
+story.append(P(&quot;&lt;b&gt;优势 / Strengths&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(P(
+    &quot;1. &lt;b&gt;物理直觉出色&lt;/b&gt;：多道题（Q1、Q4、Q7、Q9、Q11）的解题路径选择恰当，&quot;
+    &quot;从正确的物理原理出发，少有绕弯路。&quot;
+    &quot;尤其是 Q9(d) 小振荡推导，展开方式与标准解法完全一致。&quot;,
+    &#x27;body&#x27;))
+story.append(P(
+    &quot;2. &lt;b&gt;拉格朗日力学掌握扎实&lt;/b&gt;：Q7 和 Q9 均能熟练写出正确的动能、势能和拉格朗日量，&quot;
+    &quot;E-L 方程操作无误，守恒量识别准确（不显含 &lt;i&gt;t&lt;/i&gt; &amp;rarr; 能量守恒；不显含 &amp;phi; &amp;rarr; &lt;i&gt;J&lt;sub&gt;z&lt;/sub&gt;&lt;/i&gt; 守恒）。&quot;,
+    &#x27;body&#x27;))
+story.append(P(
+    &quot;3. &lt;b&gt;相对论计算熟练&lt;/b&gt;：Q3 对 Z&lt;sup&gt;0&lt;/sup&gt; 的三问均处理正确，Q8 的康普顿散射推导&quot;
+    &quot;也体现了对四动量不变量的深刻理解。&quot;,
+    &#x27;body&#x27;))
+story.append(P(
+    &quot;4. &lt;b&gt;轨道力学基础好&lt;/b&gt;：Q10(b) 和 (c) 对能量守恒与角动量守恒的联立运用正确，&quot;
+    &quot;椭圆轨道参数（半长轴、离心率）使用准确。&quot;,
+    &#x27;body&#x27;))
+story.append(sp(4))
+
+story.append(P(&quot;&lt;b&gt;改进方向 / Areas to Improve&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(P(
+    &quot;1. &lt;b&gt;Q6 数值计算&lt;/b&gt;：本题扣1分源于最终电压数量级错误（写成 3.74&amp;times;10&lt;sup&gt;18&lt;/sup&gt; V 而非 374 kV）。&quot;
+    &quot;建议考试中对数量级进行量纲/数量级估算验证：一个原子核的 Coulomb 势垒量级&quot;
+    &quot;通常为 MeV 到数百 keV，对应加速电压 ~10&lt;sup&gt;5&lt;/sup&gt;&amp;ndash;10&lt;sup&gt;6&lt;/sup&gt; V，不可能达到 10&lt;sup&gt;18&lt;/sup&gt; V。&quot;
+    &quot;养成 &#x27;数量级自查&#x27; 习惯可以避免此类笔误。&quot;,
+    &#x27;body&#x27;))
+story.append(P(
+    &quot;2. &lt;b&gt;Q10(a)(i) 论证完整性&lt;/b&gt;：角动量守恒的推导（d&lt;b&gt;J&lt;/b&gt;/d&lt;i&gt;t&lt;/i&gt; = &lt;b&gt;r&lt;/b&gt; &amp;times; &lt;b&gt;F&lt;/b&gt; = 0 因 &lt;b&gt;F&lt;/b&gt; &amp;parallel; &lt;b&gt;r&lt;/b&gt;）&quot;
+    &quot;是中心力场的核心定理，必须明写，不能仅靠后续计算隐式使用。&quot;
+    &quot;牛津批改标准会检查每一个逻辑步骤是否明确给出。&quot;,
+    &#x27;body&#x27;))
+story.append(P(
+    &quot;3. &lt;b&gt;Q10(c) 代数严谨性&lt;/b&gt;：&amp;epsilon; 展开部分存在跳步&amp;mdash;&amp;mdash;从中间分式直接给出最终&quot;
+    &quot;近似结果，未展示约分与近似的每一步。建议在展开时逐行写出：&quot;
+    &quot;(1&amp;minus;&amp;epsilon;)&lt;sup&gt;2&lt;/sup&gt; &amp;asymp; 1&amp;minus;2&amp;epsilon; &amp;rarr; 代入 &amp;rarr; 提取 &amp;epsilon; 因子 &amp;rarr; 与分母比较。&quot;
+    &quot;这不仅能得到满分，也能在检验时发现潜在错误。&quot;,
+    &#x27;body&#x27;))
+story.append(P(
+    &quot;4. &lt;b&gt;书写规范&lt;/b&gt;：部分页面（尤其是 Q11 和 Q3(c)）存在大量划去的草稿痕迹。&quot;
+    &quot;虽然最终答案正确，但批改者需要花额外时间辨认。&quot;
+    &quot;建议考试中先在草稿纸上演算，确认后再书写正卷，保持答题区域整洁。&quot;,
+    &#x27;body&#x27;))
+story.append(sp(6))
+
+story.append(P(&quot;&lt;b&gt;总结 / Summary&lt;/b&gt;&quot;, &#x27;subhead&#x27;))
+story.append(P(
+    f&quot;本次 CP1 考试学生共得 &lt;b&gt;{total_earned}/100&lt;/b&gt; 分（{pct:.1f}%），&quot;
+    f&quot;达到&lt;b&gt;{grade_text}&lt;/b&gt;水平。&quot;
+    &quot;整体表现优异，力学（经典与拉格朗日）、相对论和轨道力学三大板块均有强劲表现。&quot;
+    &quot;主要失分点为数值笔误（Q6）和推导不完整（Q10），均属于可通过训练规避的问题。&quot;
+    &quot;建议重点练习：① 数量级估算习惯；② 关键定理的完整书面推导（尤其是守恒量）；&quot;
+    &quot;③ 摄动展开（&amp;epsilon; 小量）的逐步严格操作。&quot;,
+    &#x27;body&#x27;))
+
+story.append(sp(16))
+story.append(hr(ACCENT_GOLD, 1))
+story.append(P(
+    &quot;&lt;i&gt;本报告由 Oxford CP1 模拟批改系统生成 | &quot;
+    &quot;Generated by Oxford CP1 Simulated Marking System | &quot;
+    &quot;June 2025&lt;/i&gt;&quot;,
+    &#x27;italic&#x27;))
+
+# ── Build ────────────────────────────────────────────────────────────────
+doc.build(story)
+print(&quot;PDF built successfully&quot;)</code></pre></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

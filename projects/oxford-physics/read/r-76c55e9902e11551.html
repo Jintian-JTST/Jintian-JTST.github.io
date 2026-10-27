@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EL02 · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>代码</span></div>
+      <header class="reading-header"><p class="library-eyebrow">EL / 大一</p><h1>EL02</h1><div class="reading-meta"><span>PY · 1 KB</span><a class="button" href="/assets/projects/oxford-physics/files/el02-76c55e9902e1.py" download="EL02.py">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><pre><code>import numpy as np
+import pandas as pd
+
+df = pd.read_csv(&#x27;RC.csv&#x27;)
+f=df.freq.values
+v1=df.mv1.values
+v2=df.mv2.values
+
+import matplotlib.pyplot as plt
+plt.scatter(f,v1, label=&#x27;v1&#x27;, color=&#x27;blue&#x27;)
+plt.scatter(f,v2, label=&#x27;v2&#x27;, color=&#x27;orange&#x27;)
+plt.xscale(&#x27;log&#x27;)
+plt.title(&#x27;Voltages V1 and V2 vs Frequency&#x27;)
+plt.xlabel(&#x27;Frequency (Hz)&#x27;)
+plt.ylabel(&#x27;Voltage (V)&#x27;)
+plt.legend()
+plt.savefig(&#x27;EL02_Voltages.png&#x27;)
+
+plt.clf()
+T2=(v2/v1)**2
+plt.scatter(f,T2, label=&#x27;T2&#x27;, color=&#x27;green&#x27;)
+plt.xscale(&#x27;log&#x27;)
+plt.title(&#x27;Transmission T2 vs Frequency&#x27;)
+plt.xlabel(&#x27;Frequency (Hz)&#x27;)
+plt.ylabel(&#x27;Transmission T2&#x27;)
+plt.legend()
+plt.savefig(&#x27;EL02_T2.png&#x27;)
+
+dT2=(2/(12**0.5))*(v2**4/v1**6+v2**2/v1**4)**0.5
+print(dT2)
+
+
+from scipy.optimize import curve_fit
+def RCfit1(f, a, c):
+    return 1/(a+c*f**2)
+p0=1,1.3e-6
+popt,pcov=curve_fit(RCfit1, f, T2, p0, sigma=dT2)
+print(&#x27;a: &#x27; +str(popt[0])+&#x27; c: &#x27;+str(popt[1]))
+print(&#x27;Errors(a,c): &#x27;+ str(np.sqrt(np.diag(pcov))))
+print(popt+1.959964*np.sqrt(pcov.diagonal()))
+print(popt-1.959964*np.sqrt(pcov.diagonal()))</code></pre></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

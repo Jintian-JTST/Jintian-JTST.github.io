@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>untitled · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>代码</span></div>
+      <header class="reading-header"><p class="library-eyebrow">MATLAB / 大一</p><h1>untitled</h1><div class="reading-meta"><span>M · 1 KB</span><a class="button" href="/assets/projects/oxford-physics/files/untitled-7489aa3d6006.m" download="untitled.m">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><pre><code>function [image_out] = wavy_image(image_in)
+    Y = size(image_in, 1);
+    X = size(image_in, 2);
+    theta = 5;
+    A = 50;  % Set the Amplitude
+    k = 13; % Set the frequency 
+    max_shift = 2*A; % CHANGED for new wavy_image (allow for 2A extra pixels)
+    image_out = zeros(Y, X+max_shift, 3);
+    for y=1:Y
+        %% modify these lines for this wavy_image function
+
+        local_shift = round(A * sin(k * (y / Y) * 2 * pi));  % integer shift, offset so &gt;=0
+        local_x = 1:X;
+
+        local_x = local_x + local_shift;
+        local_x = local_x(local_x &gt; 0 &amp; local_x &lt;= X + max_shift); % Ensure local_x is within bounds
+        image_out(y, local_x, :) = image_in(y, :, :);
+    end
+end
+
+
+% CO01 - Exercise 2 - Wavy Image 
+
+% Load the image
+MyImage = imread(&#x27;Hubble.jpg&#x27;);
+
+% Normalise the colours
+MyImage = double(MyImage)/255;
+
+% Call the Wavy_image function with output name MyNewImage
+[MyNewImage] = wavy_image(MyImage);
+
+% Display the new image
+image(MyNewImage);</code></pre></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

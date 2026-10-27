@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DA01 exercise1 (1) · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>Notebook</span></div>
+      <header class="reading-header"><p class="library-eyebrow">DA01 / 大一</p><h1>DA01 exercise1 (1)</h1><div class="reading-meta"><span>IPYNB · 12 KB</span><a class="button" href="/assets/projects/oxford-physics/files/da01-exercise1-1-d1b7bafba82c.ipynb" download="DA01_exercise1 (1).ipynb">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><p class="library-noscript">静态 Notebook 阅读页：展示保存的代码和输出，未重新运行。</p><section class="notebook-cell"><h1>Finding Hubble's constant</h1>
+</section><section class="notebook-cell"><h2>Introduction</h2>
+</section><section class="notebook-cell"><p>In this exercise we will introduce ourselves to the Python notebook, import some data, plot it and then fit a linear relationship.</p>
+<p>The following lines demonstrate some examples of different types of formatting which can be added to a notebook cell.</p>
+<p>Note we have also grouped cells into sections. This is the Introduction section.</p>
+</section><section class="notebook-cell"><p>Overview of steps coming up (note: this is an example of a formatted list!):</p>
+<ul>
+<li>import data</li>
+<li>examine data</li>
+<li>plot data</li>
+<li>fit data</li>
+</ul>
+</section><section class="notebook-cell"><h2>Importing data</h2>
+</section><section class="notebook-cell"><p>import the 'pandas' library and use it to import CSV style files.</p>
+<p>Note: To save having to write 'pandas' all the time we load it into a variable called 'pd' instead</p>
+</section><section class="notebook-cell"><pre><code>import pandas as pd</code></pre></section><section class="notebook-cell"><ul>
+<li>From the pandas module, we use the 'read_csv' function to load our data (filename in brackets).</li>
+<li>we assign our imported data to a variable we call 'df' (short for dataframe).</li>
+</ul>
+</section><section class="notebook-cell"><pre><code>df = pd.read_csv(&#x27;hubble.csv&#x27;)</code></pre></section><section class="notebook-cell"><p>We can look at a sample of our data by using the 'head' function. This is a way we can see the names of our columns (which we will use later).</p>
+</section><section class="notebook-cell"><pre><code>df.head()</code></pre></section><section class="notebook-cell"><p>Note that the data frame will refer to the first column, in this case 'radial distance (Mparsec)' as column 0, the next column would be column 1 etc.</p>
+<p>There are other functions which provide alternate summaries of the data. Below is the 'describe' function (others to try are: info() and columns).</p>
+</section><section class="notebook-cell"><pre><code>df.describe()</code></pre></section><section class="notebook-cell"><h2>Plotting data</h2>
+</section><section class="notebook-cell"><ul>
+<li>We first specify which columns are the x and y axes.</li>
+<li>The names are those found when using the 'head' or 'describe' functions (above).</li>
+</ul>
+</section><section class="notebook-cell"><p>We first need to extract the columns of data we are interested in. We'll call them 'x' and 'y' and we access elements of a list with square brackets.</p>
+<p>There are a number of different methods to extract one column. Here we show 2 of the easiest examples:</p>
+<ol>
+<li>we ask for the column of values given the column name</li>
+<li>we ask for the column of values specifying the column number</li>
+</ol>
+</section><section class="notebook-cell"><pre><code>x = df[&quot;Distance (M-Parsecs)&quot;].values
+#x = df[df.columns[0]].values
+
+# this was an example of the 2 different methods.
+# We&#x27;ll choose to use the first option for the y values and y errors (the second is &#x27;commented out&#x27;)
+
+y = df[&quot;Speed (km/sec)&quot;].values
+yerr = df[&quot;error in v (km/sec)&quot;].values</code></pre></section><section class="notebook-cell"><p>Note: in the cell of code above, a # symbol is used in Python to represent 'comments' in the code, or lines of code which we don't want to be executed.</p>
+</section><section class="notebook-cell"><p>Now we would like to plot our data. We do this by importing the 'matplotlib pyplot' module.</p>
+<ul>
+<li><p>First import the module  (the line following is a bit of technical detail, it ensures our plots are displayed correctly in the notebook, it's good to include this)</p>
+</li>
+<li><p>We specify a size for the plot (the 'figsize' option)</p>
+</li>
+<li><p>The 'errorbar' function produces a plot with error bars. For this function, we specify the x, y and the y errorbars.</p>
+</li>
+<li><p>We use the 'errorbar' plot to produce a plot with error bars. We specify to use our 'x' and 'y' data and 'yerr' uncertainty values for the errorbars.</p>
+</li>
+<li><p>Note: the other commands we specify are some formatting options (fmt='.', capsize=5 change what the data-points look like)</p>
+</li>
+<li><p>We specify the axes labels, and a title and ensure there is a legend.</p>
+</li>
+</ul>
+</section><section class="notebook-cell"><pre><code>import matplotlib.pyplot as plt
+%matplotlib inline
+
+plt.figure(figsize=(5,4), dpi=200)
+plt.errorbar(x, y, yerr, label=&#x27;data&#x27;, fmt=&#x27;.&#x27;, capsize=5)
+plt.title(&#x27;Speed vs Distance&#x27;)
+plt.xlabel(&#x27;Distance (M-Parsecs)&#x27;)
+plt.ylabel(&#x27;Speed (km/sec)&#x27;)
+plt.legend()
+plt.show()</code></pre></section><section class="notebook-cell"><h3>Fitting using SciPy</h3>
+</section><section class="notebook-cell"><p>Now we would like to fit our data. To do so we need to import a statistics package, of which there are many choices, we will use a common one here.
+A module which makes this easy is the 'scipy.optimize' module and the 'curve_fit' function.</p>
+</section><section class="notebook-cell"><pre><code>from scipy.optimize import curve_fit</code></pre></section><section class="notebook-cell"><p>The 'curve_fit' function requires us to define the type of fit.
+We first define a linear fit here.</p>
+</section><section class="notebook-cell"><pre><code>def linear(x, a, b):
+    return a * x + b</code></pre></section><section class="notebook-cell"><p>We then perform the fit with the (linear) function we have defined.</p>
+<ul>
+<li>In the 'curve_fit' function we specify our 'x' and 'y' data and also the uncertainties on our y-data (we called this variable 'yerr')</li>
+<li>We specify the function to fit, which we just named 'linear'.</li>
+<li>We must specify the 'absolute_sigma=True' option. This option changes the way the fitting function works based on the type of uncertainties we have given it. When we have uncertainties based on measurements which are the same units as our data (which will be the case for most of your lab work) we specify this option to be True.</li>
+</ul>
+<p>The 'curve_fit' function returns two things:</p>
+<ol>
+<li>The fitted set of parameters (here this contains our fitted 'a' and 'b' values).</li>
+<li>The covariance matrix. (This is a matrix and gives information about how well the parameters are affected by each other.  Discussed in 2nd year stats!)</li>
+</ol>
+</section><section class="notebook-cell"><pre><code>parameters, covariant_matrix = curve_fit(linear, x, y, sigma=yerr, absolute_sigma=True)
+slope = parameters[0] #extract slope, it is parameter #0
+intercept = parameters[1] #extract intercept, it is parameter #1</code></pre></section><section class="notebook-cell"><p>To find the errors on the parameters, we have to take the square root of the diagonal elements of the variance  (importing the numpy library for the square root).</p>
+</section><section class="notebook-cell"><pre><code>import numpy as np
+parameter_uncertainties = np.sqrt(covariant_matrix.diagonal())
+slope_error = parameter_uncertainties[0]
+intercept_error = parameter_uncertainties[1]
+
+print(&#x27;Intercept: {:.0f} Error on intercept: {:.0f}&#x27;.format(intercept, intercept_error))
+print(&#x27;Slope: {:.2f} Error on slope: {:.2f}&#x27;.format(slope, slope_error))</code></pre></section><section class="notebook-cell"><h2>Combining plots</h2>
+</section><section class="notebook-cell"><p>Now we:</p>
+<ul>
+<li>plot both the data and the fitted line and,</li>
+<li>save our plot as a file using the 'savefig' function (note: must be executed from this cell)</li>
+</ul>
+</section><section class="notebook-cell"><p>The saved image file, 'hubble_fit.png' should be saved in the same folder as where this Python script is.</p>
+</section><section class="notebook-cell"><pre><code>fig = plt.figure(figsize=(5,4), dpi=200)
+plt.errorbar(x, y, yerr, label=&#x27;Data&#x27;, fmt=&#x27;.&#x27;, capsize=5)
+plt.plot(x, linear(x, slope, intercept), &#x27;r&#x27;, label=&#x27;Fitted line&#x27;) # note: we can write any formula into this plotting function
+plt.title(&#x27;Speed vs Distance&#x27;)
+plt.xlabel(&#x27;Distance (M-Parsecs)&#x27;)
+plt.ylabel(&#x27;Speed (km/sec)&#x27;)
+plt.legend()
+
+plt.savefig(&#x27;hubble_fit.png&#x27;, dpi=200)
+plt.show()</code></pre></section><section class="notebook-cell"><h2>Data re-visited</h2>
+</section><section class="notebook-cell"><p>We could equally swap the data in the plot around and plot distance vs speed.
+To do this we:</p>
+<ul>
+<li>re-set our x, y and yerr variables to the appriate data.</li>
+<li>re-calculate the fit and extract the slope and intercept</li>
+</ul>
+</section><section class="notebook-cell"><pre><code>x = df[&quot;Speed (km/sec)&quot;].values
+y = df[&quot;Distance (M-Parsecs)&quot;].values
+yerr = df[&quot;error in D (M-Parsecs)&quot;].values
+
+parameters, covariant_matrix = curve_fit(linear, x, y, sigma=yerr, absolute_sigma=True)
+slope = parameters[0] #slope is parameter #0
+intercept = parameters[1] #intercept is parameter #1
+
+parameter_uncertainties = np.sqrt(covariant_matrix.diagonal())
+slope_error = parameter_uncertainties[0]
+intercept_error = parameter_uncertainties[1]
+
+print(&#x27;Intercept: {:.2f} Error on intercept: {:.2f}&#x27;.format(intercept, intercept_error))
+print(&#x27;Slope: {:.5f} Error on slope: {:.5f}&#x27;.format(slope, slope_error))</code></pre></section><section class="notebook-cell"><p>Since we swapped the axes, we invert the slope to compare with the previous value.
+Note, for the uncertainty, we take the fractional uncertainty and multiply by the new value (i.e. the inverted value)</p>
+</section><section class="notebook-cell"><pre><code>print(&#x27;1/Slope: {:.1f} Error on slope: {:.1f}&#x27;.format(1/slope, (slope_error/slope)*1/slope))</code></pre></section><section class="notebook-cell"><h2>End of exercise 1</h2>
+</section></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

@@ -1,0 +1,5 @@
+KaTeX 0.16.22
+Source: https://registry.npmjs.org/katex/-/katex-0.16.22.tgz
+Integrity: sha512-XCHRdUw4lf3SKBaJe4EvgqIuWwkPSo9XoeO8GjQW94Bp7TWv9hNhzZjZ+OH9yf1UmLygb7DIT5GSFQiyt16zYg==
+Licence: MIT; see LICENSE.
+Only WOFF2 web fonts are distributed.

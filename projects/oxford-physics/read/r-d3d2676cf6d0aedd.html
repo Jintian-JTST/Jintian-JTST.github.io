@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data-Analysis-Statistics-1 · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>Notebook</span></div>
+      <header class="reading-header"><p class="library-eyebrow">DA / 大一</p><h1>Data-Analysis-Statistics-1</h1><div class="reading-meta"><span>IPYNB · 25 KB</span><a class="button" href="/assets/projects/oxford-physics/files/data-analysis-statistics-1-5de42a1648c7.ipynb" download="Data-Analysis-Statistics-1.ipynb">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><p class="library-noscript">静态 Notebook 阅读页：展示保存的代码和输出，未重新运行。</p><section class="notebook-cell"><p>&lt;img src=&quot;./img/uoxf-logo.png&quot; width=&quot;200&quot; style=&quot;float: right; margin-left: 5%&quot; /&gt;</p>
+<h1>Data Analysis and Statistics</h1>
+<h2>Prof Adrian Oeftiger</h2>
+<p>(adrian.oeftiger@physics.ox.ac.uk)</p>
+<p>Based on lectures given by Dr Jenny Barnes</p>
+</section><section class="notebook-cell"><h1>The Scientific Method</h1>
+<p><a href="https://www.youtube.com/watch?v=LIxvQMhttq4">Feynman on the Scientific Method</a>:</p>
+<blockquote>
+<p>&quot;It doesn't make a difference how beautiful your guess [theory] is, &lt;br /&gt;it doesn't make a difference how smart you are, &lt;br /&gt;who made the guess, or what his name is...</p>
+<p><strong>If it disagrees with experiment, it's wrong.</strong>&quot;</p>
+</blockquote>
+<p><span class="math">\(\implies\)</span> How can we be certain that an experiment and theory agree or disagree?</p>
+<p>This is what we hope to teach you with this course and throughout your time in the practical course.</p>
+</section><section class="notebook-cell"><h1>This course</h1>
+<p>4 lecture slots:</p>
+<ul>
+<li>3 lectures</li>
+<li>problem sheet: go through questions in lecture 4</li>
+</ul>
+</section><section class="notebook-cell"><h1>Syllabus (in Year 1 handbook)</h1>
+<blockquote>
+<ul>
+<li>A-level Maths plus the bridging material in (a) <strong>data analysis and statistics</strong> and (b) <strong>computing</strong> are assumed</li>
+<li>Qualitative introduction explaining what experiments are, what they are used for in science, and other relevant concepts such as hypothesis or model testing</li>
+<li>The fundamental origins of experimental uncertainty, e.g. shot and Johnson noise</li>
+<li>Examples throughout the course, from contemporary physics or famous discoveries, discussing experimental design, technique, and instrumentation as well as data analysis</li>
+</ul>
+</blockquote>
+</section><section class="notebook-cell"><blockquote>
+<ul>
+<li>Uncertainties in measurements including dominant error, random and systematic errors, accuracy and precision, derivation and use of error propagation formulae assuming independent, normally distributed errors (i.e. no covariance matrices)</li>
+<li>Gaussian and Poisson distributions (as the distributions found in first year practicals), central limit theorem, least squares fitting (including weighted), meaning of residuals, confidence limits, simple statistical tests</li>
+</ul>
+</blockquote>
+</section><section class="notebook-cell"><blockquote>
+<ul>
+<li>Practical implementation of the above in software and in data presentation, including<ul>
+<li>How to produce a plot (e.g. labels, units, title, expression of uncertainties etc.):  see DA01 – Data Analysis practical</li>
+<li>How to describe and present a numerical answer sensibly, with appropriate precision:  used in practical course</li>
+<li>Other useful skills in physics such as estimation. A pragmatic approach to data analysis should be stressed</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</section><section class="notebook-cell"><p>This first year material is taught through (this) short lecture course and the practical work. It is continually assessed through practical work (i.e. through log book assessment, lab reports, and discussion with demonstrators).</p>
+<p><strong>As is usual, knowledge of the first year syllabus will be assumed in the second year, where it can be examined and/or encountered in practicals.</strong></p>
+</section><section class="notebook-cell"><h1>Recommended Books</h1>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center">&lt;a href=&quot;https://solo.bodleian.ox.ac.uk/permalink/44OXF_INST/35n82s/alma991022211321607026&quot;&gt;&lt;img src=&quot;./img/Hughes_Hase.jpg&quot; alt=&quot;Measurements and Their Uncertainties: A Practical Guide to Modern Error Analysis (Ifan Hughes and Thomas Hase)&quot; width=&quot;326&quot; /&gt;&lt;/a&gt;</th>
+  <th style="text-align:center">&lt;a href=&quot;https://solo.bodleian.ox.ac.uk/permalink/44OXF_INST/35n82s/alma991014695729707026&quot;&gt;&lt;img src=&quot;./img/Vaughan.jpg&quot; alt=&quot;Scientific inference: learning from data (Simon Vaughan)&quot; width=&quot;300&quot; /&gt;&lt;/a&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center">&lt;a href=&quot;https://solo.bodleian.ox.ac.uk/permalink/44OXF_INST/35n82s/alma991022211321607026&quot;&gt;&lt;img src=&quot;./img/qr-code-measurement-uncertainties.png&quot; alt=&quot;QR code for Measurements and their uncertainties book&quot; width=&quot;100&quot; style=&quot;margin: auto;&quot; /&gt;&lt;/a&gt;</td>
+  <td style="text-align:center">&lt;a href=&quot;https://solo.bodleian.ox.ac.uk/permalink/44OXF_INST/35n82s/alma991014695729707026&quot;&gt;&lt;img src=&quot;./img/qr-code-scientific-inference.png&quot; alt=&quot;QR code for Scientific inference book&quot; width=&quot;100&quot; style=&quot;margin: auto;&quot;  /&gt;&lt;/a&gt;</td>
+</tr>
+</tbody>
+</table>
+</section><section class="notebook-cell"><h1>Useful documents</h1>
+<p><a href="https://www-teaching.physics.ox.ac.uk/practical_course/scripts/srv/local/rscripts/trunk/Admin/AD02/AD02.pdf">AD02</a> and <a href="https://www-teaching.physics.ox.ac.uk/practical_course/scripts/srv/local/rscripts/trunk/Admin/AD26/AD26.pdf">AD26</a></p>
+<table>
+<thead>
+<tr>
+  <th><a href="https://www-teaching.physics.ox.ac.uk/practical_course/scripts/srv/local/rscripts/trunk/Admin/AD02/AD02.pdf"><img src="/assets/projects/oxford-physics/files/ad02-7d9b552297a2.png" alt="AD02" /></a></th>
+  <th><a href="https://www-teaching.physics.ox.ac.uk/practical_course/scripts/srv/local/rscripts/trunk/Admin/AD26/AD26.pdf"><img src="/assets/projects/oxford-physics/files/ad26-e88a61549dc8.png" alt="AD26" /></a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</section><section class="notebook-cell"><h1>Material on MPLS bridging programme</h1>
+<p>Web address: https://mplsbridging.conted.ox.ac.uk/</p>
+<p>You should have been sent a username and password over the summer, if not contact <a data-unavailable-attachment="true">bridging@mpls.ox.ac.uk</a> .</p>
+<table>
+<thead>
+<tr>
+  <th><a href="https://mplsbridging.conted.ox.ac.uk/"><img src="/assets/projects/oxford-physics/files/mpls-bridging-1-3e1e17e7373b.png" alt="MPLS bridging programme overview" /></a></th>
+  <th><a href="https://mplsbridging.conted.ox.ac.uk/"><img src="/assets/projects/oxford-physics/files/mpls-bridging-2-b0546fd4ecfd.png" alt="More MPLS bridging programme overview" /></a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</section><section class="notebook-cell"><h1>Other resources</h1>
+<ul>
+<li><p>Try the “More or Less” podcasts on Radio 4, available through BBC sounds app or at: <a href="https://www.bbc.co.uk/sounds/brand/b006qshd">https://www.bbc.co.uk/sounds/brand/b006qshd</a></p>
+</li>
+<li><p>Online statistics resources can be found at: http://www.statstutor.ac.uk/</p>
+</li>
+<li><p>A very helpful leaflet summarising lots of statistics formulae can be found at: <a href="https://www.statstutor.ac.uk/resources/uploaded/43799-prob-stats-ff-for-web.pdf">https://www.statstutor.ac.uk/resources/uploaded/43799-prob-stats-ff-for-web.pdf</a></p>
+</li>
+</ul>
+</section><section class="notebook-cell"><h1>DA01 &amp;ndash; Basic Data Analysis in Python</h1>
+<p>This is a practical which teaches you:</p>
+<p>a)  how to plot a graph using Python</p>
+<p>b)  how to fit some data and extract the fit parameters (including their errors)</p>
+<p>c)  how to record experimental things in your logbook</p>
+<p>You need all of these skills in the other practicals this year.</p>
+<p>It does not teach you everything to do with Python!  You will learn the commands in Python you need for doing a) and b), but it isn’t a full course in Python.</p>
+<p>Other packages exist to plot and fit data (Excel, Origin, R etc.) but we think Python can go above and beyond some of these.</p>
+</section><section class="notebook-cell"><h1>Guidelines for graphs</h1>
+<ul>
+<li>Plot independent variable on x axis, dependent on y axis</li>
+<li>Use appropriate scales on axes<ul>
+<li>Consider whether the origin should be included</li>
+</ul>
+</li>
+<li>Label axes including units</li>
+<li>Label the title of the graph</li>
+<li>Plot data points with their errors if you have them</li>
+<li>Fit the data using a computer package to extract the best fit parameters and their errors so you can compare to e.g. theory</li>
+</ul>
+</section><section class="notebook-cell"><h1>Lecture 1</h1>
+<ul>
+<li>What are experiments for?</li>
+<li>A result without an error is meaningless</li>
+<li>Definitions of accuracy and precision</li>
+<li>Types of errors and fundamental limits</li>
+<li>What do we quote after we take a set of measurements with random errors: &lt;br /&gt; <strong>mean</strong>, <strong>standard deviation</strong> and <strong>standard error</strong></li>
+</ul>
+</section><section class="notebook-cell"><h1>What are experiments for?</h1>
+<ul>
+<li>Prove or disprove a theory<ul>
+<li>Michelson-Morley experiment disproved the existence of aether and led to special relativity being accepted</li>
+<li>Gravitational waves detected at LIGO proved general relativity</li>
+</ul>
+</li>
+</ul>
+</section><section class="notebook-cell"><ul>
+<li>Can we reproduce a result?<ul>
+<li>failure by others to repeat cold fusion measurements of Fleischmann and Pons (1989)</li>
+<li>Do neutrinos travel faster than speed of light?  (OPERA experiment, 2011)</li>
+</ul>
+</li>
+</ul>
+</section><section class="notebook-cell"><ul>
+<li>Discover new things<ul>
+<li>discovery of graphene</li>
+<li>discovery of radio pulsars</li>
+</ul>
+</li>
+</ul>
+</section><section class="notebook-cell"><ul>
+<li>Find values of fundamental constants<ul>
+<li>measure speed of light <span class="math">\(c\)</span>, gravitational constant <span class="math">\(G\)</span>, charge <span class="math">\(e\)</span> of an electron</li>
+</ul>
+</li>
+</ul>
+</section><section class="notebook-cell"><h1>Data sheet for Physics exams</h1>
+<p>(link from Physics Undergraduate Degree Canvas course, click on Examination papers)</p>
+<p>&lt;img src=&quot;img/constants.png&quot; alt=&quot;Data sheet for Physics exams&quot; style=&quot;height:540px; margin: auto;&quot; /&gt;</p>
+</section><section class="notebook-cell"><h1>A result without an error is meaningless</h1>
+<ul>
+<li>All measured fundamental constants have an error in them (e.g. from <a href="http://physics.nist.gov/cuu/Constants">http://physics.nist.gov/cuu/Constants</a> ):</li>
+</ul>
+<p><span class="math">\(13.605693122994\pm 0.000000000026~\mathrm{eV}\)</span>
+or</p>
+<p><span class="math">\(13.605693122994(26)~\mathrm{eV}\)</span></p>
+<ul>
+<li>This means that we expect the value to lie between <span class="math">\(13.605693122968\)</span> eV and <span class="math">\(13.605693123020\)</span> eV</li>
+<li>This range is related to the <strong>confidence</strong> level of the parameter value; more on that later.</li>
+</ul>
+</section><section class="notebook-cell"><h1>Measuring the length of a piece of string</h1>
+<p>&lt;img src=&quot;img/string-hist.png&quot; alt=&quot;Histogramm of string lengths&quot; style=&quot;width: 30%; margin-left: 5%; margin-top: 3%; float:right;&quot; /&gt;</p>
+<ul>
+<li>Suppose you repeatedly measured a piece of string &lt;br /&gt; with a ruler and plotted the results</li>
+<li>Ruler has <span class="math">\(0.5\)</span> mm divisions</li>
+<li>You estimate by eye to <span class="math">\(0.1\)</span> mm</li>
+<li>Resulting numbers all different</li>
+<li>Observe peak around one value</li>
+</ul>
+</section><section class="notebook-cell"><h1>Some definitions</h1>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Accuracy:&lt;/b&gt;  The difference between the result and the true value; an accurate measurement is in agreement with the &quot;accepted&quot; value
+&lt;/div&gt;</p>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Precision:&lt;/b&gt;  The  least distinguishable change, given by the number of digits or the spread in the measurements (precise = small spread)
+&lt;/div&gt;</p>
+</section><section class="notebook-cell"><p>&lt;img src=&quot;img/accpres.png&quot; alt=&quot;Accuracy vs. Precision&quot; width=&quot;500&quot; style=&quot;margin:10px auto 0px;&quot; /&gt;</p>
+</section><section class="notebook-cell"><h1>Types of error (1)</h1>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Random errors:&lt;/b&gt;  error associated with limitations of the measuring device, they prevent observer from obtaining same value each time they measure.  Measurements usually look like a peak centered around a value.  Example: see previous graph. 
+    $\implies$ Reduce by taking more measurements.
+&lt;/div&gt;</p>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Mistakes:&lt;/b&gt; e.g. wrote the number 3.75 as 3.57, typed number in wrong to computer, misread scale.  Plotting data can show up points which “don’t fit” and these can then be discarded or perhaps measured again.  Example: the point at 32.3mm
+&lt;/div&gt;</p>
+</section><section class="notebook-cell"><h1>Anscombe’s quartet</h1>
+<p>&lt;img src=&quot;img/anscombe.png&quot; alt=&quot;Anscombe's quartet&quot; style=&quot;width:40%; float:right; margin-left:5%;&quot; /&gt;</p>
+<p><a href="https://doi.org/10.1080/00031305.1973.10478966">Anscombe's quartet (1973)</a>: frequently quoted standard examples for simple regression</p>
+<ul>
+<li>Four different datasets</li>
+<li>Fitting a line: identical regression results</li>
+<li>Graph 1: ideal -- Graph 2: a line is a bad choice</li>
+<li>Graphs 3 and 4 have obvious outliers</li>
+</ul>
+<p><span class="math">\(\implies\)</span> how meaningful are the fitted lines?</p>
+</section><section class="notebook-cell"><p>To quote Anscombe: &quot;Most of these [statistical packages for regression] originated in the pre-visual era. The user is not showered with graphical displays. He can get them only with trouble, cunning and a fighting spirit. <strong>It's time that was changed.</strong>&quot;</p>
+<p><span class="math">\(\implies\)</span> <strong>really helpful to plot data roughly as you go along!</strong></p>
+</section><section class="notebook-cell"><h1>Types of error (2)</h1>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Systematic errors:&lt;/b&gt;  error which always has the same sign so shifts the centre of the peak one way or another but not both.  Example: ruler calibrated at one temperature but we are using it at a higher temperature and ruler has expanded. $\implies$ Difficult to detect, have to try and design experiment to avoid them.
+&lt;/div&gt;</p>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Tolerances:&lt;/b&gt; Engineering tolerances on mechanical and electrical components. Don't confuse with random error. For discussion, see aforementioned &lt;a href=&quot;https://www-teaching.physics.ox.ac.uk/practical_course/scripts/srv/local/rscripts/trunk/Admin/AD02/AD02.pdf&quot;&gt;AD02&lt;/a&gt; and &lt;a href=&quot;https://www-teaching.physics.ox.ac.uk/practical_course/scripts/srv/local/rscripts/trunk/Admin/AD26/AD26.pdf&quot;&gt;AD26&lt;/a&gt; scripts.
+&lt;/div&gt;</p>
+</section><section class="notebook-cell"><h1>Which types of errors dominate?</h1>
+<ul>
+<li>The error which has the largest influence on your result is called the <strong>dominant error</strong></li>
+<li>Part of your job as a physicist (especially when carrying out experiments) is to determine which is the dominant error<ul>
+<li><span class="math">\(\implies\)</span> reduce it as much as possible!</li>
+<li>Caveat: what happens when this error becomes subdominant?</li>
+</ul>
+</li>
+<li>Important when propagating errors in formulae -- if one value has an error much bigger than all the rest or appears as a power in a formula it may dominate any error calculation.</li>
+</ul>
+<p><strong>More about propagating errors later!</strong></p>
+</section><section class="notebook-cell"><h1>Fundamental limits</h1>
+<p>Some uncertainties can never be eliminated:</p>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Shot noise:&lt;/b&gt;  discrete nature of certain quantities, e.g. measuring a feeble light beam start to get random fluctuations of intensity because light is made up of photons (finite energy bundles)
+&lt;/div&gt;</p>
+<p>&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Johnson noise:&lt;/b&gt; arises in a resistor as a consequence of the thermal agitation of the charge carriers.  Becomes important in experiments measuring low voltages -- so might cool down experimental setup to reduce this but cannot eliminate.
+&lt;/div&gt;</p>
+<p><span class="math">\(\implies\)</span> The best you will ever be able to do is get down to these limits, but you are often way above this.</p>
+</section><section class="notebook-cell"><h1>Going back to our piece of string...</h1>
+<p>&lt;img src=&quot;img/string-hist.png&quot; alt=&quot;Histogramm of string lengths&quot; style=&quot;width: 20%; margin-left: 5%; margin-top: 3%; float:right;&quot; /&gt;</p>
+<p>So what answer would we quote?</p>
+<p>Values were:</p>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center">31.7mm</th>
+  <th style="text-align:center">31.8mm &lt;br /&gt;(x 3)</th>
+  <th style="text-align:center">31.9mm &lt;br /&gt;(x 4)</th>
+  <th style="text-align:center">32.0mm &lt;br /&gt;(x 2)</th>
+  <th style="text-align:center">32.1mm</th>
+  <th style="text-align:center">32.3mm &lt;br /&gt;(discard this point)</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</section><section class="notebook-cell"><p>&lt;div class=&quot;alert alert-block alert-success&quot; style=&quot;&quot;&gt;
+    &lt;b&gt;Mean:&lt;/b&gt;  for a set of $N$ measurements, each with value $x_i$, the mean $\bar{x}$ is given by:    
+$$\bar{x}=\cfrac{x_1+x_2+...+x_N}{N}$$
+    $\implies$ This is the result!
+&lt;/div&gt;</p>
+</section><section class="notebook-cell"><p><span class="math">\(\implies\)</span> so <span class="math">\(\bar{x}=\cfrac{31.7 + 31.8 \cdot 3 + 31.9 \cdot 4 + 32.0 \cdot 2 + 32.1}{11} ~\mathrm{mm}= 31.89090909' ~\mathrm{mm}\)</span></p>
+<ul>
+<li>How many significant figures should we quote?  Depends on the error in this value.</li>
+</ul>
+</section><section class="notebook-cell"><h1>How do we find the error in the mean? (1)</h1>
+<p>We will need the <strong>standard error</strong> which we derive from the standard deviation:</p>
+<p>&lt;div class=&quot;alert alert-block alert-success&quot;&gt;
+    &lt;b&gt;Sample standard deviation:&lt;/b&gt;
+$$ \sigma_{N-1} = \sqrt{\cfrac{\sum(x_i-\bar{x})^2}{N-1}}$$</p>
+<ul>
+<li>We are squaring the differences between each point and the mean -- if we didn't square it some of the terms would be positive, some negative, and they cancel out</li>
+<li>We use <span class="math">\(N-1\)</span> as we use <span class="math">\(N\)</span> to calculate the mean, but are now using the mean in this formula (we have reduced the number of independent values or degrees of freedom)<p>&lt;/div&gt;</p>
+</li>
+</ul>
+</section><section class="notebook-cell"><h1>How do we find the error in the mean? (2)</h1>
+<p><span class="math">\($ \sigma_{N-1} = \sqrt{\cfrac{\sum(x_i-\bar{x})^2}{N-1}}\)</span>$</p>
+<ul>
+<li>Definitions of standard deviation (sample, population, ...) can vary! --  see lecture 2</li>
+<li>The square of the standard deviation (<span class="math">\(\sigma^2\)</span>) is called the <strong>variance</strong>.</li>
+</ul>
+<p>&lt;div class=&quot;alert alert-block alert-success&quot; style=&quot;&quot;&gt;
+    &lt;b&gt;Standard error:&lt;/b&gt; the standard deviation of the mean. 
+$$ \alpha=\cfrac{\sigma_{N-1}}{\sqrt{N}} = \sqrt{\cfrac{\sum(x_i-\bar{x})^2}{N(N-1)}}$$
+    $\implies$ This represents the error in the result (mean) due to random fluctuations!
+&lt;/div&gt;</p>
+</section><section class="notebook-cell"><p>&lt;div class=&quot;alert alert-block alert-warning&quot; style=&quot;text-align:center;&quot;&gt;
+$\implies$ As $N$ increases, $\alpha$ decreases! So take more readings to reduce your standard error $\alpha$!
+&lt;br /&gt;&lt;br /&gt;
+    NB: the estimated standard deviation $\sigma_{N-1}$ will typically &lt;b&gt;not&lt;/b&gt; reduce with increasing $N$!
+&lt;/div&gt;</p>
+</section><section class="notebook-cell"><h1>Going back to our piece of string...</h1>
+<p>$$ \begin{align<em>}\alpha&amp;= \sqrt{\cfrac{\sum(x_i-\bar{x})^2}{N(N-1)}} = \sqrt{\cfrac{(31.7 - 31.89090909')^2 + ... + (32.1-31.89090909')^2}{11\cdot (11-1)}}~\mathrm{mm} \
+\implies\alpha&amp;=0.03425717~\mathrm{mm}\end{align</em>}$$</p>
+<p>So what do we quote as the result for the length of the string?</p>
+<p><span class="math">\($\implies \bar{x}\pm\alpha = (31.89090909\pm 0.03425717)~\mathrm{mm}\)</span>$</p>
+</section><section class="notebook-cell"><p>What about the number of significant figures?  Only quote as many in the mean as is sensible given the error (typically quoted to <strong>1 significant figure</strong>):</p>
+<p><span class="math">\($\underline{\underline{(31.89\pm 0.03)~\mathrm{mm}}}\qquad \text{or}\qquad \underline{\underline{31.89(3)~\mathrm{mm}}}\)</span>$</p>
+</section><section class="notebook-cell"><p>&lt;div class=&quot;alert alert-block alert-warning&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Don't forget the units!&lt;/b&gt;
+&lt;/div&gt;</p>
+</section><section class="notebook-cell"><h1>A slight caveat</h1>
+<ul>
+<li><p>Sometimes you don't get such a spread of numbers, e.g. when always getting the same value while measuring with some digital calipers or a digital multimeter</p>
+</li>
+<li><p>The error in the value is then not given by the formulae on previous slides but related to the resolution of the measuring device (the <strong>tolerance!</strong>)</p>
+<ul>
+<li><span class="math">\(\implies\)</span> Quote this as the error instead!</li>
+</ul>
+</li>
+</ul>
+</section><section class="notebook-cell"><h1>Standard error visualisation (1)</h1>
+<p>Python programme for example from p. 14-16 Hughes &amp; Hase:</p>
+</section><section class="notebook-cell"><pre><code># Programme illustrating the standard error and standard deviation
+import numpy as np
+
+mu = 10
+sig = 1
+
+# initialise random number generator:
+np.random.seed(0)
+# create dataset by drawing from a random distribution:
+dataset = np.random.normal(mu, sig, 2500)</code></pre></section><section class="notebook-cell"><p><span class="math">\(\implies\)</span> Simulate 2500 measurements subject to random errors. Observe their distribution!</p>
+</section><section class="notebook-cell"><h1>Standard error visualisation (2)</h1>
+</section><section class="notebook-cell"><pre><code>from config import plot_dataset
+plot_dataset(dataset);</code></pre></section><section class="notebook-cell"><h1>Standard error visualisation (3)</h1>
+<p><span class="math">\(\implies\)</span> Partition into samples of size <code>N_per_sample</code>. Observe the distribution of means.</p>
+</section><section class="notebook-cell"><pre><code>plot_dataset(dataset, N_per_sample=5);</code></pre></section><section class="notebook-cell"><h1>Standard error visualisation (4)</h1>
+<p>&lt;div class=&quot;alert alert-block alert-warning&quot; style=&quot;text-align:center;&quot;&gt;
+    $\implies$ The distribution of means becomes narrower with increasing sample size $N$ as expected (increased precision!):
+    $$ \alpha = \cfrac{\sigma_{N-1}}{\sqrt{N}}$$
+&lt;/div&gt;</p>
+<p>I.e. taking more measurements for a sample gives more confidence in the mean, the confidence interval <span class="math">\(\bar{x}\pm \alpha\)</span> shrinks!</p>
+<p>NB: The estimated standard deviation <span class="math">\(\sigma_{N-1}\)</span> of the original raw dataset would not change with more measurements!</p>
+</section><section class="notebook-cell"><h1>Summary of lecture 1</h1>
+<ul>
+<li>What are experiments for?</li>
+<li>A result without an error is meaningless</li>
+<li>Definitions of accuracy and precision</li>
+<li>Types of errors and fundamental limits</li>
+<li>Quote result of a set of measurements with random errors as: &lt;span style=&quot;color:red;&quot;&gt;<span class="math">\(\bar{x} \pm \alpha\)</span>&lt;/span&gt;, where<ul>
+<li><strong>Mean</strong>:  <span class="math">\(\bar{x}=\cfrac{x_1+x_2+...+x_N}{N}\)</span></li>
+<li><strong>Standard error</strong>: <span class="math">\(\alpha= \sqrt{\cfrac{\sum(x_i-\bar{x})^2}{N(N-1)}}\)</span></li>
+</ul>
+</li>
+</ul>
+<p>&lt;div class=&quot;alert alert-block alert-warning&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;b&gt;Questions?&lt;/b&gt;
+&lt;/div&gt;</p>
+</section></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

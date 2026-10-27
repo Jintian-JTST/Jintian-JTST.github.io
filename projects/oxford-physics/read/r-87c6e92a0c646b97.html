@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>config · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>代码</span></div>
+      <header class="reading-header"><p class="library-eyebrow">DA / 大一</p><h1>config</h1><div class="reading-meta"><span>PY · 1 KB</span><a class="button" href="/assets/projects/oxford-physics/files/config-87c6e92a0c64.py" download="config.py">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><pre><code>import numpy as np
+import matplotlib.pyplot as plt
+get_ipython().run_line_magic(&#x27;matplotlib&#x27;, &#x27;inline&#x27;)
+import seaborn
+seaborn.set_context(&#x27;talk&#x27;)
+
+def plot_dataset(dataset, N_per_sample=1, nbins=30):
+    orig_dataset = dataset.copy()
+    dataset = dataset.reshape((len(dataset) // N_per_sample, N_per_sample))
+    dataset = np.mean(dataset, axis=1)
+    xlim = (6, 14)
+    fig, ax = plt.subplots(2, 1, figsize=(8, 6), sharex=True)
+    fig.subplots_adjust(hspace=0)
+    plt.sca(ax[0])
+    plt.plot(dataset, np.arange(len(dataset)), lw=1)
+    plt.title(&#x27;Dataset&#x27;)
+    plt.ylabel(&#x27;Trial&#x27;)
+
+    plt.sca(ax[1])
+    bins = np.linspace(*xlim, num=nbins)
+    plt.hist(dataset, bins=bins, edgecolor=&#x27;k&#x27;)
+    plt.hist(orig_dataset, bins=bins, edgecolor=&#x27;k&#x27;, alpha=0.3, zorder=0)
+    plt.axvline(np.mean(dataset), c=&#x27;r&#x27;, label=&#x27;mean&#x27;)
+    plt.axvline(np.mean(dataset) - np.std(dataset), c=&#x27;r&#x27;, ls=&#x27;--&#x27;, label=&#x27;stdev&#x27;)
+    plt.axvline(np.mean(dataset) + np.std(dataset), c=&#x27;r&#x27;, ls=&#x27;--&#x27;)
+    plt.xlim(xlim)
+    plt.legend(loc=&#x27;upper right&#x27;, fontsize=&#x27;small&#x27;)
+    if N_per_sample &gt; 1:
+        plt.text(xlim[0] * 1.1, plt.ylim()[1] * 0.8, 
+                 r&#x27;$1/\sqrt{N_s}=&#x27; + f&#x27;{1/np.sqrt(N_per_sample):.2f}$&#x27;,
+                 fontsize=&#x27;small&#x27;)
+    plt.xlabel(&#x27;Mean&#x27;)
+    plt.ylabel(&#x27;Occurence&#x27;)
+
+    return dataset</code></pre></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

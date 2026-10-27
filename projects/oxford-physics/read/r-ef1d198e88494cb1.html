@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>highlight · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>代码</span></div>
+      <header class="reading-header"><p class="library-eyebrow">Physics / 大一</p><h1>highlight</h1><div class="reading-meta"><span>PY · 2 KB</span><a class="button" href="/assets/projects/oxford-physics/files/highlight-c77a3fa10915.py" download="highlight.py">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><pre><code>import fitz
+
+import pandas as pd
+
+from pathlib import Path
+
+from reportlab.platypus import (
+
+SimpleDocTemplate,
+
+Image,
+
+PageBreak
+
+)
+
+from reportlab.lib.pagesizes import A4
+
+
+
+ROOT = Path(r&quot;./data/resource&quot;)
+
+
+
+OUT_DIR = ROOT / &quot;SelectedProblems&quot;
+
+IMG_DIR = OUT_DIR / &quot;pages&quot;
+
+
+
+OUT_DIR.mkdir(exist_ok=True)
+
+IMG_DIR.mkdir(exist_ok=True)
+
+
+
+records = []
+
+saved_pages = set()
+
+
+
+for pdf_file in ROOT.rglob(&quot;*.pdf&quot;):
+
+
+
+
+
+    print(&quot;Processing:&quot;, pdf_file.name)
+
+
+
+    try:
+
+
+
+        doc = fitz.open(pdf_file)
+
+
+
+        for page_num in range(len(doc)):
+
+
+
+            page = doc[page_num]
+
+
+
+            annot = page.first_annot
+
+
+
+            has_highlight = False
+
+
+
+            while annot:
+
+
+
+                if annot.type[0] == 8:
+
+                    has_highlight = True
+
+                    break
+
+
+
+                annot = annot.next
+
+
+
+            if not has_highlight:
+
+                continue
+
+
+
+            key = (
+
+                pdf_file.stem,
+
+                page_num
+
+            )
+
+
+
+            if key in saved_pages:
+
+                continue
+
+
+
+            saved_pages.add(key)
+
+
+
+            image_name = (
+
+                f&quot;{pdf_file.stem}_page{page_num+1}.png&quot;
+
+            )
+
+
+
+            image_path = IMG_DIR / image_name
+
+
+
+            pix = page.get_pixmap(
+
+                matrix=fitz.Matrix(4,4),
+
+                alpha=False
+
+            )
+
+
+
+            pix.save(str(image_path))
+
+
+
+            records.append({
+
+                &quot;file&quot;: pdf_file.stem,
+
+                &quot;page&quot;: page_num + 1,
+
+                &quot;image&quot;: image_name
+
+            })
+
+
+
+        doc.close()
+
+
+
+    except Exception as e:
+
+        print(pdf_file.name, e)
+
+
+
+
+
+df = pd.DataFrame(records)
+
+
+
+csv_path = OUT_DIR / &quot;selected_pages.csv&quot;
+
+
+
+df.to_csv(
+
+csv_path,
+
+index=False,
+
+encoding=&quot;utf-8-sig&quot;
+
+)
+
+
+
+print()
+
+print(&quot;Pages saved:&quot;, len(df))
+
+
+
+pdf_path = OUT_DIR / &quot;SelectedProblems.pdf&quot;
+
+
+
+doc = SimpleDocTemplate(
+
+str(pdf_path),
+
+pagesize=A4
+
+)
+
+
+
+import img2pdf
+
+from pathlib import Path
+
+
+
+pdf_path = OUT_DIR / &quot;SelectedProblems.pdf&quot;
+
+
+
+image_files = [
+
+    str(IMG_DIR / row[&quot;image&quot;])
+
+    for row in records
+
+]
+
+
+
+with open(pdf_path, &quot;wb&quot;) as f:
+
+    f.write(img2pdf.convert(image_files))
+
+
+
+print()
+
+print(&quot;Created:&quot;)
+
+print(pdf_path)
+</code></pre></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

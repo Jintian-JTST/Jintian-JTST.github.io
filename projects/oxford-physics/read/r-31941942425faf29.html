@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CP3 revision and mock · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>复习笔记</span></div>
+      <header class="reading-header"><p class="library-eyebrow">CP3 / 大一</p><h1>CP3 revision and mock</h1><div class="reading-meta"><span>MD · 4 KB</span><a class="button" href="/assets/projects/oxford-physics/files/cp3-revision-and-mock-31941942425f.md" download="CP3_revision_and_mock.md">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><p>下面是整理版表格。符号约定：</p>
+<div class="math">$$
+A^T=\text{transpose},\qquad A^\dagger=\overline{A}^{,T}.
+$$</div>
+<table>
+<thead>
+<tr>
+  <th>类型</th>
+  <th>定义</th>
+  <th>逆矩阵</th>
+  <th>保持什么</th>
+  <th>特征值性质</th>
+  <th>特征向量性质</th>
+  <th>行列式性质</th>
+  <th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Orthogonal</strong> 正交矩阵</td>
+  <td><span class="math">\(A^T A=I\)</span>，通常 <span class="math">\(A\)</span> 为实矩阵</td>
+  <td><span class="math">\(A^{-1}=A^T\)</span></td>
+  <td>保实内积：<span class="math">\((Ax)^T(Ay)=x^T y\)</span>；保长度：<span class="math">\(\lVert Ax \rVert=\lVert x \rVert\)</span></td>
+  <td>所有特征值满足 <span class="math">\(\lvert\lambda\rvert=1\)</span>；若 <span class="math">\(\lambda\in\mathbb{R}\)</span>，则 <span class="math">\(\lambda=\pm1\)</span></td>
+  <td>不同特征值对应的特征向量正交</td>
+  <td><span class="math">\(\det A=\pm1\)</span></td>
+  <td>非实特征值成共轭对出现</td>
+</tr>
+<tr>
+  <td><strong>Unitary</strong> 酉矩阵</td>
+  <td><span class="math">\(U^\dagger U=I\)</span>，通常 <span class="math">\(U\)</span> 为复矩阵</td>
+  <td><span class="math">\(U^{-1}=U^\dagger\)</span></td>
+  <td>保复内积：<span class="math">\((Ux)^\dagger(Uy)=x^\dagger y\)</span>；保长度：<span class="math">\(\lVert Ux\rVert=\lVert x\rVert\)</span></td>
+  <td>所有特征值满足 <span class="math">\(\lvert\lambda\rvert=1\)</span></td>
+  <td>不同特征值对应的特征向量正交</td>
+  <td><span class="math">\(\lvert\det U\rvert=1\)</span></td>
+  <td>一般不要求特征值共轭成对，除非矩阵本身是实矩阵</td>
+</tr>
+<tr>
+  <td><strong>Hermitian</strong> 厄米矩阵</td>
+  <td><span class="math">\(H^\dagger=H\)</span></td>
+  <td>不一定可逆；若可逆，则 <span class="math">\(H^{-1}\)</span> 仍是 Hermitian</td>
+  <td>二次型为实数：<span class="math">\(x^\dagger Hx\in\mathbb{R}\)</span></td>
+  <td>所有特征值都是实数</td>
+  <td>不同特征值对应的特征向量正交</td>
+  <td><span class="math">\(\det H\in\mathbb{R}\)</span></td>
+  <td>可被 unitary 对角化：<span class="math">\(H=U\Lambda U^\dagger\)</span>，其中 <span class="math">\(\Lambda\)</span> 为实对角矩阵</td>
+</tr>
+<tr>
+  <td><strong>Symmetric</strong> 对称矩阵</td>
+  <td><span class="math">\(A^T=A\)</span>，必须为实矩阵</td>
+  <td>不一定可逆；若可逆，则 <span class="math">\(A^{-1}\)</span> 仍是对称矩阵</td>
+  <td>二次型为实数：<span class="math">\(x^TAx\in\mathbb{R}\)</span></td>
+  <td>所有特征值都是实数</td>
+  <td>不同特征值对应的特征向量正交</td>
+  <td><span class="math">\(\det A\in\mathbb{R}\)</span></td>
+  <td>可被正交矩阵对角化：<span class="math">\(A=Q\Lambda Q^T\)</span>，其中 <span class="math">\(\Lambda\)</span> 为实对角矩阵</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>对应证明速表</h1>
+<table>
+<thead>
+<tr>
+  <th>结论</th>
+  <th>适用对象</th>
+  <th>证明核心</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><span class="math">\(A^{-1}=A^T\)</span></td>
+  <td>Orthogonal</td>
+  <td>由 <span class="math">\(A^TA=I\)</span>，所以 <span class="math">\(A^T\)</span> 是 <span class="math">\(A\)</span> 的逆</td>
+</tr>
+<tr>
+  <td><span class="math">\(A^T=A\)</span> 的特征值为实数</td>
+  <td>Symmetric</td>
+  <td>若 <span class="math">\(Av=\lambda v\)</span> 且 <span class="math">\(A^T=A\)</span>，则 <span class="math">\(v^TAv=\lambda v^Tv\)</span>。左边为实数，且 <span class="math">\(v^Tv>0\)</span>，所以 <span class="math">\(\lambda\in\mathbb{R}\)</span></td>
+</tr>
+<tr>
+  <td><span class="math">\(U^{-1}=U^\dagger\)</span></td>
+  <td>Unitary</td>
+  <td>由 <span class="math">\(U^\dagger U=I\)</span>，所以 <span class="math">\(U^\dagger\)</span> 是 <span class="math">\(U\)</span> 的逆</td>
+</tr>
+<tr>
+  <td>保内积</td>
+  <td>Orthogonal / Unitary</td>
+  <td><span class="math">\((Ax)^T(Ay)=x^TA^TAy=x^Ty\)</span>；<span class="math">\((Ux)^\dagger(Uy)=x^\dagger U^\dagger Uy=x^\dagger y\)</span></td>
+</tr>
+<tr>
+  <td>特征值在单位圆上</td>
+  <td>Orthogonal / Unitary</td>
+  <td>若 <span class="math">\(Av=\lambda v\)</span>，则 <span class="math">\(\lVert v\rVert=\lVert Av\rVert=\lvert\lambda\rvert\lVert v\rVert\)</span>，所以 <span class="math">\(\lvert\lambda\rvert=1\)</span></td>
+</tr>
+<tr>
+  <td>Hermitian 特征值为实数</td>
+  <td>Hermitian</td>
+  <td>若 <span class="math">\(Hv=\lambda v\)</span>，则 <span class="math">\(v^\dagger Hv=\lambda v^\dagger v\)</span>。左边为实数，且 <span class="math">\(v^\dagger v>0\)</span>，所以 <span class="math">\(\lambda\in\mathbb{R}\)</span></td>
+</tr>
+<tr>
+  <td>不同特征值的特征向量正交</td>
+  <td>Symmetric / Hermitian / Unitary / Orthogonal</td>
+  <td>利用保内积或 <span class="math">\(H^\dagger=H\)</span> 或 <span class="math">\(A^T=A\)</span>，推出 <span class="math">\((\lambda-\mu)\langle x,y\rangle=0\)</span> 或等价形式</td>
+</tr>
+<tr>
+  <td>非实特征值共轭成对</td>
+  <td>实矩阵，例如 Orthogonal</td>
+  <td>特征多项式系数为实数，所以若 <span class="math">\(p(\lambda)=0\)</span>，则 <span class="math">\(p(\overline{\lambda})=0\)</span></td>
+</tr>
+<tr>
+  <td><span class="math">\(\det A=\pm1\)</span></td>
+  <td>Orthogonal</td>
+  <td><span class="math">\(\det(A^TA)=\det I\Rightarrow (\det A)^2=1\)</span></td>
+</tr>
+<tr>
+  <td><span class="math">\(\lvert\det U\rvert=1\)</span></td>
+  <td>Unitary</td>
+  <td><span class="math">\(\det(U^\dagger U)=1\Rightarrow \overline{\det U}\det U=1\)</span></td>
+</tr>
+<tr>
+  <td><span class="math">\(\det H\in\mathbb{R}\)</span></td>
+  <td>Hermitian</td>
+  <td>Hermitian 的特征值全为实数，行列式等于特征值乘积</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>最容易混的地方：</p>
+<table>
+<thead>
+<tr>
+  <th>容易混淆点</th>
+  <th>正确说法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Symmetric 和 Hermitian 是同一类？</td>
+  <td>是的关系。Symmetric 是实矩阵的 Hermitian；都有实特征值和正交特征向量。</td>
+</tr>
+<tr>
+  <td>Orthogonal 的特征值都是 <span class="math">\(\pm1\)</span>？</td>
+  <td>错。只有实特征值才只能是 <span class="math">\(\pm1\)</span>。一般可以是 <span class="math">\(e^{i\theta}\)</span>。</td>
+</tr>
+<tr>
+  <td>Unitary 的特征值一定共轭成对？</td>
+  <td>错。只有实系数矩阵才保证共轭成对。</td>
+</tr>
+<tr>
+  <td>Hermitian 的特征值在单位圆上？</td>
+  <td>错。Hermitian 的特征值是实数，不一定模长为 1。</td>
+</tr>
+<tr>
+  <td>Unitary 和 Hermitian 是同一类？</td>
+  <td>不是。Unitary 满足 <span class="math">\(U^\dagger U=I\)</span>，Hermitian 满足 <span class="math">\(H^\dagger=H\)</span>。</td>
+</tr>
+<tr>
+  <td>Orthogonal 是不是 Unitary 的特例？</td>
+  <td>是。实矩阵中，<span class="math">\(A^\dagger=A^T\)</span>，所以正交矩阵是酉矩阵的实数特例。</td>
+</tr>
+</tbody>
+</table>
+</article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

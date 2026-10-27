@@ -2,6 +2,8 @@
 
 This directory contains a deliberately small, publication-oriented selection of project evidence. It is not a backup of the source projects.
 
+`oxford-physics/` is a distinct academic resource collection rather than project proof media. It contains reviewed publication copies and a public catalog; its private source inventory stays outside the repository. Personal solutions, course-provided solutions and exam papers are labelled separately. Large documents and grouped archives are linked from GitHub Releases. No admission, identity, financial or administrative files are included.
+
 | Project | Selected proof | Public status |
 | --- | --- | --- |
 | SecondTouchReality / OneTouchReality | Hardware photo, tracking photo, H.264 demo, architecture | Ready with team attribution |

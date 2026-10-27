@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hilary Term · 物理与数学复习笔记 · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>复习笔记</span></div>
+      <header class="reading-header"><p class="library-eyebrow">CP1–CP4 / 大一</p><h1>Hilary Term · 物理与数学复习笔记</h1><div class="reading-meta"><span>MD · 7 KB</span><a class="button" href="/assets/projects/oxford-physics/files/hilary-term-5e4e29b3b2ca.md" download="HT.md">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><h1>物理</h1>
+<h2>1) 力学</h2>
+<p>这一块从 Lecture 11 开始，主线是：变量质量、非惯性系、带电粒子受力、角动量/力矩、中心力轨道、刚体转动、拉格朗日力学。</p>
+<ul>
+<li><p><strong>牛顿第二定律</strong>：
+$$
+\mathbf F=\frac{d\mathbf p}{dt},\qquad \mathbf p=m\mathbf v
+$$
+质心运动只看外力：
+$$
+\mathbf r_{\rm cm}=\frac{\sum_i m_i\mathbf r_i}{\sum_i m_i},\qquad
+\mathbf v_{\rm cm}=\frac{\sum_i m_i\mathbf v_i}{\sum_i m_i}
+$$
+$$
+\sum_i m_i\mathbf a_i=\sum \mathbf F_{\rm ext}
+$$
+在质心系里，总动量为 0。</p>
+</li>
+<li><p><strong>质心系动能分解</strong>：
+$$
+T_{\rm lab}=T_{\rm CM}+\frac12 Mv_{\rm CM}^2
+$$
+其中 <span class="math">\(M=\sum_i m_i\)</span>。</p>
+</li>
+<li><p><strong>火箭/变质量</strong>：
+讲义把“吸质量、喷质量、火箭方程、非惯性系”单独列成 Lecture 11–12。常用结果记成：
+$$
+\Delta v = w\ln\frac{m_i}{m_f}
+$$
+这里 <span class="math">\(w\)</span> 是喷气相对速度。</p>
+</li>
+<li><p><strong>力矩与角动量</strong>：
+$$
+\boldsymbol{\tau}=\mathbf r\times\mathbf F,\qquad
+\mathbf J=\mathbf r\times\mathbf p,\qquad
+\frac{d\mathbf J}{dt}=\boldsymbol{\tau}
+$$
+若是中心力，<span class="math">\(\boldsymbol{\tau}=0\)</span>，所以角动量守恒。</p>
+</li>
+<li><p><strong>碰撞</strong>：
+动量守恒是主线；完全弹性碰撞在质心系里最简单，速度大小不变、方向反向。恢复系数
+$$
+e=\frac{|v_2-v_1|}{|u_1-u_2|}
+$$
+且讲义给出
+$$
+e=\sqrt{1-\frac{\Delta E}{T^{\rm i}_{\rm CM}}}
+$$
+完全非弹性时 <span class="math">\(e=0\)</span>。</p>
+</li>
+<li><p><strong>刚体转动</strong>：
+$$
+I=\sum_i m_ir_i^2
+$$
+平行轴定理：
+$$
+I=I_{\rm CM}+Md^2
+$$
+垂直轴定理（薄平面物体）：
+$$
+I_z=I_x+I_y
+$$
+滚动不打滑：
+$$
+v=\omega R
+$$
+总能量常写成“平动 + 转动 + 重力势能”。</p>
+</li>
+<li><p><strong>拉格朗日力学</strong>：
+$$
+L=T-U
+$$
+欧拉–拉格朗日方程：
+$$
+\frac{d}{dt}\frac{\partial L}{\partial \dot q_i}-\frac{\partial L}{\partial q_i}=0
+$$
+循环坐标对应的共轭动量守恒；对称性对应守恒量。</p>
+</li>
+</ul>
+<h2>2) 电磁学</h2>
+<p>电磁学整套结构是：静电 → 磁静 → 感应 → 电感/变压器 → 麦克斯韦方程。</p>
+<ul>
+<li><p><strong>电场与电势</strong>：
+$$
+\mathbf E=\frac{\mathbf F}{q},\qquad
+\mathbf E=\frac{Q}{4\pi\varepsilon_0 r^2}\hat{\mathbf r}
+$$
+$$
+V(B)-V(A)=-\int_A^B \mathbf E\cdot d\mathbf l,\qquad
+\mathbf E=-\nabla V
+$$
+点电荷势：
+$$
+V=\frac{Q}{4\pi\varepsilon_0 r}
+$$
+叠加原理成立。</p>
+</li>
+<li><p><strong>高斯定律</strong>：
+$$
+\oint_S \mathbf E\cdot d\mathbf a=\frac{Q_{\rm encl}}{\varepsilon_0},
+\qquad
+\nabla\cdot\mathbf E=\frac{\rho}{\varepsilon_0}
+$$
+没有对称性就别乱硬套。</p>
+</li>
+<li><p><strong>偶极子</strong>：
+$$
+\mathbf p=q\mathbf d
+$$
+远场电势：
+$$
+V=\frac{\mathbf p\cdot\hat{\mathbf r}}{4\pi\varepsilon_0 r^2}
+=\frac{p\cos\theta}{4\pi\varepsilon_0 r^2}
+$$
+这是电多极展开最常见的一层。</p>
+</li>
+<li><p><strong>磁场与安培定律</strong>：
+$$
+d\mathbf B=\frac{\mu_0 I,d\mathbf l\times\hat{\mathbf r}}{4\pi r^2}
+$$
+$$
+\oint \mathbf B\cdot d\mathbf l=\mu_0 I_{\rm encl},
+\qquad
+\nabla\cdot\mathbf B=0
+$$
+磁单极子不存在。</p>
+</li>
+<li><p><strong>洛伦兹力</strong>：
+$$
+\mathbf F=q(\mathbf E+\mathbf v\times\mathbf B)
+$$
+纯磁场不做功，只有改变方向，不改速率。</p>
+</li>
+<li><p><strong>法拉第定律与楞次定律</strong>：
+$$
+\mathcal E=-\frac{d\Phi}{dt},\qquad
+\Phi=\int_S \mathbf B\cdot d\mathbf a
+$$
+微分形式：
+$$
+\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t}
+$$
+感应方向总是反抗磁通变化。</p>
+</li>
+<li><p><strong>自感/互感</strong>：
+$$
+\mathcal E=-L\frac{dI}{dt},\qquad
+U=\frac12 LI^2
+$$
+$$
+M_{12}=M_{21},\qquad
+\mathcal E_2=-M\frac{dI_1}{dt}
+$$
+变压器理想关系：
+$$
+\frac{V_S}{V_P}=k\frac{N_S}{N_P},\qquad
+V_P I_P=V_S I_S\ (\text{理想})
+$$</p>
+</li>
+<li><p><strong>麦克斯韦方程（真空/静态版本最该背）</strong>：
+$$
+\nabla\cdot\mathbf E=\frac{\rho}{\varepsilon_0},\quad
+\nabla\cdot\mathbf B=0,\quad
+\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t},\quad
+\nabla\times\mathbf B=\mu_0\mathbf J+\mu_0\varepsilon_0\frac{\partial\mathbf E}{\partial t}
+$$
+这是整门电磁学的总纲。</p>
+</li>
+</ul>
+<hr />
+<h1>数学</h1>
+<p><strong>一、波动 / 正常模：先背这组骨架</strong>
+简谐振动是底层模板：<span class="math">\(\ddot x+\omega^2 x=0\)</span>，解写成 <span class="math">\(x=A\cos(\omega t+\phi)\)</span> 或 <span class="math">\(x=A\sin(\omega t+\phi)\)</span>。波里最常见的单色平面波写法是 <span class="math">\(y(x,t)=A\cos(\omega t-kx)\)</span>；其中 <span class="math">\(k=2\pi/\lambda\)</span>、<span class="math">\(\omega=2\pi/T\)</span>、<span class="math">\(\nu=1/T\)</span>，相速度 <span class="math">\(v_p=\omega/k=\nu\lambda\)</span>。这是整套波动题的起点。</p>
+<p><strong>二、驻波 / 模态：固定端一定要会</strong>
+固定两端的弦，正常模写成</p>
+<div class="math">$$
+y_n(x,t)=A_n\sin\left(\frac{n\pi x}{L}\right)\cos\left(\frac{n\pi vt}{L}\right),
+\qquad
+\omega_n=\frac{n\pi v}{L}.
+$$</div>
+<p>单个模态的能量也要记：</p>
+<div class="math">$$
+E_n=K_n+U_n=\frac{\rho L A_n^2\omega_n^2}{4}.
+$$</div>
+<p>如果题目问“为什么只有离散频率”，答案就是边界条件把波长锁死了。</p>
+<p><strong>三、反射 / 阻抗 / 透射：三条最常考</strong>
+传输线和波的边界问题里，特征阻抗 <span class="math">\(Z_0\)</span> 和终端阻抗 <span class="math">\(Z_T\)</span> 很关键，反射系数</p>
+<div class="math">$$
+r=\frac{A_0}{A}=\frac{Z_T-Z_0}{Z_T+Z_0}.
+$$</div>
+<p>三个极限要秒反应：<span class="math">\(Z_T\to 0\Rightarrow r=-1\)</span>（固定端，反相）；<span class="math">\(Z_T=Z_0\Rightarrow r=0\)</span>（无反射，完全匹配）；<span class="math">\(Z_T\to\infty\Rightarrow r=1\)</span>（自由端，同相）。</p>
+<p><strong>四、色散 / 群速度：分清“谁在跑”</strong>
+相速度是单个正弦波的速度：</p>
+<div class="math">$$
+v_p=\frac{\omega}{k}.
+$$</div>
+<p>群速度是波包、也就是信息包络的速度：</p>
+<div class="math">$$
+v_g=\frac{d\omega}{dk}.
+$$</div>
+<p>有色散时，波包会展宽，<span class="math">\(v_g\)</span> 和 <span class="math">\(v_p\)</span> 一般不一样。考试里只要看到 wave packet / dispersion / information transfer，先把这两条写出来。</p>
+<p><strong>五、光学波动如果也一起考：只背一个衍射栅公式</strong>
+波动光学提纲里，最常见的是“两波干涉、N 波干涉、衍射”。如果题目落到光栅，主极大条件直接记：</p>
+<div class="math">$$
+\sin\theta=\frac{m\lambda}{a},\qquad m\in\mathbb N.
+$$</div>
+<p>另外，光在介质中的相速度和折射率关系是</p>
+<div class="math">$$
+n=\frac{c}{v},\qquad n=\frac{\lambda_0}{\lambda}.
+$$</div>
+<p>这两组就够你应付大多数基础光学波动题。</p>
+<p><strong>六、数学：偏导 / 全微分 / 链式法则</strong>
+多元函数先抓偏导：把别的变量当常数。全微分写成</p>
+<div class="math">$$
+df=\frac{\partial f}{\partial x}dx+\frac{\partial f}{\partial y}dy+\cdots
+$$</div>
+<p>链式法则在换变量题里必出；Jacobian 是换元时的面积/体积缩放因子，做多重积分时一定会出现。讲义的主线就是：多元函数、极限与连续、偏导、方向导数、全微分、链式法则、Jacobian。</p>
+<p><strong>七、数学：grad / div / curl 这组三件套</strong>
+三维向量分析最重要的三条是</p>
+<div class="math">$$
+\nabla f=\text{grad }f,\qquad
+\nabla\cdot \mathbf A=\text{div }\mathbf A,\qquad
+\nabla\times \mathbf A=\text{curl }\mathbf A.
+$$</div>
+<p>必须背的恒等式：</p>
+<div class="math">$$
+\nabla\times(\nabla f)=0,\qquad
+\nabla\cdot(\nabla\times \mathbf A)=0.
+$$</div>
+<p>直觉上：grad 指向增长最快方向，div 看源汇，curl 看旋转。这个在电磁学里也会直接用到。</p>
+<p><strong>八、数学：高斯定理和斯托克斯定理，背边界关系</strong>
+你只要记住两句：</p>
+<div class="math">$$
+\iiint_V (\nabla\cdot \mathbf A)\,dV=\iint_{\partial V}\mathbf A\cdot d\mathbf S
+$$</div>
+<p>和</p>
+<div class="math">$$
+\iint_S (\nabla\times \mathbf A)\cdot d\mathbf S=\oint_{\partial S}\mathbf A\cdot d\mathbf l.
+$$</div>
+<p>一句话概括：<strong>散度管体积通量，旋度管边界环流</strong>。这两条是电磁学积分形式的骨架。</p>
+</article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

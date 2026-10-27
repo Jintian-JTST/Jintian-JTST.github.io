@@ -1,0 +1,7 @@
+intro
+
+simple harmonic motion plays an important role within physics, from normal nodes in classical mechanics to vibrations in quantum mechanics. it indicates that the force acting on the oscillator is proportional to the displacement of that body, and the constant of proportionality is negative.
+
+whilst in real world situations, oscillations cannot appear ideally without frictions. therefore, we developed damping oscillations. beyond there maybe a source consuming energy of the oscillator, driven forces can also supply energy to the oscillator. by focusing on the equation of motion of the oscillator and solving it, we can figure out the period and amplitude of oscillation.
+
+this experiments studies and verifies the correctness of the theorem of the Driven harmonic motion. we studied free oscillations, damped oscillations, and oscillations driven over a wide range of frequencies. we measured the oscillator's effective spring constant, its natural frequency, and its damping constant independently, allowing us to make quantitative comparisons of theory and experiment.

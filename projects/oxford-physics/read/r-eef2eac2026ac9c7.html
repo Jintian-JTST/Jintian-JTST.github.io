@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lvovsky QM Ch1-3.3 notes · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>代码</span></div>
+      <header class="reading-header"><p class="library-eyebrow">SO / 大一</p><h1>Lvovsky QM Ch1-3.3 notes</h1><div class="reading-meta"><span>TEX · 33 KB</span><a class="button" href="/assets/projects/oxford-physics/files/lvovsky-qm-ch1-3-3-notes-eef2eac2026a.tex" download="Lvovsky_QM_Ch1-3.3_notes.tex">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><pre><code>% !TEX program = xelatex
+% 编译方式：XeLaTeX（Overleaf: Menu -&gt; Compiler -&gt; XeLaTeX；本地: xelatex 本文件）
+\documentclass[11pt]{ctexart}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,array}
+\usepackage[colorlinks=true,linkcolor=blue!60!black]{hyperref}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=2em}
+
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\bra}[1]{\left\langle#1\right|}
+\newcommand{\braket}[2]{\left\langle#1\middle|#2\right\rangle}
+\newcommand{\ev}[1]{\left\langle#1\right\rangle}
+\newcommand{\op}[1]{\hat{#1}}
+
+\title{\textbf{Lvovsky《Quantum Physics: An Introduction Based on Photons》\\第 1--3.3 章学习笔记}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{全书主线}：第 1 章在最简单的二维 Hilbert 空间（光子偏振 qubit）上建立量子力学全部公理 $\to$ 第 2 章引入张量积与纠缠，讨论非局域性与测量的本质 $\to$ 第 3 章把同一套公理推广到连续无穷维空间，处理一维运动。
+
+\tableofcontents
+
+\section{第 1 章\quad The Quantum Postulates（量子假设）}
+
+\subsection{量子力学的适用范围（1.1）}
+
+经典物理用\textbf{量}（quantities）描述世界，原则上一切量都可无限精确地获知——\emph{经典世界是无限可知的}。量子物理中某些知识\textbf{原则上}不可同时获得（如位置与动量的同时精确值），因此必须改用 \textbf{quantum state（量子态）}描述系统：它内禀地包含了``可知与不可知的边界&#x27;&#x27;。
+
+\textbf{Correspondence principle（对应原理）}：任何更新的理论必须在旧理论已被检验的领域复现旧理论的结果（相对论 $\to$ 牛顿力学低速极限；量子物理 $\to$ 宏观经典物理）。量子力学的主要数学工具是\textbf{线性代数}。
+
+\subsection{The Hilbert Space Postulate（1.2）}
+
+\begin{quote}
+\textbf{第一公设}：a) 物理系统的所有可能状态构成\textbf{复数域}上的 Hilbert space；b) \textbf{不相容}（incompatible）的量子态对应\textbf{正交}向量；c) 代表物理态的向量都是\textbf{归一化}的（norm $=1$）。
+\end{quote}
+
+\begin{itemize}
+\item \textbf{不相容}：若系统确定处于态 A，测量绝不会发现它处于态 B。如 $\ket{x=5\,\mathrm m}\perp\ket{x=3\,\mathrm m}$；但 $\ket{x=5\,\mathrm m}$ 与 $\ket{v=4\,\mathrm{m/s}}$ 不正交（动量确定的态位置完全不确定）。
+\item 线性空间 $\Rightarrow$ \textbf{superposition（叠加）原理}：$\ket a,\ket b$ 合法则 $(\ket a+\ket b)/\sqrt2$ 也合法。宏观叠加（Schrödinger&#x27;s cat）数学上合法但极脆弱、迅速退化为某一分量（第 2 章 decoherence），故日常不可见。
+\end{itemize}
+
+\subsection{光子偏振（1.3）}
+
+$\ket H$（水平）与 $\ket V$（垂直）不相容（$\ket H$ 过 polarizing beam splitter 必透射）$\Rightarrow$ 正交，构成二维空间的 \textbf{canonical basis}。经典波 $\vec E(z,t)=\mathrm{Re}\!\big[(A_He^{i\varphi_H}\hat i+A_Ve^{i\varphi_V}\hat j)e^{ikz-i\omega t}\big]$ 对应单光子态
+\[
+\ket\psi=\frac{1}{\sqrt{A_H^2+A_V^2}}\Big(A_He^{i\varphi_H}\ket H+A_Ve^{i\varphi_V}\ket V\Big)e^{-i\omega t}.
+\]
+
+\textbf{重要偏振态（必背）}：
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+态 &amp; 矩阵 &amp; 描述\\
+\midrule
+$\ket H$ &amp; $\binom{1}{0}$ &amp; 水平\\
+$\ket V$ &amp; $\binom{0}{1}$ &amp; 垂直\\
+$\ket\theta=\cos\theta\ket H+\sin\theta\ket V$ &amp; $\binom{\cos\theta}{\sin\theta}$ &amp; 与水平成 $\theta$ 角的线偏振\\
+$\ket+=\frac{1}{\sqrt2}(\ket H+\ket V)$ &amp; $\frac{1}{\sqrt2}\binom{1}{1}$ &amp; 对角偏振（$+45^\circ$）\\
+$\ket-=\frac{1}{\sqrt2}(\ket H-\ket V)$ &amp; $\frac{1}{\sqrt2}\binom{1}{-1}$ &amp; 反对角偏振（$-45^\circ$）\\
+$\ket R=\frac{1}{\sqrt2}(\ket H+i\ket V)$ &amp; $\frac{1}{\sqrt2}\binom{1}{i}$ &amp; 右旋圆偏振\\
+$\ket L=\frac{1}{\sqrt2}(\ket H-i\ket V)$ &amp; $\frac{1}{\sqrt2}\binom{1}{-i}$ &amp; 左旋圆偏振\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$\{\ket H,\ket V\}$、$\{\ket+,\ket-\}$（diagonal basis）、$\{\ket R,\ket L\}$（circular basis）都是正交归一基。
+
+\textbf{Phase factor}：整体乘 $e^{i\varphi}$ 不改变物理（$\ket V$ 与 $-\ket V$ 同一物理态）；\textbf{相对相位}改变物理：只给 $\ket+$ 的 $V$ 分量加 $\pi/2$ 相位得 $(\ket H+i\ket V)/\sqrt2=\ket R$。因此 $e^{-i\omega t}$ 可暂时忽略。
+
+\textbf{为何偏振空间 2 维而位置空间无穷维}：任何线偏振态可由 $\ket H,\ket V$ 叠加表出；不同位置态全部互相正交、无法互相叠加表出。光子偏振是 \textbf{qubit}（任何二维 Hilbert 空间信息载体）的一种实现。
+
+\textbf{Box 1.1 光子的发现}：Planck（1900）$E=\hbar\omega$，$\hbar=1.054\,571\,48\times10^{-34}$\,J$\cdot$s；Einstein（1905 光电效应；1916 光子动量 $p=E/c=2\pi\hbar/\lambda$）；Compton（1923）X 射线散射证实；``photon&#x27;&#x27;一词 G.~Lewis 1926 年引入。
+
+\subsection{量子测量（1.4）}
+
+\textbf{动机}：单光子 $\ket\psi=\psi_H\ket H+\psi_V\ket V$ 打到 PBS：光子不可分割，但大量光子统计必须复现经典分光比 $A_H^2/A_V^2$ $\Rightarrow$ 唯一调和方式是\textbf{随机性}。
+
+\begin{quote}
+\textbf{Measurement Postulate}：理想测量装置关联一组正交归一基 $\{\ket{v_i}\}$。测量后装置随机指向某 $\ket{v_i}$，概率由 \textbf{Born&#x27;s rule} 给出
+\[
+\mathrm{pr}_i=\big|\braket{v_i}{\psi}\big|^2,
+\]
+系统（若未被销毁）被投影（\textbf{collapse}）到 $\ket{v_i}$。
+\end{quote}
+
+\begin{itemize}
+\item 此为 \textbf{projective measurement}；塌缩后在同一基重复测量无随机性。
+\item 实现：PBS$+$两个单光子探测器（canonical 基）；前置 $\lambda/2$@$22.5^\circ$（diagonal 基）；$\lambda/4$@$0^\circ$ $+$ $\lambda/2$@$22.5^\circ$（circular 基）。
+\item 概率归一 $\sum_i\mathrm{pr}_i=\braket\psi\psi=1$；整体相位不影响任何概率。
+\end{itemize}
+
+\textbf{Quantum state tomography}：单次测量信息极少；对同一态的多份拷贝在 canonical、diagonal、circular 三组基反复测量，可把 $\psi_H,\psi_V$ 确定到公共相位因子（$\mathrm{pr}_H,\mathrm{pr}_+,\mathrm{pr}_R$ 已足够；只用两组基不够）。
+
+\textbf{叠加态 vs 统计混合（ensemble）}：$\ket+$ 与``$\tfrac12$ 概率 $\ket H$ 或 $\tfrac12$ 概率 $\ket V$&#x27;&#x27;在 canonical 基测量结果相同（50/50），但 diagonal 基下前者给出确定的``$+$&#x27;&#x27;、后者仍 50/50。混合态不是 Hilbert 空间中的向量（第 5 章 density matrix）。
+
+\textbf{Box 1.2 单光子探测器}：超导纳米线（吸收单光子局部失超 $\to$ 电压脉冲）。参数：quantum efficiency（可 $&gt;99\%$）、non-discriminating（不分辨光子数）、dark counts。
+
+\subsection{量子干涉与互补性（1.5）}
+
+单光子 Mach--Zehnder 干涉仪：$\ket+$ 入射，PBS 分 H/V 两路，V 路获相位 $\varphi=kl$，合束后 $\ket\psi=(\ket H+e^{i\varphi}\ket V)/\sqrt2$，diagonal 基测量
+\[
+\mathrm{pr}_\pm=\tfrac12(1\pm\cos\varphi)
+\]
+——\textbf{单个光子产生干涉条纹}（wave-particle duality：光子以叠加形式``同时&#x27;&#x27;处于两路径）。
+
+\textbf{Welcher-Weg（which-way）测量}：在臂中放置路径探测器（即使无人查看读数），叠加塌缩为路径的统计混合，\textbf{quantum coherence} 丢失，条纹消失。此即 \textbf{quantum complementarity}：路径信息与干涉不可兼得。
+
+\textbf{Elitzur--Vaidman 炸弹检验（interaction-free measurement，Box 1.4）}：臂中可能有``见单光子即爆&#x27;&#x27;的炸弹。调 $\varphi=0$ 使无炸弹时探测器``$-$&#x27;&#x27;永不响。炸弹在场时实施 which-way 测量：50\% 引爆；50\% 光子走另一臂以 $\ket V$ 出射，25\% 触发``$-$&#x27;&#x27;。``$-$&#x27;&#x27;一响即不接触地探知炸弹存在。高精细度腔可推近 100\% 效率。
+
+\subsection{量子密码学（1.6）}
+
+经典密码：private-key（one-time pad，XOR）安全但密钥分发贵；public-key 便宜但可被算力/量子计算机破解。\textbf{QKD} 兼得两者之长。
+
+\textbf{BB84 协议}：(1) Alice 随机选 bit 与编码基：$\{0\to\ket H,\,1\to\ket V\}$ 或 $\{0\to\ket{+45^\circ},\,1\to\ket{-45^\circ}\}$，逐光子发送；(2) Bob 随机选基测量（同基结果一致，异基结果随机）；(3) 事后公开比对\textbf{基}（不公开 bit），保留同基事件 $\to$ 共享密钥；(4) Eve 不知道基，intercept-resend 攻击产生 \textbf{25\%} 错误率，比对部分密钥即可发现。错误率低于约 \textbf{11\%}（Shor--Preskill）时可用 privacy amplification 提纯。
+
+\textbf{实际限制}：光纤损耗服从 Beer&#x27;s law $n(L)=n_0e^{-\beta L}$（约 5\%/km）；光子率指数衰减而 dark counts 恒定 $\Rightarrow$ 直接传输上限数百公里；根本出路是 quantum repeater（第 2 章末）。
+
+\subsection{量子力学中的算符（1.7）}
+
+算符双重角色：\,①态的\textbf{演化}；\,②测量的形式化描述（observable）。
+
+\textbf{Waveplate 约定}（光轴与水平成 $\theta$）：$\ket\theta\to e^{i\Delta\varphi}\ket\theta$，$\ket{\tfrac\pi2+\theta}\to\ket{\tfrac\pi2+\theta}$；$\Delta\varphi=\pi$ 为 HWP、$\pi/2$ 为 QWP。Canonical 基中
+\[
+\op A_{\mathrm{HWP}}(\alpha)=\begin{pmatrix}-\cos2\alpha&amp;-\sin2\alpha\\-\sin2\alpha&amp;\cos2\alpha\end{pmatrix},\qquad
+\op A_{\mathrm{QWP}}(\alpha)=\begin{pmatrix}\sin^2\alpha+i\cos^2\alpha&amp;(i-1)\sin\alpha\cos\alpha\\(i-1)\sin\alpha\cos\alpha&amp;i\sin^2\alpha+\cos^2\alpha\end{pmatrix}.
+\]
+推论：HWP@$\alpha$ 把 $\ket\theta$ 映为 $\ket{2\alpha-\theta}$（关于光轴镜像）；QWP（光轴水平/垂直）在圆偏振与 $\pm45^\circ$ 之间互换。
+
+\textbf{Pauli operators（必背）}：
+\[
+\op\sigma_x=\ket H\bra V+\ket V\bra H\simeq\begin{pmatrix}0&amp;1\\1&amp;0\end{pmatrix},\quad
+\op\sigma_y=-i\ket H\bra V+i\ket V\bra H\simeq\begin{pmatrix}0&amp;-i\\i&amp;0\end{pmatrix},\quad
+\op\sigma_z=\ket H\bra H-\ket V\bra V\simeq\begin{pmatrix}1&amp;0\\0&amp;-1\end{pmatrix}.
+\]
+
+\textbf{Hadamard operator}：$\op H=\frac{1}{\sqrt2}\begin{pmatrix}1&amp;1\\1&amp;-1\end{pmatrix}$，$\ket H\mapsto\ket+$、$\ket V\mapsto\ket-$，HWP@$\pi/8$ 实现。
+
+\textbf{Box 1.6 单光子源}：衰减激光（泊松分布，非真单光子）；单原子/cavity QED；固态类原子源；\textbf{SPDC}（自发参量下转换，成对产生 $\to$ heralded single-photon source）。
+
+\subsection{投影算符与未归一化态（1.8）}
+
+约定扩展：norm $&lt;1$ 的态以概率 $\mathrm{pr}_a=\braket aa$ 存在（\textbf{unnormalized state}）。\textbf{投影算符}
+\[
+\op\Pi_i=\ket{v_i}\bra{v_i},\qquad \op\Pi_i\ket\psi=\braket{v_i}{\psi}\,\ket{v_i},
+\]
+测后未归一化态的 norm$^2$ 正是 Born 概率：$\braket{\psi_i&#x27;}{\psi_i&#x27;}=|\braket{v_i}\psi|^2=\mathrm{pr}_i$。
+
+\subsection{量子可观测量（1.9）}
+
+\textbf{Observable}：给测量基矢 $\ket{v_i}$ 关联实数读数 $v_i$，
+\[
+\op V=\sum_i v_i\ket{v_i}\bra{v_i}.
+\]
+\textbf{可观测量 $\Leftrightarrow$ Hermitian 算符}（spectral theorem：实本征值、正交归一本征基）。例：$\op\sigma_z=\ket H\bra H-\ket V\bra V$（canonical 基 $\pm1$），$\op\sigma_x=\ket+\bra+-\ket-\bra-$，$\op\sigma_y=\ket R\bra R-\ket L\bra L$。\textbf{时间不是算符}，只是参数。
+
+\textbf{统计量}：
+\[
+\ev V=\bra\psi\op V\ket\psi,\qquad
+\ev{\Delta V^2}=\bra\psi\big(\op V-\ev V\big)^2\ket\psi=\bra\psi\op V^2\ket\psi-\bra\psi\op V\ket\psi^2,
+\]
+uncertainty $=\sqrt{\ev{\Delta V^2}}$。例：$\ket+$ 中 $\ev{\sigma_z}=0$、$\ev{\Delta\sigma_z^2}=1$。
+
+\textbf{经典过渡}：$N$ 个 $\ket+$ 光子过 PBS，两路计数差涨落 $\sqrt N$，相对涨落 $1/\sqrt N\to0$（对应原理）。
+
+\textbf{The uncertainty principle}：
+\begin{itemize}
+\item 零不确定度 $\Leftrightarrow$ $\ket\psi$ 是本征态；
+\item 可同时（同一装置）测量 $\Leftrightarrow$ 可同时对角化 $\Leftrightarrow$ $[\op A,\op B]=0$；
+\item 对任意 Hermitian $\op A,\op B$ 与任意态（Cauchy--Schwarz 证明）：
+\[
+\boxed{\;\ev{\Delta A^2}\ev{\Delta B^2}\ \ge\ \tfrac14\big|\ev{[\op A,\op B]}\big|^2\;}
+\]
+\item 特例：$[\op A,\op B]=\varepsilon\op 1$ $\Rightarrow$ 下界 $|\varepsilon|^2/4$ 对\textbf{一切态}成立。位置-动量 $[\op x,\op p]=i\hbar$ 即属此类。
+\end{itemize}
+不确定性是态的内禀属性，不是仪器缺陷。
+
+\subsection{量子演化（1.10）}
+
+由光子 $e^{-i\omega t}$ 与 $E=\hbar\omega$、de Broglie 假设推广为公设：能量本征态 $\ket{\psi_E(t)}=\ket{\psi_E(0)}e^{-iEt/\hbar}$。Hamiltonian $\op H=\sum_jE_j\ket{E_j}\bra{E_j}$，任意态逐项演化：
+\[
+\ket{\psi(t)}=\sum_j\psi_j\ket{E_j}\,e^{-\frac{i}{\hbar}E_jt},\qquad \ket{\psi(0)}=\sum_j\psi_j\ket{E_j}.
+\]
+三种等价表述：
+\begin{enumerate}
+\item 能量基分解（上式）；
+\item \textbf{Evolution operator}：$\ket{\psi(t)}=\op U(t)\ket{\psi(0)}$，
+\[
+\op U(t)=e^{-\frac{i}{\hbar}\op Ht}
+\]
+（unitary：保 norm、可逆；$\op H\to-\op H$ 即时间反演；孤立系统演化不丢失信息）；
+\item \textbf{Schrödinger equation}：
+\[
+\frac{d\ket{\psi(t)}}{dt}=-\frac{i}{\hbar}\op H\ket{\psi(t)}.
+\]
+\end{enumerate}
+能量本征态只获相位、物理不变 $\Rightarrow$ \textbf{stationary states}；叠加态的物理构成随时间真实变化。
+
+\textbf{第 1 章骨架}：态 $=$ Hilbert 空间归一向量；测量 $=$ 正交基随机投影，$\mathrm{pr}=|\braket v\psi|^2$；可观测量 $=$ Hermitian 算符；演化 $=e^{-i\op Ht/\hbar}$ 的 unitary 变换。
+
+\section{第 2 章\quad Entanglement（纠缠）}
+
+\subsection{Tensor product spaces（2.1）}
+
+联合空间 $\mathbb V_A\otimes\mathbb V_B$，记号 $\ket H_A\otimes\ket V_B\equiv\ket{HV}$（第一个属 Alice）；$\dim=NM$；$\{\ket{v_i}\otimes\ket{w_j}\}$ 为正交归一基（两光子：$\{\ket{HH},\ket{HV},\ket{VH},\ket{VV}\}$）。规则：
+\[
+\lambda(\ket a\otimes\ket b)=(\lambda\ket a)\otimes\ket b=\ket a\otimes(\lambda\ket b),\qquad
+\braket{ab}{a&#x27;b&#x27;}=\braket a{a&#x27;}\braket b{b&#x27;},
+\]
+加上对两个因子的分配律。可写成 $\ket a\otimes\ket b$ 的态为 \textbf{separable}，否则为 \textbf{entangled}（非局域叠加）。
+
+\textbf{Bell states（必背，正交归一基）}：
+\[
+\ket{\Psi^\pm}=\frac{1}{\sqrt2}\big(\ket{HV}\pm\ket{VH}\big),\qquad
+\ket{\Phi^\pm}=\frac{1}{\sqrt2}\big(\ket{HH}\pm\ket{VV}\big).
+\]
+\textbf{$\ket{\Psi^-}$ 的 isotropy（各向同性，全章反复使用）}：对任意 $\theta$，
+\[
+\ket{\Psi^-}=\frac{1}{\sqrt2}\Big(\ket\theta\otimes\ket{\tfrac\pi2+\theta}-\ket{\tfrac\pi2+\theta}\otimes\ket\theta\Big),
+\]
+Bell 态中唯 $\ket{\Psi^-}$ 具有此性质。制备（Box 2.1）：两块级联非线性晶体 SPDC 输出 $\ket{HH}+e^{i\varphi}\ket{VV}$。
+
+\textbf{测量}：测量基可全由可分态构成（即双方局域测量）——\emph{纠缠态只能由相互作用产生，但区分/层析纠缠态只需局域测量}（区分 $\ket{\Psi^\pm}$：canonical 基不行，diagonal 基可以）。
+
+\textbf{算符张量积}：$(\op A\otimes\op B)\sum_i\lambda_i\ket{a_i}\otimes\ket{b_i}\equiv\sum_i\lambda_i(\op A\ket{a_i})\otimes(\op B\ket{b_i})$；矩阵元 $C_{ij,i&#x27;j&#x27;}=A_{ii&#x27;}B_{jj&#x27;}$；$(\op A_1\otimes\op B_1)(\op A_2\otimes\op B_2)=\op A_1\op A_2\otimes\op B_1\op B_2$；$(\op A\otimes\op B)^\dagger=\op A^\dagger\otimes\op B^\dagger$；$\op A\ket v=v\ket v,\ \op B\ket w=w\ket w\Rightarrow(\op A\otimes\op B)\ket{vw}=vw\ket{vw}$。
+
+\textbf{No-cloning theorem}：不存在使任意 $\ket a\otimes\ket0\to\ket a\otimes\ket a$ 的物理演化。证明：物理演化线性；对基矢克隆成立时线性性给出 $\sum_i\psi_i\ket{v_i}\ket{v_i}\neq\big(\sum_i\psi_i\ket{v_i}\big)\otimes\big(\sum_i\psi_i\ket{v_i}\big)$。
+
+\textbf{Local operators}（$\op A\otimes\op1$ 型）：局域 unitary 不能改变纠缠性；张量积算符不能从可分态造纠缠（纠缠必须靠相互作用）；$\op H=\op H_A+\op H_B$ 下可分态保持可分、$E=E_A+E_B$。Alice 局域 Pauli 在 Bell 态间切换：
+\[
+(\op\sigma_z)_A\ket{\Psi^-}=\ket{\Psi^+},\qquad
+(\op\sigma_x)_A\ket{\Psi^-}=-\ket{\Phi^-},\qquad
+(\op\sigma_y)_A\ket{\Psi^-}=i\ket{\Phi^+}.
+\]
+
+\textbf{Quantum dense coding（Box 2.2）}：Holevo bound——$n$ qubit 至多承载 $n$ 经典 bit；但预共享 $\ket{\Psi^-}$ 时，Alice 按 2 bit 选 $\op1,\op\sigma_x,\op\sigma_y,\op\sigma_z$ 作用己方 qubit 后寄出，Bob 做 Bell 基测量 $\Rightarrow$ 一个 qubit 送达 2 bit。
+
+\subsection{纠缠态的局域测量（2.2）}
+
+\textbf{Remote state preparation}：共享 $\ket{\Psi^-}$，Alice 在 $\{\ket\theta,\ket{\tfrac\pi2+\theta}\}$ 基测量：得 $\ket\theta$（概率 $\tfrac12$）则 Bob 瞬变为 $\ket{\tfrac\pi2+\theta}$，反之亦然——隔空``瞬时&#x27;&#x27;制备任意线偏振态（$\pm90^\circ$ 二义）。与经典关联（鞋盒类比）的区别：量子态还带相位关系、关联随基的选择而变。
+
+\textbf{Partial inner product}：对 $\ket\Psi=\sum_{ij}\Psi_{ij}\ket{v_i}\otimes\ket{w_j}$ 与局域态 $\ket a\in\mathbb V_A$，
+\[
+\braket a\Psi\equiv\sum_{ij}\Psi_{ij}\braket a{v_i}\,\ket{w_j}\ \in\mathbb V_B\quad(\text{与基选择无关}).
+\]
+
+\begin{quote}
+\textbf{局域测量法则}：把 $\ket\Psi$ 按 Alice 测量基展开 $\ket\Psi=\sum_i\frac{1}{\mathcal N_i}\ket{v_i}\otimes\ket{b_i}$（$\ket{b_i}=\mathcal N_i\braket{v_i}\Psi$ 归一化，$\mathcal N_i=\big(\sum_j|\Psi_{ij}|^2\big)^{-1/2}$）。Alice 得结果 $i$ 的概率
+\[
+\mathrm{pr}_{A,i}=\frac{1}{\mathcal N_i^2}=\big\|\braket{v_i}\Psi\big\|^2,
+\]
+此时 Bob 被投影到 $\ket{b_i}=\mathcal N_i\braket{v_i}{\Psi}$。
+\end{quote}
+纠缠态经局域测量塌缩为可分态。
+
+\textbf{局域测量与因果律（2.2.3，关键论证）}：
+\begin{itemize}
+\item 时序无关：同时测 / Alice 先 / Bob 先，联合概率均为 $\mathrm{pr}_{ij}=|\braket{v_iw_j}{\Psi}|^2$；
+\item Bob 不知 Alice 结果时，其一切可测统计不变（Bell 态下任何基均 50/50）$\Rightarrow$ \textbf{不能超光速传信}。``态&#x27;&#x27;瞬变，但态是理论构造、不被单次直接观测；可观测的统计纹丝不动；
+\item 更尖锐：Bob \emph{先}测并销毁光子、Alice 后测，按 Alice 结果 postselect，Bob 数据仍重构出``被远程制备的态&#x27;&#x27;；
+\item 若可克隆则可超光速通信（结合远程制备与层析）——no-cloning 保护因果律。
+\end{itemize}
+
+\textbf{Mixed states（2.2.4）}：Alice 丢失己方/不告知结果 $\Rightarrow$ Bob 的光子只能描述为 \textbf{ensemble}（对 $\ket{\Psi^-}$：``$\tfrac12\,\ket H$ 或 $\tfrac12\,\ket V$&#x27;&#x27;$\equiv$``$\tfrac12\,\ket+$ 或 $\tfrac12\,\ket-$&#x27;&#x27;$\equiv\cdots$，统计完全等价），偏振完全混合（类自然光），不对应任何态向量。\emph{失去纠缠态的一部分 $\Rightarrow$ 剩余部分丧失 coherence，退化为经典统计混合}（与 Welcher-Weg 破坏干涉同一机制）。
+
+\subsection{Quantum nonlocality（2.3）}
+
+\textbf{EPR 佯谬（Bohm 偏振版）}：\textbf{element of physical reality} $=$ 测量前可确定预测的量。共享 $\ket{\Psi^-}$：Alice 测 canonical 基 $\Rightarrow$ Bob 的 $\op\sigma_z$ 可预测；测 diagonal 基 $\Rightarrow$ $\op\sigma_x$ 可预测。\textbf{locality principle}（远端操作不改变本地实在）$\Rightarrow$ $\op\sigma_z,\op\sigma_x$ 须同时为实在元素；但二者不对易、无共同本征态 $\Rightarrow$ EPR 结论：量子描述不完备，或存在\textbf{隐变量}。
+
+\textbf{Bell inequality（1964，CHSH 形式）}：仅用``前面板&#x27;&#x27;描述（双方各两按钮 $M,N$、显示 $\pm1$）$+$ 局域实在论（每事件四值 $(M_A,N_A,M_B,N_B)$ 由隐变量预先决定、服从合法联合分布），由 $M_A(M_B-N_B)+N_A(M_B+N_B)=\pm2$ 得
+\[
+\boxed{\;\big|\ev{M_AM_B}-\ev{M_AN_B}+\ev{N_AM_B}+\ev{N_AN_B}\big|\le2\;}
+\]
+
+\textbf{量子违反}：共享 $\ket{\Psi^-}$，双方测 $\op\sigma_\theta=\ket\theta\bra\theta-\ket{\tfrac\pi2+\theta}\bra{\tfrac\pi2+\theta}$，角度 Alice: $0,\pi/4$；Bob: $\pi/8,3\pi/8$。各关联项 $\mp\tfrac{1}{\sqrt2}$，
+\[
+\ev S_{\mathrm{QM}}=-2\sqrt2,\qquad |\ev S|=2\sqrt2&gt;2.
+\]
+\textbf{局域实在论被实验排除}。Loopholes：locality（远距离$+$纳秒级电光随机选基关闭）、detection（高效探测器关闭）；2015 年三实验（Hanson 组 NV 色心、Zeilinger 组、Shalm 组）同时关闭两者。
+
+\textbf{GHZ nonlocality}：三方共享
+\[
+\ket{\Psi_{GHZ}}=\frac{1}{\sqrt2}\big(\ket{HHH}+\ket{VVV}\big),
+\]
+它是 $\op\sigma_y\otimes\op\sigma_y\otimes\op\sigma_x$（及两轮换）的本征态（本征值 $-1$），又是 $\op\sigma_x\otimes\op\sigma_x\otimes\op\sigma_x$ 的本征态（本征值 $+1$）。局域实在论把三条 $\sigma\sigma\sigma=-1$ 相乘得 $\sigma_{x_A}\sigma_{x_B}\sigma_{x_C}=-1$，与量子 $+1$ \textbf{每次测量}直接矛盾——无需统计不等式。
+
+\subsection{量子测量的本质（2.4）}
+
+\textbf{Von Neumann 模型}：把仪器当量子系统，测量 $=$ unitary 纠缠
+\[
+\op U\big(\ket\psi\otimes\ket{w_1}\big)=\sum_{i=1}^N\psi_i\ket{v_i}\otimes\ket{w_i}
+\]
+（$\{\ket{w_i}\}$ 宏观可分辨；不违反 no-cloning）。观察者听到 click 也加入纠缠：$\alpha\ket H\ket{\text{雪崩1}}\ket{\text{听到1}}+\beta\ket V\ket{\text{雪崩2}}\ket{\text{听到2}}$。\textbf{身处叠加中的观察者原则上无法把自己投影到对角基}，故无法察觉另一分支 $\Rightarrow$ 塌缩是\textbf{主观}现象；客观上波函数从不塌缩、演化决定论，量子随机性是观察受限的错觉。外部观察者理论上仍可验证叠加（\textbf{Wigner&#x27;s friend}）。
+
+\textbf{Decoherence}：环境时刻``无意测量&#x27;&#x27;。位置局域的相互作用把原子位置刻入环境：
+\[
+\sum_i\psi_i\ket{x_i}_{\text{atom}}\otimes\ket{x_i}_{\text{env}},
+\]
+观察者无法追踪环境 $\Rightarrow$ 原子退化为位置统计混合。\textbf{Decoherence-preferred basis}（与环境作用中不纠缠的基）：运动自由度偏好\textbf{位置基}（猫的死活叠加瞬间退相干的原因）；微观内部自由度偏好\textbf{能量本征基}（依据 adiabatic theorem：$\frac{d}{dt}E_n\ll\hbar\Delta^2$ 时系统保持在能量本征态；碰撞保留本征态但扰乱相位）。
+
+\textbf{诠释}：纠缠不可避免地扩张至全宇宙。\textbf{Many-worlds}（Everett 1957）：塌缩不存在、所有分支同样实在（不可实验验证；前提是量子力学普适——寻找适用边界是开放问题）。\textbf{Copenhagen}：宏观化到无法测相位即视为塌缩（实用主义，本书采用）。Schrödinger&#x27;s cat 原文（Box 2.5）实为纠缠态 $\frac{1}{\sqrt2}(\ket{\text{未衰变}}\ket{\text{活}}+\ket{\text{衰变}}\ket{\text{死}})$。2.4.4* 用 superposition tree $+$ Stirling 公式证明绝大多数分支中频率符合 Born&#x27;s rule——测量公设可视为 Hilbert 空间公设 $+$ unitarity 的推论。
+
+\subsection{Quantum computation（2.5，概览）}
+
+$n$ qubit 叠加同时编码 $2^n$ 组值 $\Rightarrow$ 指数并行；但读出只随机得一项 $\Rightarrow$ 仅对特定问题有效（如大数分解，威胁 public-key）。障碍：多体纠缠对 decoherence 极敏感；光子优势：单光子能量对应数万 K $\gg$ 环境温度。编码 $\ket0\equiv\ket H,\ket1\equiv\ket V$；NOT $=$ HWP@$3\pi/8$；Hadamard $=$ HWP@$\pi/8$。通用计算 $=$ 单 qubit 门 $+$ \textbf{c-not}（control 为 $\ket1$ 时翻转 target）：
+\[
+\text{c-not}=(\op1\otimes\op H_{\mathrm{Had}})\cdot\text{c-phase}\cdot(\op1\otimes\op H_{\mathrm{Had}}),
+\]
+c-phase（仅 $\ket{11}\mapsto-\ket{11}$）可由 $\op H=\hbar\omega\ket{VV}\bra{VV}$ 作用 $t=\pi/\omega$ 实现——需要单光子级\textbf{非线性}光学，极难。c-not 可产生纠缠、本质是 von Neumann 测量纠缠、可实现 Bell 基测量。
+
+\subsection{Quantum teleportation 及其应用（2.6）}
+
+\textbf{Teleportation}：Alice 持\textbf{未知} $\ket\chi=\alpha\ket H+\beta\ket V$（通道 1），与 Bob 共享 $\ket{\Psi^-}_{23}$。把 $\ket\chi_1\otimes\ket{\Psi^-}_{23}$ 按通道 1,2 的 Bell 基展开（四项等幅），Alice 做 \textbf{Bell 测量}（概率各 $\tfrac14$、与 $\alpha,\beta$ 无关）：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Alice 测得 &amp; Bob 处的态 &amp; Bob 的局域操作\\
+\midrule
+$\ket{\Phi^+}$ &amp; $-\beta\ket H+\alpha\ket V$ &amp; $\op\sigma_z\op\sigma_x=i\op\sigma_y$\\
+$\ket{\Phi^-}$ &amp; $\beta\ket H+\alpha\ket V$ &amp; $\op\sigma_x$\\
+$\ket{\Psi^+}$ &amp; $-\alpha\ket H+\beta\ket V$ &amp; $\op\sigma_z$\\
+$\ket{\Psi^-}$ &amp; $-(\alpha\ket H+\beta\ket V)$ &amp; 无\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Alice 经典告知结果（2 bit），Bob 施加相应 Pauli 即得 $\ket\chi$（100\% 概率、完美保真）。要点：传的是\textbf{态}非物体；原本在 Bell 测量中销毁（合 no-cloning）；双方均不获知 $\alpha,\beta$（完美传输的前提）；需经典通信 $\Rightarrow$ 不超光速。线性光学只能区分 4 个 Bell 态中的 2 个。
+
+\textbf{Entanglement swapping}：$\ket{\Psi^-}_{12}\otimes\ket{\Psi^-}_{34}$，对 2,3 做 Bell 测量 $\Rightarrow$ 1,4 纠缠——从未相遇的光子被纠缠（$=$ teleport 纠缠本身）。
+
+\textbf{Quantum repeater}：克服 Beer&#x27;s law 指数损耗（经典中继器 $=$ 测量再发送 $=$ 窃听者，不可用）。两基石：\textbf{swapping $+$ quantum memory}。总线分段（几十 km/段），段内 swapping 成功后纠缠存入两端记忆单元；\emph{某段失败只重试该段}；全部就绪后逐级 swapping 把纠缠传至全线两端。成功概率随距离衰减远慢于直接传输。瓶颈：高性能量子光学存储器。
+
+\textbf{第 2 章一句话}：纠缠 $=$ 不可分解为张量积的非局域叠加；它使局域实在论破产（Bell：$2\sqrt2&gt;2$；GHZ：每次矛盾），却因``局域统计不变&#x27;&#x27;与因果律共处；测量本身就是纠缠的扩散（decoherence）；纠缠也是 dense coding、teleportation、量子计算、中继器的资源。
+
+\section{第 3 章\quad One-dimensional Motion（\S3.1--3.3）}
+
+把第 1 章公理从离散基翻译到连续基——``把 mechanics 装回 quantum mechanics&#x27;&#x27;。
+
+\subsection{Continuous observables（3.1）}
+
+$\op x,\op p$ 的本征态连续且彼此正交 $\Rightarrow$ 无穷维。\textbf{Delta-normalization}：
+\[
+\braket x{x&#x27;}=\delta(x-x&#x27;),\qquad \braket p{p&#x27;}=\delta(p-p&#x27;).
+\]
+$\braket xx=\delta(0)=\infty$ 与``物理态 norm $=1$&#x27;&#x27;的矛盾化解：\textbf{连续可观测量本征态是非物理的}（不可能绝对精确地确定位置/速度），仅是数学抽象；一切物理态有展宽、norm $=1$。（若用 $\braket x{x&#x27;}=\delta_{xx&#x27;}$ 则一切波函数恒为零；严格处理需 rigged Hilbert space。）
+
+\textbf{离散 $\to$ 连续翻译表}：
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ &amp; 离散基 $\{\ket{v_i}\}$ &amp; 连续基 $\{\ket x\}$\\
+\midrule
+正交归一 &amp; $\braket{v_i}{v_j}=\delta_{ij}$ &amp; $\braket x{x&#x27;}=\delta(x-x&#x27;)$\\
+态的分解 &amp; $\ket\psi=\sum_i\psi_i\ket{v_i}$ &amp; $\ket\psi=\int_{-\infty}^{+\infty}\psi(x)\ket x\,dx$\\
+ &amp; $\psi_i=\braket{v_i}\psi$ &amp; $\psi(x)=\braket x\psi$（\textbf{波函数}）\\
+测量公设 &amp; $\mathrm{pr}_i=|\braket{v_i}\psi|^2$（概率） &amp; $\mathrm{pr}(x)=|\braket x\psi|^2$（概率\textbf{密度}）\\
+算符分解 &amp; $A_{ij}=\bra{v_i}\op A\ket{v_j}$ &amp; $A(x,x&#x27;)=\bra x\op A\ket{x&#x27;}$，$\op A=\iint A(x,x&#x27;)\ket x\bra{x&#x27;}dx\,dx&#x27;$\\
+单位算符 &amp; $\op1=\sum_i\ket{v_i}\bra{v_i}$ &amp; $\op1=\int\ket x\bra x\,dx$\\
+算符乘积 &amp; $(AB)_{ij}=\sum_kA_{ik}B_{kj}$ &amp; $(AB)(x,x&#x27;)=\int A(x,x&#x27;&#x27;)B(x&#x27;&#x27;,x&#x27;)\,dx&#x27;&#x27;$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item 波函数 $\psi(x)=\braket x\psi$ 即态向量在位置基下的``列向量&#x27;&#x27;；$\bra\psi$ 的波函数为 $\psi^*(x)$；
+\item 内积 $\braket{\psi_1}{\psi_2}=\int\psi_1^*(x)\psi_2(x)\,dx$；归一化 $\int|\psi(x)|^2dx=1$；
+\item $\op x=\int x\ket x\bra x\,dx$，$f(\op x)=\int f(x)\ket x\bra x\,dx$，$\op x\ket x=x\ket x$；
+\item $\bra x\op A\ket\psi=\int A(x,x&#x27;)\psi(x&#x27;)dx&#x27;$；$(A^\dagger)(x,x&#x27;)=A^*(x&#x27;,x)$；$\bra\psi f(\op x)\ket\psi=\int|\psi(x)|^2f(x)\,dx$。
+\end{itemize}
+
+\textbf{测量公设（连续版 Born&#x27;s rule）}：
+\[
+\mathrm{pr}(x)=|\psi(x)|^2,\qquad \mathrm{pr}_{[x&#x27;,x&#x27;&#x27;]}=\int_{x&#x27;}^{x&#x27;&#x27;}\mathrm{pr}(x)\,dx;
+\]
+\[
+\ev x=\bra\psi\op x\ket\psi,\qquad \ev{\Delta x^2}=\bra\psi\op x^2\ket\psi-\bra\psi\op x\ket\psi^2.
+\]
+测后塌缩到严格 $\ket x$ 是理想化；现实塌缩到 $x$ 邻域窄分布。
+
+\subsection{De Broglie wave（3.2）}
+
+\textbf{新公设}（不可由前述公设导出；源自 Planck $\to$ Einstein $\to$ Compton $\to$ de Broglie）：
+\[
+\boxed{\;\braket xp=\frac{1}{\sqrt{2\pi\hbar}}\,e^{\,ipx/\hbar}\;}
+\]
+动量本征态的波函数是无限平面波——\textbf{de Broglie wave}；波粒二象性由此进入公理体系。
+\begin{itemize}
+\item 波长 $\lambda_{dB}=\dfrac{2\pi\hbar}{p}$（与光子 $p=2\pi\hbar/\lambda$ 同形）；
+\item 基互展：
+\[
+\ket p=\frac{1}{\sqrt{2\pi\hbar}}\int e^{\,ipx/\hbar}\ket x\,dx,\qquad
+\ket x=\frac{1}{\sqrt{2\pi\hbar}}\int e^{-ipx/\hbar}\ket p\,dp;
+\]
+\item 因子 $1/\sqrt{2\pi\hbar}$ 由 $\braket p{p&#x27;}=\delta(p-p&#x27;)$ 与 $\int e^{i(p&#x27;-p)x/\hbar}dx=2\pi\hbar\,\delta(p-p&#x27;)$ 固定；
+\item $|\braket xp|^2=\frac{1}{2\pi\hbar}$ 处处相同：动量确定 $\Rightarrow$ 位置全不确定；积分发散再证 $\ket p$ 非物理。现实态是动量本征态的叠加（波包）；
+\item \textbf{波数形式}：$k=p/\hbar$；由 $\delta(k-k&#x27;)=\hbar\,\delta(p-p&#x27;)$ 得
+\[
+\ket k=\sqrt\hbar\,\ket{p=\hbar k},\qquad \braket xk=\frac{1}{\sqrt{2\pi}}e^{ikx}
+\]
+（同一物理态、不同 norm——delta 归一化的副作用）。
+\end{itemize}
+历史（Box 3.2）：de Broglie（1924）由 $2\pi r=n\lambda_{dB}$ 重新导出 Bohr 量子化并得到一致的原子光谱；Davisson--Germer（1927）电子衍射直接证实。
+
+\subsection{Position and momentum bases（3.3）}
+
+\textbf{基间转换（3.3.1）}：插入 $\op1=\int\ket p\bra p\,dp$ 等，得\textbf{位置/动量表象互为 Fourier 变换}：
+\[
+\psi(x)=\frac{1}{\sqrt{2\pi\hbar}}\int_{-\infty}^{+\infty}\tilde\psi(p)\,e^{\,ipx/\hbar}\,dp,\qquad
+\tilde\psi(p)=\frac{1}{\sqrt{2\pi\hbar}}\int_{-\infty}^{+\infty}\psi(x)\,e^{-ipx/\hbar}\,dx
+\]
+（波浪号 $=$ 动量/波数表象；$\tilde\psi(p)=\tilde\psi(k)/\sqrt\hbar$，$p=k\hbar$；波数版恰为标准 Fourier 对）。内积与表象无关（Parseval）。实波函数 $\Rightarrow\mathrm{pr}(p)=\mathrm{pr}(-p)$、$\ev p=0$。
+
+\textbf{$\op p=-i\hbar\,d/dx$ 的严格含义}：算符作用于态向量而非波函数；正确陈述为
+\[
+\bra x\op p\ket{x&#x27;}=-i\hbar\frac{d}{dx}\delta(x-x&#x27;),\qquad
+\bra x\op p\ket\psi=-i\hbar\frac{d}{dx}\psi(x),\qquad
+\bra x\op p^2\ket\psi=-\hbar^2\frac{d^2}{dx^2}\psi(x);
+\]
+对称地 $\bra p\op x\ket\psi=i\hbar\frac{d}{dp}\tilde\psi(p)$。位置算符函数在位置基是乘法：$V(x,x&#x27;)=V(x)\delta(x-x&#x27;)$；动量表象 $V(p,p&#x27;)=\frac{1}{2\pi\hbar}\int e^{\,i(p&#x27;-p)x/\hbar}V(x)\,dx$。
+
+\textbf{位置--动量不确定性（3.3.2）}：由 $\bra x\op x\op p\ket\psi=-i\hbar x\psi&#x27;(x)$、$\bra x\op p\op x\ket\psi=-i\hbar x\psi&#x27;(x)-i\hbar\psi(x)$ 相减：
+\[
+\boxed{\;[\op x,\op p]=i\hbar\;}
+\qquad\Longrightarrow\qquad
+\boxed{\;\ev{\Delta x^2}\ev{\Delta p^2}\ge\frac{\hbar^2}{4}\;}
+\]
+——不可能制备位置与动量同时精确的态。
+
+\textbf{Gaussian wavepacket（标杆例子）}：
+\[
+\psi(x)=\frac{1}{(\pi d^2)^{1/4}}\,e^{\,ip_0x/\hbar}\,e^{-\frac{(x-a)^2}{2d^2}}
+\ \xrightarrow{\ \mathcal F\ }\
+\tilde\psi(p)=\Big(\frac{d^2}{\pi\hbar^2}\Big)^{1/4}e^{-\frac{i(p-p_0)a}{\hbar}}\,e^{-\frac{(p-p_0)^2d^2}{2\hbar^2}},
+\]
+\[
+\ev x=a,\quad\ev p=p_0,\quad\ev{\Delta x^2}=\frac{d^2}{2},\quad\ev{\Delta p^2}=\frac{\hbar^2}{2d^2}
+\ \Rightarrow\ \ev{\Delta x^2}\ev{\Delta p^2}=\frac{\hbar^2}{4}.
+\]
+Gaussian 恰好\textbf{饱和}下界，且是唯一饱和的态。直观：Fourier 变换下位置波函数越窄、动量波函数越宽；但量子不确定性原理适用于任意不对易可观测量对，比 Fourier 性质更普遍。
+
+\textbf{Box 3.3 位置与动量能``同时知道&#x27;&#x27;吗？}\ 制备 $\ket{x=0}$、自由演化 $t_0$ 后测位置得 $x_0$，则测前瞬间动量必为 $p_0=Mx_0/t_0$——位置动量\textbf{事后（post factum）}同时确知。这不矛盾：不确定性原理说的是测量结果的\textbf{随机性}（$x_0,p_0$ 事先完全不可预测），不禁止结果之间的\textbf{关联}；被禁止的是\textbf{事先制备}位置动量都确定的态。
+
+\textbf{原版 EPR 佯谬（3.3.3，1935）}：两粒子纠缠态（忽略归一化）
+\[
+\Psi(x_A,x_B)=\delta(x_A-x_B)
+\quad\xrightarrow{\ \text{动量表象}\ }\quad
+\tilde\Psi(p_A,p_B)=\delta(p_A+p_B):
+\]
+位置严格相同（取值随机）、动量严格相反。Alice 测\textbf{位置}得 $x_0$ $\Rightarrow$ Bob 被制备到 $\ket{x_0}$；测\textbf{动量}得 $p_0$ $\Rightarrow$ Bob 被制备到 $\ket{-p_0}$——隔空选择实现两种\textbf{互不相容的实在}之一（2.3.1 节 Bohm 版的原型）。$\delta$ 态非物理，可用 Gaussian 态逼近（two-mode squeezing，3.10.3）。
+
+\textbf{重要辨析}：原版 EPR \textbf{不}像 Bell 那样证明非局域性——不相信不确定性原理者可用局域隐变量解释（``每对粒子出生即带相同位置、相反动量&#x27;&#x27;）；真正排除局域实在论须靠 Bell 不等式的违反。
+
+\section*{三章总览}
+
+\begin{center}
+\begin{tabular}{p{2.2cm}p{3.6cm}p{4.6cm}p{4.2cm}}
+\toprule
+ &amp; 第 1 章 &amp; 第 2 章 &amp; 第 3 章（\S3.1--3.3）\\
+\midrule
+空间 &amp; 2 维（偏振 qubit） &amp; $2\times2=4$ 维（张量积） &amp; 连续无穷维\\
+核心公设 &amp; Hilbert 空间、测量（Born rule）、演化（$e^{-i\op Ht/\hbar}$） &amp; 公设的张量积推广 &amp; $\delta$ 归一化、$\braket xp\propto e^{ipx/\hbar}$\\
+关键概念 &amp; 叠加、相位、互补性、observable、不确定性原理 &amp; 纠缠、局域测量、Bell/GHZ、decoherence、teleportation &amp; 波函数、de Broglie 波、$[\op x,\op p]=i\hbar$、原版 EPR\\
+应用 &amp; BB84 量子密码 &amp; dense coding、量子计算、quantum repeater &amp; 为 Schrödinger 方程、势阱、谐振子铺路\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}</code></pre></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>

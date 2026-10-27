@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CO65 main · Jintian Wang / JTST</title>
+  <meta name="description" content="Oxford Physics 学习资料：习题与个人解答、课程讲义、历年试卷、实验和代码。">
+  <link rel="icon" type="image/png" href="/assets/images/square.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/library.css">
+  <link rel="stylesheet" href="/assets/projects/oxford-physics/math/katex.min.css"><script defer src="/assets/projects/oxford-physics/math/katex.min.js"></script><script defer src="/assets/projects/oxford-physics/math/auto-render.min.js"></script><script defer src="/assets/projects/oxford-physics/math-render.js"></script>
+</head>
+<body class="oxford-library library-reading">
+  <a class="library-skip" href="#library-main">跳至内容</a>
+  <header class="navbar"><div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Jintian JTST home"><span class="logo" aria-hidden="true"></span><span>Jintian JTST</span></a>
+    <nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a class="active" aria-current="page" href="/projects/">Projects</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+  </div></header>
+  <main id="library-main" class="container library-main"><div class="library-breadcrumb"><a href="/projects/oxford-physics/">Oxford Physics</a><span aria-hidden="true">/</span><span>代码</span></div>
+      <header class="reading-header"><p class="library-eyebrow">MATLAB / 大一</p><h1>CO65 main</h1><div class="reading-meta"><span>M · 3 KB</span><a class="button" href="/assets/projects/oxford-physics/files/co65-main-a0519480e9d1.m" download="CO65_main.m">下载原格式文件 <span aria-hidden="true">↓</span></a><a class="small-link" href="/projects/oxford-physics/">返回资料库</a></div></header>
+      <article class="reading-content"><pre><code>% CO65_main.m
+% Author: Jintian Wang, Date: 30/04/2026
+%
+% Monte Carlo integration for CO65.
+% This script estimates:
+%   1. the volume of a unit 10-dimensional sphere
+%   2. the mass, centre of mass, and moments of inertia of a toroidal section
+%   3. an integral over a disk
+%
+% Required helper functions:
+%   get_accepted_points.m
+%   calculate_sum.m
+
+
+%% Part 1: volume of a unit 10-dimensional sphere
+
+n = 100000;
+D = 10;
+
+% Points inside [-1, 1]^10
+pst = 2 * rand(n, D) - 1;
+
+%apply MC
+acc_pst = get_accepted_points(pst, @(p) sum(p.^2) &lt;= 1);
+
+vol = 2^10;
+R10 = size(acc_pst, 1) / n;
+vol10 = vol * R10;
+
+% err
+err10 = vol * sqrt(R10 * (1 - R10) / n);
+
+fprintf(&quot;\nPart 1: 10D unit sphere\n&quot;);
+fprintf(&quot;Estimated volume = %.6f +/- %.6f\n&quot;, vol10, err10);
+
+
+
+%% Part 2: toroidal section
+fprintf(&quot;\nPart 2: toroidal section\n&quot;);
+N = 10000;
+
+% Bounding box:
+x = 1 + 3 * rand(N, 1);
+y = -3 + 7 * rand(N, 1);
+z = -1 + 2 * rand(N, 1);
+
+V = 42;  
+points = [x, y, z];
+
+% MC applied
+torus_func = @(p) p(3)^2 + (sqrt(p(1)^2 + p(2)^2) - 3)^2 &lt;= 1;
+acc_pts = get_accepted_points(points, torus_func); %accepted points
+
+% CALCULATIONS
+s_rho = size(acc_pts, 1);
+s_rho2 = s_rho;     
+% rho = 1 inside, = 0 outside
+
+% @(p)=acc_pts      p(1)=x     p(2)=y       p(3)=z
+sx = calculate_sum(acc_pts, @(p) p(1));
+sy = calculate_sum(acc_pts, @(p) p(2));
+sz = calculate_sum(acc_pts, @(p) p(3));
+
+sx2 = calculate_sum(acc_pts, @(p) p(1)^2);
+sy2 = calculate_sum(acc_pts, @(p) p(2)^2);
+sz2 = calculate_sum(acc_pts, @(p) p(3)^2);
+
+sIxx = calculate_sum(acc_pts, @(p) p(2)^2 + p(3)^2);
+sIyy = calculate_sum(acc_pts, @(p) p(3)^2 + p(1)^2);
+sIzz = calculate_sum(acc_pts, @(p) p(1)^2 + p(2)^2);
+
+sIxx2 = calculate_sum(acc_pts, @(p) (p(2)^2 + p(3)^2)^2);
+sIyy2 = calculate_sum(acc_pts, @(p) (p(3)^2 + p(1)^2)^2);
+sIzz2 = calculate_sum(acc_pts, @(p) (p(1)^2 + p(2)^2)^2);
+
+% M
+M = V * s_rho / N;
+M_err = V * sqrt((s_rho2 / N - (s_rho / N)^2) / N);
+fprintf(&quot;Mass = %.6f +/- %.6f\n&quot;, M, M_err);
+
+% COM
+xcm = V * sx / N / M;
+ycm = V * sy / N / M;
+zcm = V * sz / N / M;
+
+xcm_err = V * sqrt((sx2 / N - (sx / N)^2) / N) / M;
+ycm_err = V * sqrt((sy2 / N - (sy / N)^2) / N) / M;
+zcm_err = V * sqrt((sz2 / N - (sz / N)^2) / N) / M;
+
+fprintf(&quot;Centre of mass:\n&quot;);
+fprintf(&quot;  x_cm = %.6f +/- %.6f\n&quot;, xcm, xcm_err);
+fprintf(&quot;  y_cm = %.6f +/- %.6f\n&quot;, ycm, ycm_err);
+fprintf(&quot;  z_cm = %.6f +/- %.6f\n&quot;, zcm, zcm_err);
+
+% Inertia
+Ixx = V * sIxx / N;
+Iyy = V * sIyy / N;
+Izz = V * sIzz / N;
+
+Ixx_err = V * sqrt((sIxx2 / N - (sIxx / N)^2) / N);
+Iyy_err = V * sqrt((sIyy2 / N - (sIyy / N)^2) / N);
+Izz_err = V * sqrt((sIzz2 / N - (sIzz / N)^2) / N);
+
+fprintf(&quot;Moments of inertia:\n&quot;);
+fprintf(&quot;  Ixx = %.6f +/- %.6f\n&quot;, Ixx, Ixx_err);
+fprintf(&quot;  Iyy = %.6f +/- %.6f\n&quot;, Iyy, Iyy_err);
+fprintf(&quot;  Izz = %.6f +/- %.6f\n&quot;, Izz, Izz_err);
+
+
+%% Part 3: surface integral over disk
+
+N = 100000;
+
+% -0.5 &lt;= x &lt;= 0.5, -0.5 &lt;= y &lt;= 0.5
+xy = rand(N, 2) - 0.5;
+
+%apply MC
+acc_func= @(p) p(1)^2 + p(2)^2 &lt;= 0.25;
+acc_pst = get_accepted_points(xy,acc_func);
+
+%integral
+int_func = @(p) sin(log(p(1) + p(2) + 1));
+sf = calculate_sum(acc_pst,int_func);
+
+I = sf / N;
+
+fprintf(&quot;\nPart 3: disk integral\n&quot;);
+fprintf(&quot;Integral estimate = %.6f&quot;, I);
+</code></pre></article></main>
+  <footer class="footer"><div class="container footer-inner"><div>© <span data-year>2026</span> Jintian JTST</div><a class="small-link" href="/projects/oxford-physics/">Oxford Physics</a></div></footer>
+  <script src="/assets/js/main.js"></script>
+</body></html>
