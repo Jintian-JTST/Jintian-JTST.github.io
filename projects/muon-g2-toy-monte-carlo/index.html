@@ -1,116 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Muon g-2 &amp; PSXM modelling · Jintian Wang / JTST</title>
-  <meta name="description" content="Muon g-2 toy time-spectrum fitting and PSXM six-coil magnet modelling: scientific Python, residual analysis, numerical models and technical reports.">
-  <link rel="icon" type="image/png" href="/assets/images/square.png">
-  <link rel="apple-touch-icon" href="/assets/images/square.png">
-  <link rel="stylesheet" href="/assets/css/styles.css">
-</head>
-<body>
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="/" aria-label="Jintian JTST home">
-        <span class="logo" aria-hidden="true"></span>
-        <span>Jintian JTST</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="/">Home</a>
-        <a class="active" href="/projects/" aria-current="page">Projects</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="section">
-    <div class="container article-list">
-      <article class="card">
-        <div class="kicker">Project</div>
-        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">Muon g-2 &amp; PSXM modelling</h1>
-        <p class="meta">Research · April and July–September 2026 · Scientific Python</p>
-        <p>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Muon g-2 &amp; PSXM modelling · Jintian Wang / JTST</title>
+<meta content="Muon g-2 toy time-spectrum fitting and PSXM six-coil magnet modelling: scientific Python, residual analysis, numerical models and technical reports." name="description"/>
+<link href="/assets/images/square.png" rel="icon" type="image/png"/>
+<link href="/assets/images/square.png" rel="apple-touch-icon"/>
+<link href="/assets/css/styles.css" rel="stylesheet"/>
+<meta content="#07090b" name="theme-color"/></head>
+<body class="project-page"><a class="skip-link" href="#mainContent">Skip to content</a>
+<header class="navbar">
+<div class="container nav-inner">
+<a aria-label="Jintian JTST home" class="brand" href="/">
+<span aria-hidden="true" class="logo"></span>
+<span>Jintian JTST</span>
+</a>
+<nav aria-label="Primary navigation" class="nav-links">
+<a href="/">Home</a>
+<a aria-current="page" class="active" href="/projects/">Projects</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</nav>
+</div>
+</header>
+<main class="section" id="mainContent" tabindex="-1">
+<div class="container article-list"><article class="card case-overview">
+<div class="kicker">Project</div>
+<h1 class="project-heading">Muon g-2 &amp; PSXM modelling</h1>
+<p class="meta">Research · April and July–September 2026 · Scientific Python</p>
+<p>
           Two research studies connected to the muon g-2 experiment: a toy analysis of decay-positron time spectra,
           followed by a numerical study of a six-coil steering magnet for spiral injection.
         </p>
-        <div class="badges">
-          <span class="badge">Python</span>
-          <span class="badge">Simulation</span>
-          <span class="badge">Data analysis</span>
-        </div>
-        <img class="project-figure" style="margin-top: 22px;" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 toy Monte Carlo data and five-parameter wiggle fits">
-      </article>
-
-      <article class="card">
-        <h2>Toy Monte Carlo analysis</h2>
-        <p>
+<div class="badges">
+<span class="badge">Python</span>
+<span class="badge">Simulation</span>
+<span class="badge">Data analysis</span>
+</div>
+<figure class="case-cover"><img alt="A conceptual decay waveform and six-coil magnetic field" decoding="async" height="1000" src="/assets/projects/covers/muon-g2.svg" width="1600"/><figcaption>Concept illustration. Original project evidence follows below.</figcaption></figure></article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">01 /</span>
+<h2>Toy Monte Carlo analysis</h2>
+<p>
           The toy study extracts the anomalous precession frequency ω<sub>a</sub> from simulated decay-positron
           times and compares the fitted value with the known input.
           One saved fit differs from that input by 0.64 reported standard errors; this is a single-fit comparison.
         </p>
-        <h3>Analysis and implementation</h3>
-        <p>
+<h3>Analysis and implementation</h3>
+<p>
           The toy pipeline uses N(t) = N₀ e<sup>−t/τ</sup>[1 + A cos(ω<sub>a</sub>t + φ)] for the five-parameter
           time-spectrum fit. I worked on its Python generation and analysis code, debugging, fitting and
           visualisation, with AI-assisted implementation in the first version. Saved outputs contain 10.99 million
           selected positron counts. I compared toy and ROOT-data residuals using FFT analysis and documented
           assumptions and mismatches in a 12-page technical report.
         </p>
-      </article>
-
-      <article class="card" id="psxm">
-        <h2>PSXM Magnet Design</h2>
-        <p class="meta">Shanghai Jiao Tong University · Summer research, July–September 2026</p>
-        <p>I formulated a six-coil magnet model in Python/NumPy and used least-squares current solves to investigate
+</article><article class="card case-chapter" data-reveal="" id="psxm"><span aria-hidden="true" class="chapter-number">02 /</span>
+<h2>PSXM Magnet Design</h2>
+<p class="meta">Shanghai Jiao Tong University · Summer research, July–September 2026</p>
+<p>I formulated a six-coil magnet model in Python/NumPy and used least-squares current solves to investigate
           dipole and quadrupole field patterns. I compared numerical results with an analytic ideal-shell reference
           and examined the trade-off between shielding radius and field capability within the 2D approximation.</p>
-        <p>I co-authored a 19-page design report with Zejia Lu under Professor Liang Li and presented the study to
+<p>I co-authored a 19-page design report with Zejia Lu under Professor Liang Li and presented the study to
           SJTU–KEK collaborators. The results describe a numerical magnetostatic model, not measured hardware performance.</p>
-      </article>
-
-      <article class="card">
-        <h2>Tech stack</h2>
-        <p>Python · NumPy for event generation · SciPy / least-squares fitting · Matplotlib for the wiggle plots and residuals.</p>
-        <div class="project-links">
-          <a class="button primary" href="https://github.com/Jintian-JTST/2026-Summer-Research-Internship" target="_blank" rel="noopener">View repository</a>
-          <a class="button" href="https://github.com/Jintian-JTST/PSXM_sim" target="_blank" rel="noopener">View PSXM repository</a>
-          <a class="button" href="/assets/projects/muon-g2/report-toy-monte-carlo.pdf" target="_blank" rel="noopener">Read Toy MC report</a>
-          <a class="button" href="/assets/projects/muon-g2/report-psxm.pdf" target="_blank" rel="noopener">Read PSXM report</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <h2>Evidence</h2>
-        <div class="proof-grid">
-          <figure>
-            <img class="project-figure" src="/assets/projects/muon-g2/evidence-residual-comparison.png" alt="Comparison of residual structures in muon g-2 spectra">
-            <figcaption>Residual comparison used to identify structure not captured by the toy model.</figcaption>
-          </figure>
-          <figure>
-            <img class="project-figure" src="/assets/projects/muon-g2/evidence-psxm-field.png" alt="Solved PSXM magnetic field lines and coil currents">
-            <figcaption>A related design study of the inner PSXM coil system for spiral injection.</figcaption>
-          </figure>
-        </div>
-        <p class="meta" style="margin-top: 16px;">
+</article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">03 /</span>
+<h2>Results &amp; evidence</h2><figure class="evidence-figure"><a aria-label="View image: Original Toy Monte Carlo time spectra and five-parameter wiggle fits." class="image-link" data-caption="Original Toy Monte Carlo time spectra and five-parameter wiggle fits." data-image-viewer="" href="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" rel="noopener" target="_blank"><img alt="Muon g-2 toy Monte Carlo data and five-parameter wiggle fits" class="project-figure" decoding="async" height="2962" loading="lazy" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" width="3566"/></a><figcaption>Original Toy Monte Carlo time spectra and five-parameter wiggle fits.</figcaption></figure>
+<div class="proof-grid">
+<figure>
+<a aria-label="View image: Residual comparison used to identify structure not captured by the toy model." class="image-link" data-caption="Residual comparison used to identify structure not captured by the toy model." data-image-viewer="" href="/assets/projects/muon-g2/evidence-residual-comparison.png" rel="noopener" target="_blank"><img alt="Comparison of residual structures in muon g-2 spectra" class="project-figure" decoding="async" height="1161" loading="lazy" src="/assets/projects/muon-g2/evidence-residual-comparison.png" width="3571"/></a>
+<figcaption>Residual comparison used to identify structure not captured by the toy model.</figcaption>
+</figure>
+<figure>
+<a aria-label="View image: A related design study of the inner PSXM coil system for spiral injection." class="image-link" data-caption="A related design study of the inner PSXM coil system for spiral injection." data-image-viewer="" href="/assets/projects/muon-g2/evidence-psxm-field.png" rel="noopener" target="_blank"><img alt="Solved PSXM magnetic field lines and coil currents" class="project-figure" decoding="async" height="1093" loading="lazy" src="/assets/projects/muon-g2/evidence-psxm-field.png" width="1394"/></a>
+<figcaption>A related design study of the inner PSXM coil system for spiral injection.</figcaption>
+</figure>
+</div>
+<p class="meta" style="margin-top: 16px;">
           The toy model is deliberately simplified. The reports distinguish simulated behaviour, adopted design
           benchmarks, and limitations from claims about the full experiment.
         </p>
-      </article>
-
-      <div>
-        <a class="small-link" href="/projects/">← Back to projects</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span data-year>2026</span> Jintian JTST</div>
-      <a class="small-link" href="/contact/">Contact</a>
-    </div>
-  </footer>
-  <script src="/assets/js/main.js"></script>
+</article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">04 /</span>
+<h2>Code &amp; technical reports</h2>
+<p>Python · NumPy for event generation · SciPy / least-squares fitting · Matplotlib for the wiggle plots and residuals.</p>
+<div class="project-links">
+<a class="button primary" data-magnetic="" href="https://github.com/Jintian-JTST/2026-Summer-Research-Internship" rel="noopener" target="_blank">View repository<span aria-hidden="true" class="button-arrow">↗</span></a>
+<a class="button" href="https://github.com/Jintian-JTST/PSXM_sim" rel="noopener" target="_blank">View PSXM repository<span aria-hidden="true" class="button-arrow">↗</span></a>
+<a class="button" href="/assets/projects/muon-g2/report-toy-monte-carlo.pdf" rel="noopener" target="_blank">Read Toy MC report<span aria-hidden="true" class="button-arrow">↗</span></a>
+<a class="button" href="/assets/projects/muon-g2/report-psxm.pdf" rel="noopener" target="_blank">Read PSXM report<span aria-hidden="true" class="button-arrow">↗</span></a>
+</div>
+</article><div class="case-back"><a class="small-link" href="/projects/">← Back to projects</a></div></div>
+</main>
+<footer class="footer">
+<div class="container footer-inner">
+<div>© <span data-year="">2026</span> Jintian JTST</div>
+<a class="small-link" href="/contact/">Contact</a>
+</div>
+</footer>
+<script defer="" src="/assets/vendor/gsap/gsap.min.js"></script><script defer="" src="/assets/vendor/gsap/ScrollTrigger.min.js"></script><script defer="" src="/assets/js/main.js"></script>
 </body>
 </html>

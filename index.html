@@ -1,138 +1,108 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jintian Wang / JTST · Oxford Physics</title>
-  <meta name="description" content="Jintian Wang, an Oxford Physics student at Exeter College, working across computational physics, simulation, interactive systems and hardware.">
-
-  <link rel="icon" type="image/png" href="/assets/images/square.png">
-  <link rel="apple-touch-icon" href="/assets/images/square.png">
-
-  <link rel="stylesheet" href="/assets/css/styles.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#07090b" name="theme-color"/>
+<title>Jintian Wang / JTST · Oxford Physics</title>
+<meta content="Jintian Wang, an Oxford Physics student at Exeter College, working across computational physics, simulation, interactive systems and hardware." name="description"/>
+<link href="/assets/images/square.png" rel="icon" type="image/png"/>
+<link href="/assets/images/square.png" rel="apple-touch-icon"/>
+<link as="font" crossorigin="" href="/assets/fonts/Orbix-Regular.woff2" rel="preload" type="font/woff2"/>
+<link href="/assets/css/styles.css" rel="stylesheet"/>
 </head>
-
-<body class="home-page font-display-default">
-  <canvas class="site-starfield" id="siteStarfield" aria-hidden="true"></canvas>
-
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="/" aria-label="Jintian JTST home">
-        <span class="logo" aria-hidden="true"></span>
-        <span>Jintian JTST</span>
-      </a>
-
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a class="active" href="/" aria-current="page">Home</a>
-        <a href="/projects/">Projects</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="home-main">
-    <section class="home-intro" id="homeIntro" aria-hidden="true" hidden>
-      <div class="intro-nebula"></div>
-
-      <div class="intro-energy-ring">
-        <svg class="intro-ring-svg" viewBox="0 0 100 100" role="presentation" focusable="false">
-          <circle class="intro-ring-track" cx="50" cy="50" r="45" pathLength="100"></circle>
-          <circle class="intro-ring-primary" cx="50" cy="50" r="45" pathLength="100"></circle>
-        </svg>
-      </div>
-
-      <div class="intro-logo-anchor">
-        <div class="intro-logo-drift">
-          <div class="intro-logo-core">
-            <img class="intro-logo" src="/assets/images/none.png" alt="">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="home-content">
-      <section class="hero">
-        <div class="container home-title-wrap">
-          <div class="kicker">Exeter College · University of Oxford</div>
-          <h1 class="home-identity"><span>Jintian Wang</span><span class="identity-divider"> / </span><span class="home-wordmark">JTST</span></h1>
-          <p class="home-affiliation">Physics student at the University of Oxford</p>
-          <p class="home-intro-text">working across computational physics, simulation, interactive systems and hardware.</p>
-
-          <div class="hero-actions">
-            <a class="button primary" href="#selectedWork">Explore selected work</a>
-            <a class="button" href="/assets/cv/Jintian-Wang-CV.pdf" target="_blank" rel="noopener">Public CV (PDF)</a>
-          </div>
-
-          <a class="scroll-cue" href="#selectedWork">
-            <span>Selected work</span>
-            <span class="scroll-cue-arrow" aria-hidden="true"></span>
-          </a>
-        </div>
-      </section>
-
-      <section class="section" id="selectedWork">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Selected Work</h2>
-              <p>Research, interaction and software, with code and results.</p>
-            </div>
-            <a class="small-link" href="/projects/">See all projects</a>
-          </div>
-
-          <div class="grid-3 selected-work-grid">
-            <a class="card card-link" href="/projects/muon-g2-toy-monte-carlo/">
-              <img class="card-media" src="/assets/projects/muon-g2/hero-toy-wiggle-fit.png" alt="Muon g-2 time-spectrum data and fitted model">
-              <div class="kicker">Physics Research</div>
-              <h3>Muon g-2 &amp; PSXM</h3>
-              <p>Time-spectrum fitting and a six-coil magnet modelling study. Python analysis, result plots and technical reports.</p>
-              <div class="badges"><span class="badge">Scientific computing</span><span class="badge">Modelling</span></div>
-            </a>
-
-            <a class="card card-link" href="/projects/vr-hand-interaction-prototype/">
-              <img class="card-media" src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" alt="Five-servo force-feedback glove prototype">
-              <div class="kicker">Interactive Systems</div>
-              <h3>SecondTouchReality</h3>
-              <p>A team-built gesture and hardware prototype. I developed Python hand tracking and Unity interaction.</p>
-              <div class="badges"><span class="badge">MediaPipe</span><span class="badge">Python + Unity</span></div>
-            </a>
-
-            <a class="card card-link" href="/projects/one-tap-reality/">
-              <img class="card-media logo-media" src="/assets/projects/one-tap-reality/hero-logo.png" alt="OneTapReality team project logo">
-              <div class="kicker">Software Project</div>
-              <h3>OneTapReality</h3>
-              <p>A four-person AdventureX travel-album app. My front-end work covers the editor, draft recovery and saved layouts.</p>
-              <div class="badges"><span class="badge">React Native / Expo</span><span class="badge">TypeScript</span></div>
-            </a>
-          </div>
-        </div>
-      </section>
-      <section class="section home-details">
-        <div class="container home-interests">
-          <div><h2>Current interests</h2><p>Computational and particle physics, numerical modelling, and interaction between software and physical devices.</p></div>
-          <a class="small-link" href="/about/">Background &amp; experience →</a>
-        </div>
-      </section>
-      <section class="section home-contact" aria-labelledby="homeContactHeading">
-        <div class="container">
-          <h2 id="homeContactHeading">Contact</h2>
-          <div class="project-links">
-            <a class="button primary" href="mailto:jintian.wang@exeter.ox.ac.uk">Oxford Email</a>
-            <a class="button" href="/assets/cv/Jintian-Wang-CV.pdf" target="_blank" rel="noopener">Public CV (PDF)</a>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span data-year>2026</span> Jintian JTST</div>
-      <a class="small-link" href="/contact/">Contact &amp; profiles</a>
-    </div>
-  </footer>
-
-  <script src="/assets/js/main.js"></script>
+<body class="home-page">
+<a class="skip-link" href="#homeIntroduction">Skip to introduction</a>
+<header class="navbar">
+<div class="container nav-inner">
+<a aria-label="Jintian JTST home" class="brand" href="/"><span aria-hidden="true" class="logo"></span><span>Jintian JTST</span></a>
+<nav aria-label="Primary navigation" class="nav-links">
+<a aria-current="page" class="active" href="/">Home</a>
+<a href="/projects/">Projects</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</nav>
+</div>
+</header>
+<main id="mainContent" tabindex="-1">
+<section aria-hidden="true" class="home-intro" hidden="" id="homeIntro">
+<div class="intro-nebula"></div>
+<div class="intro-energy-ring">
+<svg aria-hidden="true" class="intro-ring-svg" viewbox="0 0 100 100">
+<circle class="intro-ring-track" cx="50" cy="50" pathlength="100" r="45"></circle>
+<circle class="intro-ring-primary" cx="50" cy="50" pathlength="100" r="45"></circle>
+</svg>
+</div>
+<div class="intro-logo-anchor"><div class="intro-logo-drift"><div class="intro-logo-core"><img alt="" class="intro-logo" fetchpriority="high" height="1080" src="/assets/images/none.png" width="1080"/></div></div></div>
+</section>
+<section aria-label="JTST — Jintian Wang" class="signature-hero">
+<canvas aria-hidden="true" class="site-starfield" id="siteStarfield"></canvas>
+<svg aria-hidden="true" class="hero-orbits" focusable="false" viewbox="0 0 1600 900">
+<g transform="rotate(-16 800 450)">
+<ellipse cx="800" cy="450" rx="700" ry="245"></ellipse>
+<ellipse class="orbit-faint" cx="800" cy="450" rx="730" ry="265"></ellipse>
+<ellipse class="orbit-highlight" cx="800" cy="450" rx="700" ry="245"></ellipse>
+<circle cx="1500" cy="450" fill="currentColor" r="3"></circle>
+</g>
+<g class="orbit-faint" transform="rotate(20 800 450)"><ellipse cx="800" cy="450" rx="670" ry="315"></ellipse></g>
+<path d="M88 450h18m-9-9v18M1494 450h18m-9-9v18" fill="none" opacity=".5" stroke="currentColor" stroke-width="1"></path>
+</svg>
+<div class="hero-signature"><h1 class="wordmark" data-text="JTST">JTST</h1></div>
+<a aria-label="Scroll to introduction" class="hero-scroll" href="#homeIntroduction">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.3"></path></svg>
+</a>
+</section>
+<div class="home-content">
+<section class="home-introduction" id="homeIntroduction">
+<div class="container intro-grid">
+<div data-reveal=""><p class="eyebrow">01 / Introduction</p><p class="intro-location">Exeter College<br/>University of Oxford</p></div>
+<div data-reveal="">
+<h2>Jintian Wang.<br/><span>Physics, code &amp; the space between.</span></h2>
+<p class="lead">I'm an Oxford Physics student working across computational physics, simulation, interactive systems and hardware.</p>
+<div class="hero-actions">
+<a class="button primary" data-magnetic="" href="#selectedWork">Explore my work <span aria-hidden="true" class="button-arrow">↗</span></a>
+<a class="button" href="/assets/cv/Jintian-Wang-CV.pdf" rel="noopener" target="_blank">Public CV <span aria-hidden="true" class="button-arrow">↗</span></a>
+</div>
+</div>
+</div>
+</section>
+<section class="selected-work" id="selectedWork">
+<div class="container">
+<div class="section-head" data-reveal="">
+<div><p class="eyebrow">02 / Selected work</p><h2>Ideas, made tangible.</h2><p>Research, interaction and software — with the code and evidence behind them.</p></div>
+<a class="small-link" href="/projects/">All projects <span aria-hidden="true">↗</span></a>
+</div>
+<div class="selected-work-grid">
+<a class="work-card featured-work" data-reveal="" href="/projects/muon-g2-toy-monte-carlo/">
+<div class="work-cover"><img alt="Concept illustration combining a decay waveform and magnetic field lines" class="cover-art" decoding="async" height="1000" loading="lazy" src="/assets/projects/covers/muon-g2.svg" width="1600"/><span aria-hidden="true" class="cover-open">↗</span></div>
+<div class="work-copy"><div class="work-meta"><span>Research / 01</span><span>2026</span></div><h3>Muon g-2<br/>&amp; PSXM modelling</h3><p>Time-spectrum fitting and a six-coil magnet modelling study. Python analysis, result plots and technical reports.</p><div class="badges"><span class="badge">Scientific computing</span><span class="badge">Modelling</span></div><span class="work-cta">Explore the research <span aria-hidden="true">↗</span></span></div>
+</a>
+<a class="work-card" data-reveal="" href="/projects/vr-hand-interaction-prototype/">
+<div class="work-cover"><img alt="Concept cover pairing a hand skeleton with the team's real haptic glove" class="cover-art" decoding="async" height="1000" loading="lazy" src="/assets/projects/covers/second-touch.svg" width="1600"/><span aria-hidden="true" class="cover-open">↗</span></div>
+<div class="work-copy"><div class="work-meta"><span>Interactive systems / 02</span><span>2025</span></div><h3>SecondTouchReality</h3><p>A team-built gesture and hardware prototype. My work connects Python hand tracking with Unity interaction.</p><div class="badges"><span class="badge">MediaPipe</span><span class="badge">Python + Unity</span></div></div>
+</a>
+<a class="work-card" data-reveal="" href="/projects/one-tap-reality/">
+<div class="work-cover"><img alt="Concept cover showing layered album pages and a travel route" class="cover-art" decoding="async" height="1000" loading="lazy" src="/assets/projects/covers/one-tap.svg" width="1600"/><span aria-hidden="true" class="cover-open">↗</span></div>
+<div class="work-copy"><div class="work-meta"><span>Software / 03</span><span>2026</span></div><h3>OneTapReality</h3><p>A four-person AdventureX travel-album app. My front-end work covers the editor, draft recovery and saved layouts.</p><div class="badges"><span class="badge">React Native / Expo</span><span class="badge">TypeScript</span></div></div>
+</a>
+</div>
+</div>
+</section>
+<section class="home-details">
+<div class="container home-interests" data-reveal="">
+<p class="eyebrow">03 / Currently exploring</p>
+<div><h2>Models. Measurements.<br/>Human interaction.</h2><p>Computational and particle physics, numerical modelling, and the interaction between software and physical devices.</p><a class="small-link" href="/about/">Background &amp; experience <span aria-hidden="true">↗</span></a></div>
+</div>
+</section>
+<section aria-labelledby="homeContactHeading" class="home-contact">
+<div class="container" data-reveal=""><p class="eyebrow">04 / Contact</p><div class="contact-callout"><div><h2 id="homeContactHeading">Let's exchange ideas.</h2><p>For research, projects and collaboration.</p></div><a class="button primary" data-magnetic="" href="mailto:jintian.wang@exeter.ox.ac.uk">Get in touch <span aria-hidden="true" class="button-arrow">↗</span></a></div></div>
+</section>
+</div>
+</main>
+<footer class="footer"><div class="container footer-inner"><div>© <span data-year="">2026</span> Jintian JTST</div><div class="footer-links"><button aria-pressed="true" class="motion-toggle" data-motion-toggle="" hidden="" type="button">Motion on</button><a class="small-link" href="/contact/">Contact &amp; profiles ↗</a></div></div></footer>
+<script defer="" src="/assets/vendor/gsap/gsap.min.js"></script>
+<script defer="" src="/assets/vendor/gsap/ScrollTrigger.min.js"></script>
+<script defer="" src="/assets/js/main.js"></script>
 </body>
 </html>
