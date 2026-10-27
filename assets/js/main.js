@@ -75,7 +75,7 @@
       if (finished || exitStarted) return;
       exitStarted = true;
       intro.classList.add('intro-leaving');
-      finishTimer = window.setTimeout(finish, 470);
+      finishTimer = window.setTimeout(finish, 430);
     };
     const onKey = (event) => {
       if (event.key === 'Escape') {
@@ -91,8 +91,8 @@
     window.requestAnimationFrame(() => {
       if (!finished) intro.classList.add('intro-playing');
     });
-    exitTimer = window.setTimeout(exit, 2050);
-    watchdog = window.setTimeout(finish, 3200);
+    exitTimer = window.setTimeout(exit, 2850);
+    watchdog = window.setTimeout(finish, 4600);
     return finish;
   }
 
@@ -110,16 +110,31 @@
     let inView = scene.getBoundingClientRect().bottom > 0;
     const toggle = document.querySelector('[data-motion-toggle]');
 
+    // Pin-prick stars that twinkle, plus a few soft motes drifting upward like plankton.
     function paint(delta) {
       ctx.clearRect(0, 0, width, height);
       particles.forEach((p) => {
-        p.phase += delta * .00012;
-        const x = p.x * width + Math.sin(p.phase) * 9;
-        const y = p.y * height + Math.cos(p.phase * .7) * 7;
-        const alpha = p.alpha * (.82 + Math.sin(p.phase * 1.5) * .18);
-        ctx.fillStyle = 'rgba(166,223,220,' + alpha + ')';
+        p.phase += delta * p.speed;
+        if (p.mote) {
+          p.y -= delta * p.rise;
+          if (p.y < -.05) { p.y = 1.05; p.x = Math.random(); }
+          const x = p.x * width + Math.sin(p.phase) * 18;
+          const y = p.y * height;
+          const alpha = p.alpha * (.7 + Math.sin(p.phase * 1.7) * .3);
+          const glow = ctx.createRadialGradient(x, y, 0, x, y, p.size * 6);
+          glow.addColorStop(0, 'rgba(160,240,232,' + alpha + ')');
+          glow.addColorStop(.25, 'rgba(140,231,223,' + alpha * .35 + ')');
+          glow.addColorStop(1, 'rgba(140,231,223,0)');
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(x, y, p.size * 6, 0, Math.PI * 2);
+          ctx.fill();
+          return;
+        }
+        const alpha = p.alpha * (.55 + Math.sin(p.phase) * .45);
+        ctx.fillStyle = 'rgba(225,238,240,' + alpha + ')';
         ctx.beginPath();
-        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        ctx.arc(p.x * width, p.y * height, p.size, 0, Math.PI * 2);
         ctx.fill();
       });
     }
@@ -154,11 +169,18 @@
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = width < 700 ? 30 : 68;
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random(), y: Math.random(), phase: Math.random() * Math.PI * 2,
-        alpha: .12 + Math.random() * .28, size: .35 + Math.random() * .85
-      }));
+      const stars = width < 700 ? 90 : 190;
+      const motes = width < 700 ? 9 : 18;
+      particles = Array.from({ length: stars + motes }, (_, index) => {
+        const mote = index >= stars;
+        return {
+          mote, x: Math.random(), y: Math.random(), phase: Math.random() * Math.PI * 2,
+          speed: mote ? .0004 + Math.random() * .0005 : .0006 + Math.random() * .0016,
+          rise: .000006 + Math.random() * .000012,
+          alpha: mote ? .18 + Math.random() * .3 : .15 + Math.random() * .6,
+          size: mote ? .8 + Math.random() * 1.6 : (Math.random() < .08 ? 1.1 + Math.random() * .6 : .3 + Math.random() * .6)
+        };
+      });
       sync();
     }
     if ('IntersectionObserver' in window) {
@@ -351,11 +373,116 @@
     });
   }
 
+  // Hero page turn: the first screen resists a little, then past a threshold it
+  // glides to the next page instead of stopping halfway. Below the hero, scrolling is native.
+  function initHeroSnap() {
+    const hero = document.querySelector('.signature-hero');
+    const pull = document.querySelector('.hero-pull');
+    const next = document.getElementById('homeIntroduction');
+    if (!hero || !pull || !next) return;
+    const root = document.documentElement;
+    const THRESHOLD = 110;
+    let travel = 0;
+    let animating = false;
+    let releaseTimer;
+    let touchY = null;
+
+    const enabled = () => !reducedMotion.matches && !document.body.classList.contains('intro-running') && !document.body.classList.contains('viewer-open');
+    const target = () => next.getBoundingClientRect().top + window.scrollY;
+    // Zone: anywhere inside the hero, or resting exactly on the next page's top edge.
+    const inZone = (direction) => {
+      const y = window.scrollY;
+      const edge = target();
+      if (y < edge - 2) return true;
+      return direction < 0 && Math.abs(y - edge) <= 2;
+    };
+    const damp = (value) => Math.sign(value) * 70 * (1 - Math.exp(-Math.abs(value) / 160));
+    const setPull = (value, smooth) => {
+      pull.style.transition = smooth ? 'transform 520ms cubic-bezier(.2,.8,.2,1)' : 'none';
+      pull.style.transform = value ? 'translate3d(0,' + (-damp(value)).toFixed(2) + 'px,0)' : '';
+    };
+    const release = () => { travel = 0; setPull(0, true); };
+
+    function glide(to) {
+      animating = true;
+      travel = 0;
+      setPull(0, true);
+      const from = window.scrollY;
+      const distance = to - from;
+      const duration = Math.min(1100, 650 + Math.abs(distance) * .25);
+      const start = performance.now();
+      root.style.scrollBehavior = 'auto';
+      const ease = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        window.scrollTo(0, from + distance * ease(t));
+        if (t < 1) window.requestAnimationFrame(step);
+        else {
+          root.style.scrollBehavior = '';
+          // Swallow trailing momentum from the same gesture.
+          window.setTimeout(() => { animating = false; }, 260);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    function push(delta) {
+      travel += delta;
+      if (Math.sign(travel) !== Math.sign(delta)) travel = delta;
+      if (Math.abs(travel) >= THRESHOLD) glide(travel > 0 ? target() : 0);
+      else setPull(travel, false);
+    }
+
+    window.addEventListener('wheel', (event) => {
+      if (!enabled() || event.ctrlKey) return;
+      const delta = event.deltaMode === 1 ? event.deltaY * 32 : event.deltaY;
+      if (!delta || !inZone(delta)) return;
+      event.preventDefault();
+      if (animating) return;
+      window.clearTimeout(releaseTimer);
+      push(delta);
+      releaseTimer = window.setTimeout(() => { if (!animating) release(); }, 200);
+    }, { passive: false });
+
+    window.addEventListener('touchstart', (event) => {
+      touchY = event.touches.length === 1 ? event.touches[0].clientY : null;
+    }, { passive: true });
+    window.addEventListener('touchmove', (event) => {
+      if (touchY === null || !enabled()) return;
+      const delta = touchY - event.touches[0].clientY;
+      if (!delta || !inZone(delta)) return;
+      event.preventDefault();
+      if (animating) return;
+      travel = delta;
+      setPull(travel, false);
+    }, { passive: false });
+    window.addEventListener('touchend', () => {
+      if (touchY === null) return;
+      touchY = null;
+      if (animating || !travel) return;
+      if (Math.abs(travel) >= 60) glide(travel > 0 ? target() : 0);
+      else release();
+    }, { passive: true });
+
+    window.addEventListener('keydown', (event) => {
+      if (!enabled() || animating || event.defaultPrevented) return;
+      if (event.target.closest && event.target.closest('input,textarea,select,[contenteditable]')) return;
+      const down = ['ArrowDown', 'PageDown', ' '].includes(event.key) && !event.shiftKey;
+      const up = ['ArrowUp', 'PageUp'].includes(event.key) || (event.key === ' ' && event.shiftKey);
+      if (!down && !up) return;
+      const direction = down ? 1 : -1;
+      if (!inZone(direction)) return;
+      event.preventDefault();
+      glide(down ? target() : 0);
+    });
+  }
+
   function init() {
     setPageUtilities();
     initNavigation();
     finishOpening = playOpening();
     initAmbientScene();
+    if (document.body.classList.contains('home-page')) initHeroSnap();
     initImageViewer();
     initMotion();
     reducedMotion.addEventListener('change', () => {

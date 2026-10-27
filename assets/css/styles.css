@@ -335,16 +335,7 @@ code {
   height:100svh;
   min-height:400px;
   overflow:hidden;
-  background:radial-gradient(ellipse at 50% 53%,#132324 0%,#0b1114 27%,#07090b 66%)
-}
-.signature-hero::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  opacity:.035;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E")
+  background:#000
 }
 .site-starfield {
   position:absolute;
@@ -352,8 +343,7 @@ code {
   width:100%;
   height:100%;
   z-index:-1;
-  pointer-events:none;
-  opacity:.65
+  pointer-events:none
 }
 .hero-orbits {
   position:absolute;
@@ -379,56 +369,45 @@ code {
   stroke-dasharray:130 1500;
   opacity:.8
 }
+.hero-pull {
+  width:100%;
+  will-change:transform
+}
 .hero-signature {
   width:100%;
   display:grid;
-  place-items:center;
-  perspective:1000px
+  place-items:center
 }
+/* Hollow letters: only the outline, nothing inside. */
 .wordmark {
-  position:relative;
-  display:inline-block;
   margin:0;
   font-family:"Orbix","Segoe UI",sans-serif;
-  font-size:clamp(5rem,26vw,25rem);
+  font-size:clamp(3.4rem,11vw,9.5rem);
   font-weight:400;
-  line-height:1.06;
-  letter-spacing:-.015em;
+  line-height:1.1;
+  letter-spacing:.06em;
+  padding-left:.06em;
   white-space:nowrap;
-  color:#e3eeed;
-  background:linear-gradient(175deg,#f6f9f8 12%,#bfcfce 39%,#788d90 53%,#eaf4f2 55%,#d6e0df 74%,#8da3a5 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 8px 60px rgba(135,227,220,.055)
-}
-.wordmark::after {
-  content:attr(data-text);
-  position:absolute;
-  inset:0;
   color:transparent;
-  background:linear-gradient(110deg,transparent 32%,rgba(255,255,255,.85) 49%,transparent 64%);
-  background-size:300% 100%;
-  background-position:100% 50%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+  -webkit-text-stroke:1.2px rgba(226,240,238,.9);
+  text-shadow:0 0 28px rgba(140,231,223,.12)
+}
+.js-ready .wordmark {
   opacity:0
 }
-.hero-ready .wordmark::after {
-  animation:signatureSheen 1.5s .15s ease-in-out both
+.js-ready.hero-ready .wordmark {
+  animation:wordmarkIn 1.1s cubic-bezier(.2,.75,.25,1) both
 }
-@keyframes signatureSheen {
-  0% {
+@keyframes wordmarkIn {
+  from {
     opacity:0;
-    background-position:100% 50%
+    letter-spacing:.24em;
+    filter:blur(6px)
   }
-  20% {
-    opacity:.75
-  }
-  100% {
-    opacity:0;
-    background-position:0% 50%
+  to {
+    opacity:1;
+    letter-spacing:.06em;
+    filter:blur(0)
   }
 }
 .hero-scroll {
@@ -609,98 +588,68 @@ code {
   color:var(--muted);
   margin-top:20px
 }
-/* Short, independent logo opening overlay. */
+/* Opening: a pen traces every edge of the logo, the shape fills, then it gives way to JTST. */
 .home-intro {
   position:fixed;
   inset:0;
   z-index:60;
   display:grid;
   place-items:center;
-  background:#07090b;
-  opacity:0;
-  transition:opacity 450ms ease;
+  background:transparent;
   pointer-events:none
 }
 .home-intro.intro-playing {
-  opacity:1;
   pointer-events:auto
 }
-.home-intro.intro-leaving {
-  opacity:0;
-  pointer-events:none
-}
-.intro-nebula {
-  position:absolute;
-  width:min(90vw,650px);
-  aspect-ratio:1;
-  background:radial-gradient(circle,rgba(102,229,216,.1),transparent 66%)
-}
-.intro-energy-ring {
-  position:absolute;
-  width:min(65vw,330px);
-  aspect-ratio:1
-}
-.intro-ring-svg {
-  width:100%;
-  height:100%;
-  transform:rotate(-90deg);
-  overflow:visible
-}
-.intro-ring-track,.intro-ring-primary {
-  fill:none;
-  stroke-width:.3
-}
-.intro-ring-track {
-  stroke:rgba(140,231,223,.12)
-}
-.intro-ring-primary {
-  stroke:var(--accent);
-  stroke-dasharray:100;
-  stroke-dashoffset:100
-}
-.intro-playing .intro-ring-primary {
-  animation:ringSweep 900ms 100ms cubic-bezier(.2,.7,.2,1) both
-}
-.intro-logo-anchor {
-  width:min(58vw,300px);
-  aspect-ratio:1
-}
-.intro-logo-drift,.intro-logo-core {
-  width:100%;
-  height:100%
-}
 .intro-logo {
-  width:100%;
-  height:100%;
-  object-fit:contain;
+  width:min(52vw,250px);
+  height:auto;
+  overflow:visible;
+  transition:opacity 420ms ease,transform 420ms cubic-bezier(.4,0,.2,1),filter 420ms ease
+}
+.logo-lines path {
+  fill:none;
+  stroke:#bff3ee;
+  stroke-width:1.2px;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
   opacity:0
 }
-.intro-playing .intro-logo {
-  animation:logoMaterialize 1s 550ms cubic-bezier(.15,.8,.2,1) both
+.logo-fill {
+  fill:var(--accent);
+  opacity:0
 }
-@keyframes ringSweep {
+.intro-playing .logo-lines path {
+  animation:logoTrace 1.25s calc(var(--i) * 75ms + 150ms) cubic-bezier(.45,.05,.3,1) forwards,logoLinesOut 400ms 2.35s ease forwards
+}
+.intro-playing .logo-fill {
+  animation:logoFill 600ms 1.95s ease forwards
+}
+.home-intro.intro-leaving .intro-logo {
+  opacity:0;
+  transform:scale(.94);
+  filter:blur(4px)
+}
+@keyframes logoTrace {
   0% {
-    stroke-dashoffset:100;
-    opacity:0
-  }
-  35% {
+    stroke-dashoffset:1;
     opacity:1
   }
   100% {
     stroke-dashoffset:0;
-    opacity:.2
+    opacity:1
   }
 }
-@keyframes logoMaterialize {
-  from {
-    opacity:0;
-    transform:scale(1.15) rotate(-12deg);
-    filter:blur(9px)
-  }
+@keyframes logoLinesOut {
   to {
-    opacity:1;
-    transform:scale(1) rotate(0);
-    filter:blur(0)
+    opacity:0
+  }
+}
+@keyframes logoFill {
+  to {
+    opacity:1
   }
 }
 body.intro-running {
@@ -1316,7 +1265,7 @@ html {
     font-size:13px
   }
   .wordmark {
-    font-size:26vw
+    font-size:15vw
   }
   .hero-orbits {
     width:160%;
@@ -1536,140 +1485,8 @@ html {
     transform:none!important;
     scale:1!important
   }
-}
-/* Hero identity line: names the person before the first scroll. */
-.hero-caption {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:6px 14px;
-  margin:clamp(6px,1.4vw,18px) 0 0;
-  padding:0 20px;
-  font:11px/1.6 var(--mono);
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:#a9bcbc
-}
-.hero-caption span[aria-hidden] {
-  color:var(--accent);
-  opacity:.7
-}
-/* At-a-glance evidence strip. */
-.proof-stats {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  margin:90px 0 0;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line)
-}
-.proof-stats>div {
-  display:flex;
-  flex-direction:column;
-  padding:28px 24px 26px;
-  border-left:1px solid var(--line)
-}
-.proof-stats>div:first-child {
-  border-left:0;
-  padding-left:0
-}
-.proof-stats dt {
-  order:2;
-  margin-top:10px;
-  font-size:13px;
-  color:var(--text)
-}
-.proof-stats .stat-value {
-  order:1;
-  margin:0;
-  font-size:clamp(1.9rem,3.2vw,2.8rem);
-  line-height:1.05;
-  letter-spacing:-.02em;
-  font-weight:500;
-  color:var(--accent-2);
-  font-variant-numeric:tabular-nums
-}
-.proof-stats .stat-value small {
-  margin-left:3px;
-  font-size:.45em;
-  letter-spacing:.04em;
-  color:var(--muted)
-}
-.proof-stats .stat-note {
-  order:3;
-  margin:2px 0 0;
-  font:10px/1.6 var(--mono);
-  letter-spacing:.05em;
-  color:var(--muted)
-}
-/* Beyond research: library + leadership. */
-.home-beyond {
-  padding:90px 0 100px;
-  border-top:1px solid var(--line)
-}
-.beyond-grid {
-  display:grid;
-  grid-template-columns:1fr 1.25fr;
-  gap:32px
-}
-.beyond-card {
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
-  padding:34px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:var(--radius-md);
-  background:linear-gradient(160deg,rgba(140,231,223,.06),transparent 55%),var(--panel);
-  transition:border-color var(--ease),transform var(--ease),box-shadow var(--ease)
-}
-.beyond-card h3 {
-  margin-top:14px;
-  font-size:clamp(1.4rem,2.2vw,1.9rem)
-}
-.beyond-card p {
-  margin-top:14px;
-  color:var(--muted);
-  font-size:14px;
-  max-width:52ch
-}
-.beyond-card .work-cta {
-  align-self:flex-start;
-  margin-top:auto;
-  padding-top:26px
-}
-.beyond-kicker {
-  font:10px/1.6 var(--mono);
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--accent)
-}
-.beyond-photo {
-  padding:0;
-  display:grid;
-  grid-template-columns:1fr 1fr
-}
-.beyond-photo img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  min-height:260px;
-  object-position:28% 72%;
-  filter:saturate(.85)
-}
-.beyond-photo>div {
-  display:flex;
-  flex-direction:column;
-  padding:30px
-}
-.beyond-card:focus-visible {
-  border-color:var(--accent)
-}
-@media(hover:hover) and (pointer:fine) {
-  .beyond-card:hover {
-    border-color:var(--accent-border);
-    transform:translateY(-3px);
-    box-shadow:0 18px 50px rgba(92,219,213,.07)
+  .js-ready .wordmark {
+    opacity:1
   }
 }
 /* Interactive physics explorers on project pages. */
@@ -1746,42 +1563,7 @@ html {
 .not-found h1 {
   font-size:clamp(3rem,10vw,7rem)
 }
-@media(max-width:1000px) {
-  .proof-stats {
-    grid-template-columns:repeat(2,1fr)
-  }
-  .proof-stats>div:nth-child(3) {
-    border-left:0;
-    padding-left:0
-  }
-  .proof-stats>div:nth-child(n+3) {
-    border-top:1px solid var(--line)
-  }
-  .beyond-grid,.beyond-photo {
-    grid-template-columns:1fr
-  }
-  .beyond-photo img {
-    max-height:300px;
-    min-height:0
-  }
-}
 @media(max-width:700px) {
-  .hero-caption {
-    font-size:9px;
-    letter-spacing:.16em
-  }
-  .proof-stats {
-    margin-top:60px
-  }
-  .proof-stats>div {
-    padding:20px 14px
-  }
-  .beyond-card,.beyond-photo>div {
-    padding:24px
-  }
-  .home-beyond {
-    padding:65px 0 70px
-  }
   .lab-widget {
     padding:14px
   }
