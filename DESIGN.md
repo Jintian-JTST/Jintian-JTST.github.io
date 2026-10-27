@@ -29,6 +29,20 @@ The redesigned Projects gallery includes its academic resources group using
 provides the full-width library gateway. The library keeps its own resource
 index, reading pages and scripts.
 
+## Interactive explorers
+
+`assets/js/lab.js` powers the `[data-lab]` widgets on the Muon g-2 page (hand-fit
+of a toy wiggle spectrum with live χ²/ndf) and the compound-pendulum page (RK4
+comparison of linear and quadratic drag). Widgets are `hidden` until the script
+runs, animate only on request and respect reduced motion.
+
+## Discovery
+
+Top-level pages carry Open Graph/Twitter tags with `assets/images/og-card.jpg`.
+Home and About include a schema.org `Person` block. `llms.txt`, `sitemap.xml`,
+`robots.txt` and `404.html` live at the root; update `llms.txt` and the sitemap
+when a project page is added.
+
 ## Checks
 
 ```powershell
