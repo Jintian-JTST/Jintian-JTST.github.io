@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jintian-jtst.github.io/sitemap.xml

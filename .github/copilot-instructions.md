@@ -3,7 +3,7 @@
 ## Big picture architecture
 - This repo is a plain static GitHub Pages site (no framework, no bundler, no Jekyll).
 - Each section is a folder with `index.html` (e.g., `about/`, `projects/`, `contact/`).
-- `index.html` (root) is the custom homepage with a short auto-exiting logo intro, a visible-first hero, and starfield enhancement.
+- `index.html` (root) is the custom homepage with a short auto-exiting line-traced logo intro, a hollow JTST hero with damped page-turn scrolling, and starfield enhancement.
 - Shared presentation logic is centralized in:
   - `assets/css/styles.css` (global theme + layout + responsive behavior)
   - `assets/js/main.js` (nav active state, dynamic year, progressive intro, and starfield enhancement)

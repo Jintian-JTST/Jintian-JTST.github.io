@@ -8,6 +8,16 @@
 <meta content="Muon g-2 toy time-spectrum fitting and PSXM six-coil magnet modelling: scientific Python, residual analysis, numerical models and technical reports." name="description"/>
 <link href="/assets/images/square.png" rel="icon" type="image/png"/>
 <link href="/assets/images/square.png" rel="apple-touch-icon"/>
+<link href="https://jintian-jtst.github.io/projects/muon-g2-toy-monte-carlo/" rel="canonical"/>
+<meta content="Muon g-2 &amp; PSXM modelling · Jintian Wang / JTST" property="og:title"/>
+<meta content="Muon g-2 toy time-spectrum fitting and PSXM six-coil magnet modelling: scientific Python, residual analysis, numerical models and technical reports." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://jintian-jtst.github.io/projects/muon-g2-toy-monte-carlo/" property="og:url"/>
+<meta content="https://jintian-jtst.github.io/assets/images/og-card.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Jintian Wang / JTST" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
 <link href="/assets/css/styles.css" rel="stylesheet"/>
 <meta content="#07090b" name="theme-color"/></head>
 <body class="project-page"><a class="skip-link" href="#mainContent">Skip to content</a>
@@ -54,6 +64,16 @@
           selected positron counts. I compared toy and ROOT-data residuals using FFT analysis and documented
           assumptions and mismatches in a 12-page technical report.
         </p>
+<h3>Try it: fit the wiggle by hand</h3>
+<p>Each press of "New toy data" draws a fresh decay spectrum from the five-parameter model with hidden values of A, ω<sub>a</sub> and φ, plus Poisson-like noise. Move the sliders until the curve follows the data; χ²/ndf near 1 means a statistically good fit. The script fits the same model with SciPy.</p>
+<noscript><p class="meta">The interactive fit needs JavaScript.</p></noscript>
+<div class="lab-widget" data-lab="wiggle" hidden>
+<canvas aria-label="Toy decay-positron time spectrum with an adjustable model curve" role="img"></canvas>
+<div class="lab-legend"><span style="color:rgba(233,237,240,.7)"><i></i>toy data</span><span style="color:#8ce7df"><i></i>your model</span><span data-status role="status"></span></div>
+<div class="lab-controls"><label for="wA"><span>Asymmetry A <output for="wA">0.3</output></span><input id="wA" max="0.6" min="0" name="A" step="0.005" type="range" value="0.3" data-digits="3" data-unit=""/></label><label for="wOmega"><span>ω<sub>a</sub> / ω<sub>ref</sub> <output for="wOmega">1</output></span><input id="wOmega" max="1.2" min="0.8" name="omega" step="0.001" type="range" value="1" data-digits="3" data-unit=""/></label><label for="wPhi"><span>Phase φ (rad) <output for="wPhi">0</output></span><input id="wPhi" max="3.14" min="-3.14" name="phi" step="0.01" type="range" value="0" data-digits="2" data-unit=""/></label><label for="wTau"><span>Dilated lifetime γτ <output for="wTau">64.4</output></span><input id="wTau" max="90" min="40" name="tau" step="0.1" type="range" value="64.4" data-digits="1" data-unit=" μs"/></label></div>
+<div class="lab-actions"><button class="button" data-action="new" type="button">New toy data</button><button class="button" data-action="reveal" type="button">Reveal true values</button></div>
+<p class="lab-note">ω<sub>ref</sub> = 2π × 0.2291 MHz, close to the measured anomalous precession frequency. The lifetime starts at the dilated value of about 64.4 μs.</p>
+</div>
 </article><article class="card case-chapter" data-reveal="" id="psxm"><span aria-hidden="true" class="chapter-number">02 /</span>
 <h2>PSXM Magnet Design</h2>
 <p class="meta">Shanghai Jiao Tong University · Summer research, July–September 2026</p>
@@ -95,6 +115,6 @@
 <a class="small-link" href="/contact/">Contact</a>
 </div>
 </footer>
-<script defer="" src="/assets/vendor/gsap/gsap.min.js"></script><script defer="" src="/assets/vendor/gsap/ScrollTrigger.min.js"></script><script defer="" src="/assets/js/main.js"></script>
+<script defer="" src="/assets/vendor/gsap/gsap.min.js"></script><script defer="" src="/assets/vendor/gsap/ScrollTrigger.min.js"></script><script defer="" src="/assets/js/main.js"></script><script defer="" src="/assets/js/lab.js"></script>
 </body>
 </html>

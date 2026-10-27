@@ -1,0 +1,25 @@
+# Jintian Wang (JTST)
+
+> MPhys Physics student at Exeter College, University of Oxford (enrolled October 2025, expected completion June 2029; first-year result: Distinction, 2025/26). Works across computational physics, numerical modelling, interactive systems and hardware. Contact: jintian.wang@exeter.ox.ac.uk.
+
+## Research
+- [Muon g-2 & PSXM modelling](https://jintian-jtst.github.io/projects/muon-g2-toy-monte-carlo/): five-parameter fit of 10.99 million toy decay-positron counts with FFT residual analysis (12-page report); six-coil PSXM steering-magnet model with least-squares current solves, SJTU summer research July–September 2026 (19-page report co-authored with Zejia Lu under Professor Liang Li).
+- [Liquid-damped compound pendulum](https://jintian-jtst.github.io/projects/compound-pendulum/): IPQ research (grade A*) comparing linear and quadratic drag models with measurements from a 3D-printed apparatus.
+
+## Interactive systems & software
+- [SecondTouchReality](https://jintian-jtst.github.io/projects/vr-hand-interaction-prototype/): team-built gesture and haptic prototype; my part is MediaPipe hand tracking streamed over UDP to Unity hand reconstruction and pinch interaction.
+- [OneTapReality](https://jintian-jtst.github.io/projects/one-tap-reality/): four-person AdventureX travel-album app (React Native / Expo, TypeScript); my front-end work covers the editor, draft recovery and saved layouts.
+
+## Learning & resources
+- [Scientific visualisation](https://jintian-jtst.github.io/projects/small-tools-and-experiments/): Manim physics animations.
+- [Transformer learning implementation](https://jintian-jtst.github.io/projects/generative-transformer/): tutorial-based character-level decoder study.
+- [Oxford Physics study library](https://jintian-jtst.github.io/projects/oxford-physics/): 526 curated resources across 43 courses, including a 183-page first-year answer book written by Jintian Wang.
+
+## Leadership
+- [President, 14th Oxford China Forum](https://jintian-jtst.github.io/projects/oxford-china-forum/): coordinates the volunteer team; co-hosted an AI salon with Zhejiang University in Chongqing, September 2026.
+
+## Profiles
+- [About](https://jintian-jtst.github.io/about/)
+- [Public CV (PDF)](https://jintian-jtst.github.io/assets/cv/Jintian-Wang-CV.pdf)
+- [GitHub](https://github.com/Jintian-JTST)
+- [ORCID](https://orcid.org/0009-0009-6190-8403)

@@ -29,6 +29,27 @@ The redesigned Projects gallery includes its academic resources group using
 provides the full-width library gateway. The library keeps its own resource
 index, reading pages and scripts.
 
+## Opening
+
+The home opening is an inline SVG traced from `assets/images/none.png`: every
+contour (outer circle, inner frames, trident) is drawn with a stroke-dash
+animation, the shape fills, fades, and the hollow JTST wordmark appears on a
+pure-black starfield with drifting motes.
+
+## Interactive explorers
+
+`assets/js/lab.js` powers the `[data-lab]` widgets on the Muon g-2 page (hand-fit
+of a toy wiggle spectrum with live χ²/ndf) and the compound-pendulum page (RK4
+comparison of linear and quadratic drag). Widgets are `hidden` until the script
+runs, animate only on request and respect reduced motion.
+
+## Discovery
+
+Top-level pages carry Open Graph/Twitter tags with `assets/images/og-card.jpg`.
+Home and About include a schema.org `Person` block. `llms.txt`, `sitemap.xml`,
+`robots.txt` and `404.html` live at the root; update `llms.txt` and the sitemap
+when a project page is added.
+
 ## Checks
 
 ```powershell
@@ -40,7 +61,10 @@ python -m http.server 8766 --bind 127.0.0.1
 Check all pages at 1440, 1024, 390 and 320 pixels. Also verify no JavaScript,
 reduced motion, missing GSAP/ScrollTrigger, opening replay and Escape, anchors and
 history restoration, keyboard focus, image close/focus return, and native video
-playback. The first home screen is one natural viewport; no scroll pinning is used.
+playback. The first home screen is one viewport. On it, wheel, touch and keyboard input
+first meet a damped resistance, then past a threshold glide to the next section
+(`initHeroSnap` in `main.js`); below the hero, scrolling is native. Reduced
+motion turns this off.
 
 Ambient motion stops offscreen, in hidden tabs and with reduced motion. The footer
 also has an ambient-motion toggle. The opening animation has an independent
