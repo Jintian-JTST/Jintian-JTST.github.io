@@ -378,7 +378,7 @@ code {
   display:grid;
   place-items:center
 }
-/* Solid letters in the logo's cyan, carrying the same fine grid texture. */
+/* Solid white letters. */
 .wordmark {
   margin:0;
   font-family:"Orbix","Segoe UI",sans-serif;
@@ -388,15 +388,8 @@ code {
   letter-spacing:.06em;
   padding-left:.06em;
   white-space:nowrap;
-  color:#65ece3;
-  background:
-    repeating-linear-gradient(0deg,rgba(40,150,150,.35) 0 1px,transparent 1px .05em),
-    repeating-linear-gradient(90deg,rgba(40,150,150,.35) 0 1px,transparent 1px .05em),
-    linear-gradient(180deg,#7ef5ea 0%,#65ece3 45%,#4fd8d4 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 22px rgba(101,236,227,.18))
+  color:#fff;
+  filter:drop-shadow(0 0 22px rgba(255,255,255,.12))
 }
 .js-ready .wordmark {
   opacity:0
@@ -413,7 +406,7 @@ code {
   to {
     opacity:1;
     letter-spacing:.06em;
-    filter:blur(0) drop-shadow(0 0 22px rgba(101,236,227,.18))
+    filter:blur(0) drop-shadow(0 0 22px rgba(255,255,255,.12))
   }
 }
 .hero-scroll {

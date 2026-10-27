@@ -34,8 +34,7 @@ index, reading pages and scripts.
 The home opening is an inline SVG traced from `assets/images/none.png`: every
 contour (outer circle, inner frames, trident) is drawn with a stroke-dash
 animation, and the original artwork (clipped to the traced shape) fills in as the
-strokes finish. It fades and the solid JTST wordmark, in the logo's cyan with
-its grid texture, appears on a pure-black starfield with drifting motes. The
+strokes finish. It fades and the solid white JTST wordmark appears on a pure-black starfield with drifting motes. The
 whole opening takes about 1.6 s.
 
 ## Interactive explorers
