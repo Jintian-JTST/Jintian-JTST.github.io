@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">Spatial coordinates and orbital geometry</title>
+<desc id="desc">Concept illustration for a project cover. Photographs, where included, are curated original project media. This is not a scientific result plot or an application screenshot.</desc>
+<defs>
+ <radialGradient id="bg"><stop stop-color="#1b3033"/><stop offset=".65" stop-color="#101a20"/><stop offset="1" stop-color="#0c1116"/></radialGradient>
+ <linearGradient id="silver" x2=".8" y2="1"><stop stop-color="#e7f2ef"/><stop offset=".48" stop-color="#7faaa7"/><stop offset=".54" stop-color="#d5f3e9"/><stop offset="1" stop-color="#456b70"/></linearGradient>
+ <linearGradient id="fade"><stop stop-color="#a4c7e5" stop-opacity="0"/><stop offset=".35" stop-color="#a4c7e5"/><stop offset="1" stop-color="#a4c7e5" stop-opacity=".2"/></linearGradient>
+ <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#a7d4cf" stroke-opacity=".055" stroke-width="1"/></pattern>
+ <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="13"/></filter>
+ <radialGradient id="sphere" cx=".3" cy=".2"><stop stop-color="#c2dedc"/><stop offset=".35" stop-color="#729fa9"/><stop offset="1" stop-color="#17353f"/></radialGradient>
+</defs>
+<rect width="1600" height="1000" fill="url(#bg)"/>
+<rect x="0" y="0" width="1600" height="1000" fill="url(#grid)"/>
+<ellipse cx="800" cy="550" rx="580" ry="290" fill="none" stroke="#a4c7e5" stroke-opacity=".06" transform="rotate(-18 800 550)"/>
+<path d="M64 112V64h48M1488 64h48v48M64 888v48h48M1488 936h48v-48" fill="none" stroke="#a4c7e5" stroke-width="1" stroke-opacity=".35"/>
+<g font-family="Consolas,monospace" font-size="16" letter-spacing="3" fill="#a4c7e5"><text x="100" y="112">05 / SPACE + MATHEMATICS</text><text x="100" y="910" opacity=".6" font-size="12">CONCEPT ILLUSTRATION</text></g>
+<path d="M100 860H1500" stroke="#a4c7e5" stroke-opacity=".12"/>
+<path d="M250 725 1310 440M800 150v660M410 300l780 435" fill="none" stroke="#96b4cf" stroke-opacity=".25"/>
+<circle cx="800" cy="500" r="180" fill="url(#sphere)"/>
+<ellipse cx="800" cy="500" rx="180" ry="63" fill="none" stroke="#b1dcdb" stroke-opacity=".2"/>
+<ellipse cx="800" cy="500" rx="68" ry="180" fill="none" stroke="#b1dcdb" stroke-opacity=".2"/>
+<ellipse cx="800" cy="500" rx="505" ry="150" fill="none" stroke="#a4c7e5" stroke-width="1.5" stroke-opacity=".35" transform="rotate(-25 800 500)"/><ellipse cx="800" cy="500" rx="505" ry="150" fill="none" stroke="#a4c7e5" stroke-width="1.5" stroke-opacity=".35" transform="rotate(30 800 500)"/><ellipse cx="800" cy="500" rx="505" ry="150" fill="none" stroke="#a4c7e5" stroke-width="1.5" stroke-opacity=".35" transform="rotate(80 800 500)"/><circle cx="1258" cy="331" r="13" fill="#cbe7e4"/><circle cx="1258" cy="331" r="36" fill="#8ce7df" opacity=".15"/>
+<path d="m460 650 80-20-15 80m605-390 70-15-15 70" fill="none" stroke="#b9d9e3" stroke-width="2"/>
+<g fill="#95b3c4" font-family="Consolas,monospace" font-size="22"><text x="1325" y="446">x</text><text x="805" y="135">z</text><text x="1205" y="758">y</text></g>
+</svg>

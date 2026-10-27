@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">Open physics notebook and diagrams</title>
+<desc id="desc">Concept illustration for a project cover. Photographs, where included, are curated original project media. This is not a scientific result plot or an application screenshot.</desc>
+<defs>
+ <radialGradient id="bg"><stop stop-color="#1b3033"/><stop offset=".65" stop-color="#101a20"/><stop offset="1" stop-color="#0c1116"/></radialGradient>
+ <linearGradient id="silver" x2=".8" y2="1"><stop stop-color="#e7f2ef"/><stop offset=".48" stop-color="#7faaa7"/><stop offset=".54" stop-color="#d5f3e9"/><stop offset="1" stop-color="#456b70"/></linearGradient>
+ <linearGradient id="fade"><stop stop-color="#b6ced7" stop-opacity="0"/><stop offset=".35" stop-color="#b6ced7"/><stop offset="1" stop-color="#b6ced7" stop-opacity=".2"/></linearGradient>
+ <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#a7d4cf" stroke-opacity=".055" stroke-width="1"/></pattern>
+ <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="13"/></filter>
+
+</defs>
+<rect width="1600" height="1000" fill="url(#bg)"/>
+<rect x="0" y="0" width="1600" height="1000" fill="url(#grid)"/>
+<ellipse cx="800" cy="550" rx="580" ry="290" fill="none" stroke="#b6ced7" stroke-opacity=".06" transform="rotate(-18 800 550)"/>
+<path d="M64 112V64h48M1488 64h48v48M64 888v48h48M1488 936h48v-48" fill="none" stroke="#b6ced7" stroke-width="1" stroke-opacity=".35"/>
+<g font-family="Consolas,monospace" font-size="16" letter-spacing="3" fill="#b6ced7"><text x="100" y="112">07 / NOTES + EXPLORATION</text><text x="100" y="910" opacity=".6" font-size="12">CONCEPT ILLUSTRATION</text></g>
+<path d="M100 860H1500" stroke="#b6ced7" stroke-opacity=".12"/>
+<g transform="rotate(-9 800 500)">
+<path d="M360 270q220-55 440 45 220-100 440-45v460q-220-55-440 45-220-100-440-45z" fill="#162c34" stroke="#9ec5cd" stroke-opacity=".45" stroke-width="2"/>
+<path d="M800 315v460" fill="none" stroke="#b8d9d8" stroke-opacity=".5"/>
+<path d="M400 305q185-30 360 40m-360 45q185-30 360 40m-360 45q185-30 200 0m-200 160q185-30 360 40m-360 45q185-30 290 20" fill="none" stroke="#a5c3c7" stroke-opacity=".24" stroke-width="3"/>
+<path d="M870 600V390m0 210h275m-255-80c60-190 100 110 155-30s85 40 115-40" fill="none" stroke="#9dd2cc" stroke-opacity=".6" stroke-width="2"/>
+<circle cx="1060" cy="380" r="44" fill="none" stroke="#b6ced7" stroke-opacity=".35"/>
+<path d="M400 765q185-30 360 40m80 0q175-70 360-40" fill="none" stroke="#b6ced7" stroke-opacity=".22" stroke-width="2"/>
+</g><circle cx="330" cy="390" r="90" fill="none" stroke="#a5c3c7" stroke-opacity=".1"/>
+<path d="M1310 350v340m-12-340h24m-24 340h24" stroke="#a5c3c7" stroke-opacity=".3"/>
+</svg>

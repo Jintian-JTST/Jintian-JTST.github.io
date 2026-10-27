@@ -1,129 +1,107 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SecondTouchReality — VR hand interaction system · Jintian JTST</title>
-  <meta name="description" content="OneTouch / SecondTouchReality team prototype: my Python/MediaPipe hand tracking and Unity interaction work, connected to hardware built by teammates.">
-  <link rel="icon" type="image/png" href="/assets/images/square.png">
-  <link rel="apple-touch-icon" href="/assets/images/square.png">
-  <link rel="stylesheet" href="/assets/css/styles.css">
-</head>
-<body>
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="/" aria-label="Jintian JTST home">
-        <span class="logo" aria-hidden="true"></span>
-        <span>Jintian JTST</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="/">Home</a>
-        <a class="active" href="/projects/" aria-current="page">Projects</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="section">
-    <div class="container article-list">
-      <article class="card">
-        <div class="kicker">Project</div>
-        <h1 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 10px;">SecondTouchReality — VR hand interaction system</h1>
-        <p class="meta">XR · Computer vision · Natural language · Hardware feedback</p>
-        <p>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>SecondTouchReality — VR hand interaction system · Jintian JTST</title>
+<meta content="OneTouch / SecondTouchReality team prototype: my Python/MediaPipe hand tracking and Unity interaction work, connected to hardware built by teammates." name="description"/>
+<link href="/assets/images/square.png" rel="icon" type="image/png"/>
+<link href="/assets/images/square.png" rel="apple-touch-icon"/>
+<link href="/assets/css/styles.css" rel="stylesheet"/>
+<meta content="#07090b" name="theme-color"/></head>
+<body class="project-page"><a class="skip-link" href="#mainContent">Skip to content</a>
+<header class="navbar">
+<div class="container nav-inner">
+<a aria-label="Jintian JTST home" class="brand" href="/">
+<span aria-hidden="true" class="logo"></span>
+<span>Jintian JTST</span>
+</a>
+<nav aria-label="Primary navigation" class="nav-links">
+<a href="/">Home</a>
+<a aria-current="page" class="active" href="/projects/">Projects</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</nav>
+</div>
+</header>
+<main class="section" id="mainContent" tabindex="-1">
+<div class="container article-list"><article class="card case-overview">
+<div class="kicker">Project</div>
+<h1 class="project-heading">SecondTouchReality — VR hand interaction system</h1>
+<p class="meta">XR · Computer vision · Natural language · Hardware feedback</p>
+<p>
           A camera-based interaction prototype that connects hand tracking to virtual objects and a hardware-feedback
           path. SecondTouchReality is the software iteration of the team's 2025 OneTouchReality prototype.
         </p>
-        <p>My contribution is the Python and Unity software: tracking, hand reconstruction, bone updates and
+<p>My contribution is the Python and Unity software: tracking, hand reconstruction, bone updates and
           object interaction. Teammates handled the Arduino, servos and mechanical integration.</p>
-        <div class="badges">
-          <span class="badge">Python</span>
-          <span class="badge">Unity / C#</span>
-          <span class="badge">MediaPipe</span>
-          <span class="badge">Arduino</span>
-          <span class="badge">scikit-learn</span>
-        </div>
-        <div class="project-links">
-          <a class="button primary" href="https://github.com/Jintian-JTST/SecondTouchReality" target="_blank" rel="noopener">View repository</a>
-        </div>
-        <div class="proof-grid" style="margin-top: 22px;">
-          <figure>
-            <img class="project-figure" src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" alt="OneTouchReality five-servo force-feedback glove prototype">
-            <figcaption>The three-person OneTouchReality force-feedback glove prototype.</figcaption>
-          </figure>
-          <figure>
-            <img class="project-figure" src="/assets/projects/second-touch-reality/evidence-hand-tracking.jpg" alt="MediaPipe hand tracking running on a laptop">
-            <figcaption>Real-time hand landmark and gesture tracking during the prototype build.</figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <article class="card">
-        <h2>Architecture</h2>
-        <p>
-          The software separates perception, text classification and scene interaction. UDP JSON carries hand state,
-          TCP carries model labels, and a serial bridge connects the hardware-feedback path.
-        </p>
-        <img class="project-figure" src="/assets/projects/second-touch-reality/architecture.svg" alt="SecondTouchReality system architecture from camera input to Arduino haptic feedback">
-      </article>
-
-      <article class="card">
-        <h2>Implementation details</h2>
-        <p>
-          <strong>Hand tracking & depth:</strong> MediaPipe Hands detects 21 keypoints per hand. Wrist-to-camera
+<div class="badges">
+<span class="badge">Python</span>
+<span class="badge">Unity / C#</span>
+<span class="badge">MediaPipe</span>
+<span class="badge">Arduino</span>
+<span class="badge">scikit-learn</span>
+</div>
+<figure class="case-cover"><img alt="Hand-tracking concept and the real team-built haptic glove" decoding="async" height="1000" src="/assets/projects/covers/second-touch.svg" width="1600"/><figcaption>Concept illustration. Original project evidence follows below.</figcaption></figure></article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">01 /</span>
+<h2>Implementation details</h2>
+<p>
+<strong>Hand tracking &amp; depth:</strong> MediaPipe Hands detects 21 keypoints per hand. Wrist-to-camera
           distance in meters is estimated from palm width and palm length through a one-time calibration, with the two
           channels fused by weights based on finger curl and hand side-pose, plus median/EMA filtering. Each frame,
           the wrist 3D position, 20 bone direction vectors, and the pinch state are streamed to Unity as UDP JSON.
         </p>
-        <p>
-          <strong>Interaction in Unity:</strong> <code>HandFromVectors</code> rebuilds the 3D skeleton from bone
+<p>
+<strong>Interaction in Unity:</strong> <code>HandFromVectors</code> rebuilds the 3D skeleton from bone
           directions and lengths; <code>PinchGrabBall</code> makes any object pinch-grabbable with a release grace
           period to survive tracking dropouts; <code>HandOrbitCamera</code> turns pinch-and-move into orbit/zoom camera
           control when nothing is held.
         </p>
-        <p>
-          <strong>Language → objects:</strong> a character n-gram HashingVectorizer + SGDClassifier maps description
+<p>
+<strong>Language → objects:</strong> a character n-gram HashingVectorizer + SGDClassifier maps description
           inputs to object labels behind a TCP server. Typing "a green apple" in the Unity dialog
           returns a label that <code>ModelLibrary</code> / <code>RuntimeModelLoader</code> map to a prefab or a GLB
           model loaded at runtime via GLTFast.
         </p>
-        <p>
-          <strong>Hardware integration:</strong> the team prototype forwards pinch-state transitions over serial to
+<p>
+<strong>Hardware integration:</strong> the team prototype forwards pinch-state transitions over serial to
           an Arduino driving a servo.
         </p>
-      </article>
-
-      <article class="card">
-        <h2>Prototype demo</h2>
-        <p class="meta">OneTouchReality, the earlier team prototype that led to SecondTouchReality.</p>
-        <video class="project-video" controls preload="metadata" poster="/assets/projects/second-touch-reality/hero-haptic-glove.jpg">
-          <source src="/assets/projects/second-touch-reality/demo-one-touch-prototype.mp4" type="video/mp4">
+</article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">02 /</span>
+<h2>Architecture</h2>
+<p>
+          The software separates perception, text classification and scene interaction. UDP JSON carries hand state,
+          TCP carries model labels, and a serial bridge connects the hardware-feedback path.
+        </p>
+<a aria-label="View image: SecondTouchReality system architecture from camera input to Arduino haptic feedback" class="image-link" data-caption="SecondTouchReality system architecture from camera input to Arduino haptic feedback" data-image-viewer="" href="/assets/projects/second-touch-reality/architecture.svg" rel="noopener" target="_blank"><img alt="SecondTouchReality system architecture from camera input to Arduino haptic feedback" class="project-figure" decoding="async" loading="lazy" src="/assets/projects/second-touch-reality/architecture.svg"/></a>
+</article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">03 /</span><h2>Prototype photographs</h2><figure class="evidence-figure">
+<a aria-label="View image: The three-person OneTouchReality force-feedback glove prototype." class="image-link" data-caption="The three-person OneTouchReality force-feedback glove prototype." data-image-viewer="" href="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" rel="noopener" target="_blank"><img alt="OneTouchReality five-servo force-feedback glove prototype" class="project-figure" decoding="async" height="900" loading="lazy" src="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" width="1600"/></a>
+<figcaption>The three-person OneTouchReality force-feedback glove prototype.</figcaption>
+</figure><div class="tracking-evidence"><figure>
+<a aria-label="View image: Real-time hand landmark and gesture tracking during the prototype build." class="image-link" data-caption="Real-time hand landmark and gesture tracking during the prototype build." data-image-viewer="" href="/assets/projects/second-touch-reality/evidence-hand-tracking.jpg" rel="noopener" target="_blank"><img alt="MediaPipe hand tracking running on a laptop" class="project-figure" decoding="async" height="1956" loading="lazy" src="/assets/projects/second-touch-reality/evidence-hand-tracking.jpg" width="1100"/></a>
+<figcaption>Real-time hand landmark and gesture tracking during the prototype build.</figcaption>
+</figure><div><p class="eyebrow">Perception → interaction</p><h3>Tracking the human hand.</h3><p>Real-time hand landmark and gesture tracking during the prototype build. My contribution connects Python perception with Unity interaction.</p></div></div></article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">04 /</span>
+<h2>Prototype demo</h2>
+<p class="meta">OneTouchReality, the earlier team prototype that led to SecondTouchReality.</p>
+<video class="project-video" controls="" poster="/assets/projects/second-touch-reality/hero-haptic-glove.jpg" preload="metadata">
+<source src="/assets/projects/second-touch-reality/demo-one-touch-prototype.mp4" type="video/mp4"/>
           Your browser does not support the video tag.
         </video>
-      </article>
-
-      <article class="card">
-        <h2>Current scope</h2>
-        <p>
+</article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">05 /</span>
+<h2>Current scope</h2>
+<p>
           The repository contains the complete prototype path across Python, Unity, and Arduino. It remains an
           experimental system: the current haptic bridge is a prototype channel, and the media above documents the
           earlier team-built glove rather than a production-ready SecondTouchReality device.
         </p>
-      </article>
-
-      <div>
-        <a class="small-link" href="/projects/">← Back to projects</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span data-year>2026</span> Jintian JTST</div>
-      <a class="small-link" href="/contact/">Contact</a>
-    </div>
-  </footer>
-  <script src="/assets/js/main.js"></script>
+</article><article class="card case-chapter" data-reveal=""><span aria-hidden="true" class="chapter-number">06 /</span><h2>Project resources</h2><div class="project-links"><a class="button primary" data-magnetic="" href="https://github.com/Jintian-JTST/SecondTouchReality" rel="noopener" target="_blank">View repository<span aria-hidden="true" class="button-arrow">↗</span></a></div></article><div class="case-back"><a class="small-link" href="/projects/">← Back to projects</a></div></div>
+</main>
+<footer class="footer">
+<div class="container footer-inner">
+<div>© <span data-year="">2026</span> Jintian JTST</div>
+<a class="small-link" href="/contact/">Contact</a>
+</div>
+</footer>
+<script defer="" src="/assets/vendor/gsap/gsap.min.js"></script><script defer="" src="/assets/vendor/gsap/ScrollTrigger.min.js"></script><script defer="" src="/assets/js/main.js"></script>
 </body>
 </html>
