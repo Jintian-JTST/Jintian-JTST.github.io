@@ -54,29 +54,35 @@
     let exitStarted = false;
     const inertNodes = [...document.querySelectorAll('.signature-hero, .home-content, .navbar')];
     const previousInert = inertNodes.map((node) => node.inert);
-    let exitTimer;
-    let finishTimer;
     let watchdog;
     const finish = () => {
       if (finished) return;
       finished = true;
-      window.clearTimeout(exitTimer);
-      window.clearTimeout(finishTimer);
       window.clearTimeout(watchdog);
       intro.hidden = true;
-      intro.classList.remove('intro-playing', 'intro-leaving');
+      intro.classList.remove('intro-playing', 'intro-filling', 'intro-leaving');
       body.classList.remove('intro-running');
       body.classList.add('hero-ready');
       inertNodes.forEach((node, index) => { node.inert = previousInert[index]; });
       window.removeEventListener('keydown', onKey);
       document.dispatchEvent(new Event('openingcomplete'));
     };
+    // Each stage starts on the previous stage's end event: trace -> fill -> leave -> done.
+    const logo = intro.querySelector('.intro-logo');
+    const strokes = [...intro.querySelectorAll('.logo-lines path')];
+    const lastStroke = strokes[strokes.length - 1];
+    const fill = intro.querySelector('.logo-fill');
     const exit = () => {
       if (finished || exitStarted) return;
       exitStarted = true;
       intro.classList.add('intro-leaving');
-      finishTimer = window.setTimeout(finish, 300);
+      if (logo) logo.addEventListener('transitionend', finish, { once: true });
+      else finish();
     };
+    if (lastStroke) lastStroke.addEventListener('animationend', (event) => {
+      if (event.animationName === 'logoTrace') intro.classList.add('intro-filling');
+    });
+    if (fill) fill.addEventListener('animationend', exit, { once: true });
     const onKey = (event) => {
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -91,8 +97,8 @@
     window.requestAnimationFrame(() => {
       if (!finished) intro.classList.add('intro-playing');
     });
-    exitTimer = window.setTimeout(exit, 1300);
-    watchdog = window.setTimeout(finish, 2600);
+    // Safety net only: if an animation event never fires, the page still unlocks.
+    watchdog = window.setTimeout(finish, 3000);
     return finish;
   }
 
@@ -373,34 +379,39 @@
     });
   }
 
-  // Hero page turn as a physical system. Inside the first screen the page tracks the
-  // wheel or finger directly (with a little drag), then a damped spring with the release
-  // velocity carries it to the nearest page. Below the hero, scrolling is native.
+  // Hero page turn as a physical system, decided in real time. While input continues,
+  // the page follows it against an elastic pull back to the current page. The moment
+  // the displacement crosses the threshold, the target flips to the other page and a
+  // damped spring, seeded with the input velocity, carries it there. Nothing waits for
+  // the gesture to stop. Below the hero, scrolling is native.
   function initHeroSnap() {
     const hero = document.querySelector('.signature-hero');
     const next = document.getElementById('homeIntroduction');
     if (!hero || !next) return;
     const root = document.documentElement;
-    const DRAG = .85; // fraction of input that moves the page while held
-    const OMEGA = 13; // spring natural frequency, rad/s
-    const ZETA = .86; // damping ratio: just under critical, so it settles with life
+    const DRAG = .85; // fraction of input that moves the page
+    const HOLD = { omega: 3, zeta: .9 }; // light elastic tension while the wheel keeps going
+    const SNAP = { omega: 13, zeta: .86 }; // spring that carries the page once committed
+    const GESTURE_GAP = 140; // ms without input that ends a gesture
     let x = 0; // position within the hero, px
     let v = 0; // velocity, px/s
-    let target = null;
-    let origin = 0;
+    let origin = 0; // page the gesture started from
+    let target = 0;
+    let committed = false; // target flipped during this gesture
+    let active = false; // physics loop owns the scroll position
     let frame = 0;
     let last = 0;
     let lastInput = 0;
-    let holding = false;
-    let releaseTimer;
+    let inputVelocity = 0;
     let touch = null;
 
     const edge = () => next.getBoundingClientRect().top + window.scrollY;
+    const threshold = () => Math.min(70, edge() * .09);
     const enabled = () => !reducedMotion.matches && !document.body.classList.contains('intro-running') && !document.body.classList.contains('viewer-open');
     const inZone = (direction) => {
+      if (active) return true;
       const y = window.scrollY;
       const e = edge();
-      if (frame || holding) return true;
       if (y < e - 1) return true;
       return direction < 0 && Math.abs(y - e) <= 1;
     };
@@ -408,109 +419,104 @@
       root.style.scrollBehavior = 'auto';
       window.scrollTo(0, x);
     };
-    function settle() {
+    function stop() {
       cancelAnimationFrame(frame);
       frame = 0;
+      active = false;
+      committed = false;
       root.style.scrollBehavior = '';
     }
     function tick(now) {
       const dt = Math.min(.032, (now - last) / 1000 || .016);
       last = now;
-      if (holding) {
-        // Friction while input is held keeps the velocity estimate honest.
-        v *= Math.exp(-dt * 8);
-        frame = requestAnimationFrame(tick);
-        return;
+      const gesturing = touch && touch.live ? true : now - lastInput < GESTURE_GAP;
+      if (touch && touch.live && !committed) {
+        // A finger on the glass pins the page where it is.
+        v = 0;
+      } else {
+        const k = committed ? SNAP : (gesturing ? HOLD : SNAP);
+        const a = -k.omega * k.omega * (x - target) - 2 * k.zeta * k.omega * v;
+        v += a * dt;
+        x += v * dt;
       }
-      const a = -OMEGA * OMEGA * (x - target) - 2 * ZETA * OMEGA * v;
-      v += a * dt;
-      x += v * dt;
       const top = edge();
-      if (x < 0) { x = 0; v = Math.max(0, v) * -.2; }
+      if (x < 0) { x = 0; v = 0; }
+      if (x > top && !committed) { x = top; v = 0; }
       apply();
-      if (Math.abs(x - target) < .5 && Math.abs(v) < 8) {
+      if (!gesturing && Math.abs(x - target) < .5 && Math.abs(v) < 8) {
         x = target;
         apply();
-        settle();
-        // Hand off to native scrolling just below the hero.
-        if (target >= top - 1) target = null;
+        stop();
         return;
       }
       frame = requestAnimationFrame(tick);
     }
-    function run() {
-      if (!frame) { last = performance.now(); frame = requestAnimationFrame(tick); }
+    function begin() {
+      if (active) return;
+      active = true;
+      x = window.scrollY;
+      v = 0;
+      const e = edge();
+      origin = target = Math.abs(x - e) < 2 ? e : (x < e / 2 ? 0 : e);
+      committed = false;
+      last = performance.now();
+      frame = requestAnimationFrame(tick);
     }
-    // Choose the page from where the motion would coast to, with a commit threshold.
-    function release() {
-      holding = false;
-      const top = edge();
-      const coast = x + v * .22;
-      const moved = coast - origin;
-      const threshold = Math.min(80, top * .1);
-      if (Math.abs(moved) > threshold) target = moved > 0 ? top : 0;
-      else target = origin;
-      run();
+    function commit(direction) {
+      committed = true;
+      target = direction > 0 ? edge() : 0;
+      // Carry the input's momentum into the spring.
+      v = inputVelocity;
     }
-    function grab() {
-      if (!holding) {
-        holding = true;
-        x = window.scrollY;
-        if (!frame) origin = Math.abs(x - edge()) < 2 ? edge() : (x < edge() / 2 ? 0 : edge());
-      }
-      run();
-    }
-    function feed(delta, now) {
+    function feed(delta) {
+      const now = performance.now();
       const gap = now - lastInput;
       lastInput = now;
-      const top = edge();
+      // Once committed, the rest of this gesture (including trackpad inertia) is absorbed.
+      if (committed) return;
       const move = delta * DRAG;
-      x = Math.max(0, Math.min(top, x + move));
-      // A lone event carries displacement only; a stream of events carries velocity.
-      if (gap > 120) v = 0;
-      else v = v * .6 + (move / (Math.max(8, gap) / 1000)) * .4;
+      x = Math.max(0, Math.min(edge(), x + move));
+      inputVelocity = gap > GESTURE_GAP ? move / .016 : inputVelocity * .5 + (move / (Math.max(8, gap) / 1000)) * .5;
       apply();
+      const offset = x - origin;
+      if (Math.abs(offset) >= threshold() && (offset > 0 ? origin === 0 : origin > 0)) commit(offset);
     }
 
     window.addEventListener('wheel', (event) => {
       if (!enabled() || event.ctrlKey) return;
       const delta = event.deltaMode === 1 ? event.deltaY * 32 : event.deltaY;
       if (!delta || !inZone(delta)) return;
-      // Already resting on the next page and still pushing down: let native scrolling take over.
-      if (delta > 0 && holding && x >= edge() - .5) {
-        clearTimeout(releaseTimer);
-        holding = false;
-        target = null;
-        settle();
-        return;
-      }
+      // Resting on the next page and pushing further down: hand over to native scrolling.
+      if (delta > 0 && !active && window.scrollY >= edge() - 1) return;
       event.preventDefault();
-      grab();
-      feed(delta, performance.now());
-      clearTimeout(releaseTimer);
-      releaseTimer = setTimeout(release, 90);
+      begin();
+      feed(delta);
     }, { passive: false });
 
     window.addEventListener('touchstart', (event) => {
-      if (event.touches.length !== 1) { touch = null; return; }
-      touch = { y: event.touches[0].clientY, active: false };
+      touch = event.touches.length === 1 ? { y: event.touches[0].clientY, live: false } : null;
     }, { passive: true });
     window.addEventListener('touchmove', (event) => {
       if (!touch || !enabled()) return;
       const y = event.touches[0].clientY;
       const delta = touch.y - y;
-      if (!touch.active) {
+      if (!touch.live) {
         if (!delta || !inZone(delta)) return;
-        touch.active = true;
-        grab();
+        touch.live = true;
+        begin();
       }
       event.preventDefault();
       touch.y = y;
-      feed(delta / DRAG, performance.now());
+      feed(delta / DRAG);
     }, { passive: false });
     window.addEventListener('touchend', () => {
-      if (touch && touch.active) release();
+      // Lifting the finger ends the gesture now rather than after the idle gap.
+      const wasLive = touch && touch.live;
       touch = null;
+      if (wasLive) {
+        lastInput = 0;
+        if (!committed) v = inputVelocity * .5;
+      }
     }, { passive: true });
 
     window.addEventListener('keydown', (event) => {
@@ -521,12 +527,11 @@
       if (!down && !up) return;
       const direction = down ? 1 : -1;
       if (!inZone(direction)) return;
+      if (down && !active && window.scrollY >= edge() - 1) return;
       event.preventDefault();
-      x = window.scrollY;
-      v = direction * 900;
-      target = down ? edge() : 0;
-      holding = false;
-      run();
+      begin();
+      inputVelocity = direction * 900;
+      commit(direction);
     });
   }
 
