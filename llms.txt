@@ -9,6 +9,7 @@
 ## Interactive systems & software
 - [SecondTouchReality](https://jintian-jtst.github.io/projects/vr-hand-interaction-prototype/): team-built gesture and haptic prototype; my part is MediaPipe hand tracking streamed over UDP to Unity hand reconstruction and pinch interaction.
 - [OneTapReality](https://jintian-jtst.github.io/projects/one-tap-reality/): four-person AdventureX travel-album app (React Native / Expo, TypeScript); my front-end work covers the editor, draft recovery and saved layouts.
+- [Oxford Break](https://jintian-jtst.github.io/play/oxford-break/): playable browser game; a stylised 3D Oxford built from OpenStreetMap data (Three.js), knocked down by bomb, helicopter or fighter jet.
 
 ## Learning & resources
 - [Scientific visualisation](https://jintian-jtst.github.io/projects/small-tools-and-experiments/): Manim physics animations.

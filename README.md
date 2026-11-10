@@ -7,6 +7,7 @@ Personal website for Jintian Wang, built as a plain static site and published wi
 - `index.html` — home
 - `projects/` — a compact directory of research, interactive systems/software, and learning experiments
 - `projects/oxford-physics/` — a searchable Oxford Physics study library, including personal solutions, course material, past papers, and lab code
+- `play/oxford-break/` — playable copy of [Oxford Break](https://github.com/Jintian-JTST/oxford-break). After `python build.py` in the game repo, refresh it with `python tools/sync_oxford_break.py <game-repo>`. (`/oxford-break/` is the game repo's own Pages site, so the copy lives under `/play/`.)
 - `about/` — Oxford academic identity, research interests, and selected experience
 - `contact/` — public contact links
 - `assets/projects/` — curated Proof of Work media and reports
