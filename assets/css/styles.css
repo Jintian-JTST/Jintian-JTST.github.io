@@ -1579,3 +1579,18 @@ html {
     height:230px
   }
 }
+.project-photos.phone-shots {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:24px
+}
+.project-photos.phone-shots img {
+  max-height:520px
+}
+@media(max-width:640px) {
+  .project-photos.phone-shots {
+    gap:10px
+  }
+}
+.project-photos.phone-shots+.meta {
+  margin-top:28px
+}

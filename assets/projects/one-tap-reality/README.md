@@ -2,6 +2,7 @@
 
 - Hero: `hero-logo.png`
 - Architecture: `architecture.svg`
+- App screenshots: `screen-album-editor.jpg`, `screen-city-map.jpg`, `screen-profile.jpg` (from the team's product-site source, `website/assets/product-introduction/`)
 - Team repository: https://github.com/CarterWells111/OneTapReality
 - Project page: `/projects/one-tap-reality/`
 - Contribution evidence: public commits `0aa59c8` (canvas/photo/font persistence), `7b9be0c` (rotation persistence) and `d1e6e2c` (beta feedback, draft recovery and account safeguards)
