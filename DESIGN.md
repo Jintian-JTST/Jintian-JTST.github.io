@@ -33,8 +33,8 @@ index, reading pages and scripts.
 
 The home opening is an inline SVG traced from `assets/images/none.png`: every
 contour (outer circle, inner frames, trident) is drawn with a stroke-dash
-animation, and the original artwork (clipped to the traced shape) fills in as the
-strokes finish. It fades and the solid white JTST wordmark appears on a pure-black starfield with drifting motes. The
+animation, and the original artwork (clipped to the traced shape) fills in on the
+last stroke's `animationend`; each stage is chained by events, not timers. It fades and the solid white JTST wordmark appears on a pure-black starfield with drifting motes. The
 whole opening takes about 1.6 s.
 
 ## Interactive explorers
@@ -63,9 +63,9 @@ Check all pages at 1440, 1024, 390 and 320 pixels. Also verify no JavaScript,
 reduced motion, missing GSAP/ScrollTrigger, opening replay and Escape, anchors and
 history restoration, keyboard focus, image close/focus return, and native video
 playback. The first home screen is one viewport. On it the page follows wheel and touch
-input directly (with slight drag); on release a damped spring, seeded with the
-release velocity, carries it to the nearest page, committing once the coasting
-position passes a threshold (`initHeroSnap` in `main.js`). Below the hero,
+input directly against a light elastic pull; the moment the displacement passes
+the threshold, a damped spring seeded with the input velocity carries it to the
+next page without waiting for the gesture to end (`initHeroSnap` in `main.js`). Below the hero,
 scrolling is native. Reduced motion turns this off.
 
 Ambient motion stops offscreen, in hidden tabs and with reduced motion. The footer
