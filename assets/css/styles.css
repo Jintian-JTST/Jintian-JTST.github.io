@@ -620,11 +620,17 @@ code {
 .logo-fill {
   opacity:0
 }
+/* Strokes start at once (staggered only by drawing order); the fill is started by the
+   last stroke's animationend in main.js, so there is no timed pause between them. */
 .intro-playing .logo-lines path {
-  animation:logoTrace 560ms calc(var(--i) * 32ms + 80ms) cubic-bezier(.5,0,.3,1) forwards,logoLinesOut 220ms 1s ease forwards
+  animation:logoTrace 560ms calc(var(--i) * 32ms) cubic-bezier(.5,0,.3,1) forwards
 }
-.intro-playing .logo-fill {
-  animation:logoFill 260ms 820ms ease-out forwards
+.intro-filling .logo-lines path {
+  stroke-dashoffset:0;
+  animation:logoLinesOut 260ms ease-in forwards
+}
+.intro-filling .logo-fill {
+  animation:logoFill 260ms ease-out forwards
 }
 .home-intro.intro-leaving .intro-logo {
   opacity:0;
@@ -642,6 +648,9 @@ code {
   }
 }
 @keyframes logoLinesOut {
+  from {
+    opacity:1
+  }
   to {
     opacity:0
   }
